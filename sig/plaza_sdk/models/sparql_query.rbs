@@ -1,0 +1,13 @@
+module PlazaSDK
+  module Models
+    type sparql_query = { query: String }
+
+    class SparqlQuery < PlazaSDK::Internal::Type::BaseModel
+      attr_accessor query: String
+
+      def initialize: (query: String) -> void
+
+      def to_hash: -> { query: String }
+    end
+  end
+end

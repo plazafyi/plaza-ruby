@@ -1,0 +1,13 @@
+module PlazaSDK
+  module Resources
+    class MapMatch
+      def match: (
+        trace: PlazaSDK::GeoJsonGeometry,
+        ?radiuses: ::Array[Float]?,
+        ?request_options: PlazaSDK::request_opts
+      ) -> PlazaSDK::MapMatchResult
+
+      def initialize: (client: PlazaSDK::Client) -> void
+    end
+  end
+end

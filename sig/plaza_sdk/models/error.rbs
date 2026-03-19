@@ -1,0 +1,27 @@
+module PlazaSDK
+  module Models
+    type error = { error: PlazaSDK::Error::Error }
+
+    class Error < PlazaSDK::Internal::Type::BaseModel
+      attr_accessor error: PlazaSDK::Error::Error
+
+      def initialize: (error: PlazaSDK::Error::Error) -> void
+
+      def to_hash: -> { error: PlazaSDK::Error::Error }
+
+      type error = { code: String, message: String, details: top? }
+
+      class Error < PlazaSDK::Internal::Type::BaseModel
+        attr_accessor code: String
+
+        attr_accessor message: String
+
+        attr_accessor details: top?
+
+        def initialize: (code: String, message: String, ?details: top?) -> void
+
+        def to_hash: -> { code: String, message: String, details: top? }
+      end
+    end
+  end
+end

@@ -1,0 +1,35 @@
+module PlazaSDK
+  module Resources
+    class Datasets
+      def create: (
+        name: String,
+        slug: String,
+        ?attribution: String?,
+        ?description: String?,
+        ?license: String?,
+        ?source_url: String?,
+        ?request_options: PlazaSDK::request_opts
+      ) -> PlazaSDK::Dataset
+
+      def retrieve: (
+        String id,
+        ?request_options: PlazaSDK::request_opts
+      ) -> PlazaSDK::Dataset
+
+      def list: (
+        ?request_options: PlazaSDK::request_opts
+      ) -> PlazaSDK::DatasetList
+
+      def delete: (String id, ?request_options: PlazaSDK::request_opts) -> nil
+
+      def features: (
+        String id,
+        ?cursor: String,
+        ?limit: Integer,
+        ?request_options: PlazaSDK::request_opts
+      ) -> PlazaSDK::FeatureCollection
+
+      def initialize: (client: PlazaSDK::Client) -> void
+    end
+  end
+end

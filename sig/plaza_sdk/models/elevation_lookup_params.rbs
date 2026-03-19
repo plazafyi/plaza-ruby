@@ -1,0 +1,38 @@
+module PlazaSDK
+  module Models
+    type elevation_lookup_params =
+      { lat: Float, lng: Float, locations: String }
+      & PlazaSDK::Internal::Type::request_parameters
+
+    class ElevationLookupParams < PlazaSDK::Internal::Type::BaseModel
+      extend PlazaSDK::Internal::Type::RequestParameters::Converter
+      include PlazaSDK::Internal::Type::RequestParameters
+
+      attr_reader lat: Float?
+
+      def lat=: (Float) -> Float
+
+      attr_reader lng: Float?
+
+      def lng=: (Float) -> Float
+
+      attr_reader locations: String?
+
+      def locations=: (String) -> String
+
+      def initialize: (
+        ?lat: Float,
+        ?lng: Float,
+        ?locations: String,
+        ?request_options: PlazaSDK::request_opts
+      ) -> void
+
+      def to_hash: -> {
+        lat: Float,
+        lng: Float,
+        locations: String,
+        request_options: PlazaSDK::RequestOptions
+      }
+    end
+  end
+end

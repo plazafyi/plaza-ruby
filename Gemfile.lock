@@ -11,7 +11,7 @@ GIT
 PATH
   remote: .
   specs:
-    plaza (0.0.1)
+    plaza-sdk (0.0.1)
       cgi
       connection_pool
 
@@ -210,7 +210,7 @@ DEPENDENCIES
   minitest-hooks
   minitest-proveit
   minitest-rg
-  plaza!
+  plaza-sdk!
   rake
   rbs
   redcarpet

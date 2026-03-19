@@ -1,0 +1,35 @@
+module PlazaSDK
+  module Models
+    type geocode_result =
+      {
+        features: ::Array[PlazaSDK::GeocodingFeature],
+        type: PlazaSDK::Models::GeocodeResult::type_
+      }
+
+    class GeocodeResult < PlazaSDK::Internal::Type::BaseModel
+      attr_accessor features: ::Array[PlazaSDK::GeocodingFeature]
+
+      attr_accessor type: PlazaSDK::Models::GeocodeResult::type_
+
+      def initialize: (
+        features: ::Array[PlazaSDK::GeocodingFeature],
+        type: PlazaSDK::Models::GeocodeResult::type_
+      ) -> void
+
+      def to_hash: -> {
+        features: ::Array[PlazaSDK::GeocodingFeature],
+        type: PlazaSDK::Models::GeocodeResult::type_
+      }
+
+      type type_ = :FeatureCollection
+
+      module Type
+        extend PlazaSDK::Internal::Type::Enum
+
+        FEATURE_COLLECTION: :FeatureCollection
+
+        def self?.values: -> ::Array[PlazaSDK::Models::GeocodeResult::type_]
+      end
+    end
+  end
+end

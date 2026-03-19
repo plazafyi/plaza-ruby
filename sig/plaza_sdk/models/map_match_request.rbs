@@ -1,0 +1,22 @@
+module PlazaSDK
+  module Models
+    type map_match_request =
+      { trace: PlazaSDK::GeoJsonGeometry, radiuses: ::Array[Float]? }
+
+    class MapMatchRequest < PlazaSDK::Internal::Type::BaseModel
+      attr_accessor trace: PlazaSDK::GeoJsonGeometry
+
+      attr_accessor radiuses: ::Array[Float]?
+
+      def initialize: (
+        trace: PlazaSDK::GeoJsonGeometry,
+        ?radiuses: ::Array[Float]?
+      ) -> void
+
+      def to_hash: -> {
+        trace: PlazaSDK::GeoJsonGeometry,
+        radiuses: ::Array[Float]?
+      }
+    end
+  end
+end

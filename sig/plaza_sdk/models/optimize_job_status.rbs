@@ -1,0 +1,42 @@
+module PlazaSDK
+  module Models
+    type optimize_job_status =
+      {
+        status: PlazaSDK::Models::OptimizeJobStatus::status,
+        error: String?,
+        result: top?
+      }
+
+    class OptimizeJobStatus < PlazaSDK::Internal::Type::BaseModel
+      attr_accessor status: PlazaSDK::Models::OptimizeJobStatus::status
+
+      attr_accessor error: String?
+
+      attr_accessor result: top?
+
+      def initialize: (
+        status: PlazaSDK::Models::OptimizeJobStatus::status,
+        ?error: String?,
+        ?result: top?
+      ) -> void
+
+      def to_hash: -> {
+        status: PlazaSDK::Models::OptimizeJobStatus::status,
+        error: String?,
+        result: top?
+      }
+
+      type status = :completed | :processing | :failed
+
+      module Status
+        extend PlazaSDK::Internal::Type::Enum
+
+        COMPLETED: :completed
+        PROCESSING: :processing
+        FAILED: :failed
+
+        def self?.values: -> ::Array[PlazaSDK::Models::OptimizeJobStatus::status]
+      end
+    end
+  end
+end

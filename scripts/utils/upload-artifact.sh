@@ -110,4 +110,4 @@ walk_tree "$DIST_DIR"
 echo "::endgroup::"
 
 echo -e "${GREEN}Gem artifacts uploaded to Stainless storage.${NC}"
-echo -e "\033[32mInstallation: bundle remove plaza && bundle add plaza --source 'https://pkg.stainless.com/s/plaza-ruby/$SHA'\033[0m"
+echo -e "\033[32mInstallation: bundle remove plaza-sdk && bundle add plaza-sdk --source 'https://pkg.stainless.com/s/plaza-ruby/$SHA'\033[0m"

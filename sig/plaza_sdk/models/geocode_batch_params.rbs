@@ -1,0 +1,24 @@
+module PlazaSDK
+  module Models
+    type geocode_batch_params =
+      { addresses: ::Array[String] }
+      & PlazaSDK::Internal::Type::request_parameters
+
+    class GeocodeBatchParams < PlazaSDK::Internal::Type::BaseModel
+      extend PlazaSDK::Internal::Type::RequestParameters::Converter
+      include PlazaSDK::Internal::Type::RequestParameters
+
+      attr_accessor addresses: ::Array[String]
+
+      def initialize: (
+        addresses: ::Array[String],
+        ?request_options: PlazaSDK::request_opts
+      ) -> void
+
+      def to_hash: -> {
+        addresses: ::Array[String],
+        request_options: PlazaSDK::RequestOptions
+      }
+    end
+  end
+end
