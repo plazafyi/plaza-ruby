@@ -1,3 +1,0 @@
-module PlazaSDK
-  VERSION: String
-end

@@ -15,7 +15,7 @@ Use the Plaza MCP Server to enable AI assistants to interact with this API, allo
 
 ## Documentation
 
-Documentation for releases of this gem can be found [on RubyDoc](https://gemdocs.org/gems/plaza-sdk).
+Documentation for releases of this gem can be found [on RubyDoc](https://gemdocs.org/gems/plaza).
 
 The REST API documentation can be found on [docs.plaza.fyi](https://docs.plaza.fyi).
 
@@ -26,7 +26,7 @@ To use this gem, install via Bundler by adding the following to your application
 <!-- x-release-please-start-version -->
 
 ```ruby
-gem "plaza-sdk", "~> 0.0.1"
+gem "plaza", "~> 0.0.1"
 ```
 
 <!-- x-release-please-end -->
@@ -35,9 +35,9 @@ gem "plaza-sdk", "~> 0.0.1"
 
 ```ruby
 require "bundler/setup"
-require "plaza_sdk"
+require "plaza"
 
-plaza = PlazaSDK::Client.new(
+plaza = Plaza::Client.new(
   api_key: ENV["PLAZA_API_KEY"], # This is the default and can be omitted
   environment: "local" # defaults to "production"
 )
@@ -49,17 +49,17 @@ puts(feature_collection.features)
 
 ### Handling errors
 
-When the library is unable to connect to the API, or if the API returns a non-success status code (i.e., 4xx or 5xx response), a subclass of `PlazaSDK::Errors::APIError` will be thrown:
+When the library is unable to connect to the API, or if the API returns a non-success status code (i.e., 4xx or 5xx response), a subclass of `Plaza::Errors::APIError` will be thrown:
 
 ```ruby
 begin
   element = plaza.elements.nearby(lat: 48.8584, radius: 500)
-rescue PlazaSDK::Errors::APIConnectionError => e
+rescue Plaza::Errors::APIConnectionError => e
   puts("The server could not be reached")
   puts(e.cause)  # an underlying Exception, likely raised within `net/http`
-rescue PlazaSDK::Errors::RateLimitError => e
+rescue Plaza::Errors::RateLimitError => e
   puts("A 429 status code was received; we should back off a bit.")
-rescue PlazaSDK::Errors::APIStatusError => e
+rescue Plaza::Errors::APIStatusError => e
   puts("Another non-200-range status code was received")
   puts(e.status)
 end
@@ -91,7 +91,7 @@ You can use the `max_retries` option to configure or disable this:
 
 ```ruby
 # Configure the default for all requests:
-plaza = PlazaSDK::Client.new(
+plaza = Plaza::Client.new(
   max_retries: 0 # default is 2
 )
 
@@ -105,7 +105,7 @@ By default, requests will time out after 60 seconds. You can use the timeout opt
 
 ```ruby
 # Configure the default for all requests:
-plaza = PlazaSDK::Client.new(
+plaza = Plaza::Client.new(
   timeout: nil # default is 60
 )
 
@@ -113,7 +113,7 @@ plaza = PlazaSDK::Client.new(
 plaza.elements.nearby(lat: 48.8584, radius: 500, request_options: {timeout: 5})
 ```
 
-On timeout, `PlazaSDK::Errors::APITimeoutError` is raised.
+On timeout, `Plaza::Errors::APITimeoutError` is raised.
 
 Note that requests that time out are retried by default.
 
@@ -121,7 +121,7 @@ Note that requests that time out are retried by default.
 
 ### BaseModel
 
-All parameter and response objects inherit from `PlazaSDK::Internal::Type::BaseModel`, which provides several conveniences, including:
+All parameter and response objects inherit from `Plaza::Internal::Type::BaseModel`, which provides several conveniences, including:
 
 1. All fields, including unknown ones, are accessible with `obj[:prop]` syntax, and can be destructured with `obj => {prop: prop}` or pattern-matching syntax.
 
@@ -174,9 +174,9 @@ response = client.request(
 
 ### Concurrency & connection pooling
 
-The `PlazaSDK::Client` instances are threadsafe, but are only are fork-safe when there are no in-flight HTTP requests.
+The `Plaza::Client` instances are threadsafe, but are only are fork-safe when there are no in-flight HTTP requests.
 
-Each instance of `PlazaSDK::Client` has its own HTTP connection pool with a default size of 99. As such, we recommend instantiating the client once per application in most settings.
+Each instance of `Plaza::Client` has its own HTTP connection pool with a default size of 99. As such, we recommend instantiating the client once per application in most settings.
 
 When all available connections from the pool are checked out, requests wait for a new connection to become available, with queue time counting towards the request timeout.
 
@@ -199,7 +199,7 @@ Or, equivalently:
 plaza.elements.nearby(lat: 48.8584, radius: 500)
 
 # You can also splat a full Params class:
-params = PlazaSDK::ElementNearbyParams.new(lat: 48.8584, radius: 500)
+params = Plaza::ElementNearbyParams.new(lat: 48.8584, radius: 500)
 plaza.elements.nearby(**params)
 ```
 
@@ -209,10 +209,10 @@ Since this library does not depend on `sorbet-runtime`, it cannot provide [`T::E
 
 ```ruby
 # :auto
-puts(PlazaSDK::MatrixRequest::Mode::AUTO)
+puts(Plaza::MatrixRequest::Mode::AUTO)
 
-# Revealed type: `T.all(PlazaSDK::MatrixRequest::Mode, Symbol)`
-T.reveal_type(PlazaSDK::MatrixRequest::Mode::AUTO)
+# Revealed type: `T.all(Plaza::MatrixRequest::Mode, Symbol)`
+T.reveal_type(Plaza::MatrixRequest::Mode::AUTO)
 ```
 
 Enum parameters have a "relaxed" type, so you can either pass in enum constants or their literal value:
@@ -220,7 +220,7 @@ Enum parameters have a "relaxed" type, so you can either pass in enum constants 
 ```ruby
 # Using the enum constants preserves the tagged type information:
 plaza.routing.matrix(
-  mode: PlazaSDK::MatrixRequest::Mode::AUTO,
+  mode: Plaza::MatrixRequest::Mode::AUTO,
   # …
 )
 

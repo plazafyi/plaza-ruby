@@ -40,9 +40,9 @@ Layout/LineLength:
   AllowedPatterns:
     - "^\\s*#.*$"
     - ^require(_relative)?
-    - "PlazaSDK::Internal::Type::BaseModel$"
+    - "Plaza::Internal::Type::BaseModel$"
     - "^\\s*[A-Z0-9_]+ = :"
-    - "PlazaSDK::(Models|Resources|Test)::"
+    - "Plaza::(Models|Resources|Test)::"
   Max: 110
 
 Layout/MultilineArrayLineBreaks:
