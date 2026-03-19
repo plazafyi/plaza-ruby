@@ -1,0 +1,3 @@
+module Plaza
+  VERSION: String
+end

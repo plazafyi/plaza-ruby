@@ -1,0 +1,17 @@
+module Plaza
+  module Resources
+    class Query
+      def overpass: (
+        data: String,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::FeatureCollection
+
+      def sparql: (
+        query: String,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::SparqlResult
+
+      def initialize: (client: Plaza::Client) -> void
+    end
+  end
+end

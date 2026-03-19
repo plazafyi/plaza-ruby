@@ -1,0 +1,66 @@
+module Plaza
+  module Models
+    type geo_json_geometry =
+      {
+        coordinates: Plaza::Models::GeoJsonGeometry::coordinates,
+        type: Plaza::Models::GeoJsonGeometry::type_
+      }
+
+    class GeoJsonGeometry < Plaza::Internal::Type::BaseModel
+      attr_accessor coordinates: Plaza::Models::GeoJsonGeometry::coordinates
+
+      attr_accessor type: Plaza::Models::GeoJsonGeometry::type_
+
+      def initialize: (
+        coordinates: Plaza::Models::GeoJsonGeometry::coordinates,
+        type: Plaza::Models::GeoJsonGeometry::type_
+      ) -> void
+
+      def to_hash: -> {
+        coordinates: Plaza::Models::GeoJsonGeometry::coordinates,
+        type: Plaza::Models::GeoJsonGeometry::type_
+      }
+
+      type coordinates =
+        ::Array[Float]
+        | ::Array[::Array[Float]]
+        | ::Array[::Array[::Array[Float]]]
+        | ::Array[::Array[::Array[::Array[Float]]]]
+
+      module Coordinates
+        extend Plaza::Internal::Type::Union
+
+        def self?.variants: -> ::Array[Plaza::Models::GeoJsonGeometry::coordinates]
+
+        FloatArray: Plaza::Internal::Type::Converter
+
+        UnionMember1Array: Plaza::Internal::Type::Converter
+
+        UnionMember2Array: Plaza::Internal::Type::Converter
+
+        UnionMember3Array: Plaza::Internal::Type::Converter
+      end
+
+      type type_ =
+        :Point
+        | :LineString
+        | :Polygon
+        | :MultiPoint
+        | :MultiLineString
+        | :MultiPolygon
+
+      module Type
+        extend Plaza::Internal::Type::Enum
+
+        POINT: :Point
+        LINE_STRING: :LineString
+        POLYGON: :Polygon
+        MULTI_POINT: :MultiPoint
+        MULTI_LINE_STRING: :MultiLineString
+        MULTI_POLYGON: :MultiPolygon
+
+        def self?.values: -> ::Array[Plaza::Models::GeoJsonGeometry::type_]
+      end
+    end
+  end
+end

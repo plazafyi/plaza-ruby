@@ -1,0 +1,34 @@
+module Plaza
+  module Models
+    type routing_nearest_params =
+      { lat: Float, lng: Float, radius: Integer }
+      & Plaza::Internal::Type::request_parameters
+
+    class RoutingNearestParams < Plaza::Internal::Type::BaseModel
+      extend Plaza::Internal::Type::RequestParameters::Converter
+      include Plaza::Internal::Type::RequestParameters
+
+      attr_accessor lat: Float
+
+      attr_accessor lng: Float
+
+      attr_reader radius: Integer?
+
+      def radius=: (Integer) -> Integer
+
+      def initialize: (
+        lat: Float,
+        lng: Float,
+        ?radius: Integer,
+        ?request_options: Plaza::request_opts
+      ) -> void
+
+      def to_hash: -> {
+        lat: Float,
+        lng: Float,
+        radius: Integer,
+        request_options: Plaza::RequestOptions
+      }
+    end
+  end
+end

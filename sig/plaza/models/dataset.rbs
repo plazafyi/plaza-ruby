@@ -1,0 +1,60 @@
+module Plaza
+  module Models
+    type dataset =
+      {
+        id: String,
+        inserted_at: Time,
+        name: String,
+        slug: String,
+        updated_at: Time,
+        attribution: String?,
+        description: String?,
+        license: String?,
+        source_url: String?
+      }
+
+    class Dataset < Plaza::Internal::Type::BaseModel
+      attr_accessor id: String
+
+      attr_accessor inserted_at: Time
+
+      attr_accessor name: String
+
+      attr_accessor slug: String
+
+      attr_accessor updated_at: Time
+
+      attr_accessor attribution: String?
+
+      attr_accessor description: String?
+
+      attr_accessor license: String?
+
+      attr_accessor source_url: String?
+
+      def initialize: (
+        id: String,
+        inserted_at: Time,
+        name: String,
+        slug: String,
+        updated_at: Time,
+        ?attribution: String?,
+        ?description: String?,
+        ?license: String?,
+        ?source_url: String?
+      ) -> void
+
+      def to_hash: -> {
+        id: String,
+        inserted_at: Time,
+        name: String,
+        slug: String,
+        updated_at: Time,
+        attribution: String?,
+        description: String?,
+        license: String?,
+        source_url: String?
+      }
+    end
+  end
+end
