@@ -1,0 +1,14 @@
+module PlazaSDK
+  module Resources
+    class Search
+      def query: (
+        q: String,
+        ?cursor: String,
+        ?limit: Integer,
+        ?request_options: PlazaSDK::request_opts
+      ) -> PlazaSDK::FeatureCollection
+
+      def initialize: (client: PlazaSDK::Client) -> void
+    end
+  end
+end

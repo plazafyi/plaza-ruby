@@ -1,0 +1,89 @@
+module PlazaSDK
+  module Models
+    type geocoding_feature =
+      {
+        geometry: PlazaSDK::GeoJsonGeometry,
+        properties: PlazaSDK::GeocodingFeature::Properties,
+        type: PlazaSDK::Models::GeocodingFeature::type_
+      }
+
+    class GeocodingFeature < PlazaSDK::Internal::Type::BaseModel
+      attr_accessor geometry: PlazaSDK::GeoJsonGeometry
+
+      attr_accessor properties: PlazaSDK::GeocodingFeature::Properties
+
+      attr_accessor type: PlazaSDK::Models::GeocodingFeature::type_
+
+      def initialize: (
+        geometry: PlazaSDK::GeoJsonGeometry,
+        properties: PlazaSDK::GeocodingFeature::Properties,
+        type: PlazaSDK::Models::GeocodingFeature::type_
+      ) -> void
+
+      def to_hash: -> {
+        geometry: PlazaSDK::GeoJsonGeometry,
+        properties: PlazaSDK::GeocodingFeature::Properties,
+        type: PlazaSDK::Models::GeocodingFeature::type_
+      }
+
+      type properties =
+        {
+          country_code: String?,
+          display_name: String,
+          distance_m: Float?,
+          osm_id: Integer?,
+          osm_type: String?,
+          score: Float?,
+          source: String?
+        }
+
+      class Properties < PlazaSDK::Internal::Type::BaseModel
+        attr_accessor country_code: String?
+
+        attr_reader display_name: String?
+
+        def display_name=: (String) -> String
+
+        attr_accessor distance_m: Float?
+
+        attr_accessor osm_id: Integer?
+
+        attr_accessor osm_type: String?
+
+        attr_accessor score: Float?
+
+        attr_accessor source: String?
+
+        def initialize: (
+          ?country_code: String?,
+          ?display_name: String,
+          ?distance_m: Float?,
+          ?osm_id: Integer?,
+          ?osm_type: String?,
+          ?score: Float?,
+          ?source: String?
+        ) -> void
+
+        def to_hash: -> {
+          country_code: String?,
+          display_name: String,
+          distance_m: Float?,
+          osm_id: Integer?,
+          osm_type: String?,
+          score: Float?,
+          source: String?
+        }
+      end
+
+      type type_ = :Feature
+
+      module Type
+        extend PlazaSDK::Internal::Type::Enum
+
+        FEATURE: :Feature
+
+        def self?.values: -> ::Array[PlazaSDK::Models::GeocodingFeature::type_]
+      end
+    end
+  end
+end

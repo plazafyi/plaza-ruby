@@ -1,0 +1,35 @@
+module PlazaSDK
+  module Models
+    type elevation_batch_result =
+      {
+        features: ::Array[PlazaSDK::ElevationLookupResult],
+        type: PlazaSDK::Models::ElevationBatchResult::type_
+      }
+
+    class ElevationBatchResult < PlazaSDK::Internal::Type::BaseModel
+      attr_accessor features: ::Array[PlazaSDK::ElevationLookupResult]
+
+      attr_accessor type: PlazaSDK::Models::ElevationBatchResult::type_
+
+      def initialize: (
+        features: ::Array[PlazaSDK::ElevationLookupResult],
+        type: PlazaSDK::Models::ElevationBatchResult::type_
+      ) -> void
+
+      def to_hash: -> {
+        features: ::Array[PlazaSDK::ElevationLookupResult],
+        type: PlazaSDK::Models::ElevationBatchResult::type_
+      }
+
+      type type_ = :FeatureCollection
+
+      module Type
+        extend PlazaSDK::Internal::Type::Enum
+
+        FEATURE_COLLECTION: :FeatureCollection
+
+        def self?.values: -> ::Array[PlazaSDK::Models::ElevationBatchResult::type_]
+      end
+    end
+  end
+end

@@ -1,0 +1,40 @@
+module PlazaSDK
+  module Models
+    type element_nearby_params =
+      { lat: Float, lng: Float, limit: Integer, radius: Integer }
+      & PlazaSDK::Internal::Type::request_parameters
+
+    class ElementNearbyParams < PlazaSDK::Internal::Type::BaseModel
+      extend PlazaSDK::Internal::Type::RequestParameters::Converter
+      include PlazaSDK::Internal::Type::RequestParameters
+
+      attr_accessor lat: Float
+
+      attr_accessor lng: Float
+
+      attr_reader limit: Integer?
+
+      def limit=: (Integer) -> Integer
+
+      attr_reader radius: Integer?
+
+      def radius=: (Integer) -> Integer
+
+      def initialize: (
+        lat: Float,
+        lng: Float,
+        ?limit: Integer,
+        ?radius: Integer,
+        ?request_options: PlazaSDK::request_opts
+      ) -> void
+
+      def to_hash: -> {
+        lat: Float,
+        lng: Float,
+        limit: Integer,
+        radius: Integer,
+        request_options: PlazaSDK::RequestOptions
+      }
+    end
+  end
+end

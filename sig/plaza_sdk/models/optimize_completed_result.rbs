@@ -1,0 +1,84 @@
+module PlazaSDK
+  module Models
+    type optimize_completed_result =
+      {
+        geometry: PlazaSDK::GeoJsonGeometry,
+        properties: PlazaSDK::OptimizeCompletedResult::Properties,
+        status: PlazaSDK::Models::OptimizeCompletedResult::status,
+        type: PlazaSDK::Models::OptimizeCompletedResult::type_
+      }
+
+    class OptimizeCompletedResult < PlazaSDK::Internal::Type::BaseModel
+      attr_accessor geometry: PlazaSDK::GeoJsonGeometry
+
+      attr_accessor properties: PlazaSDK::OptimizeCompletedResult::Properties
+
+      attr_accessor status: PlazaSDK::Models::OptimizeCompletedResult::status
+
+      attr_accessor type: PlazaSDK::Models::OptimizeCompletedResult::type_
+
+      def initialize: (
+        geometry: PlazaSDK::GeoJsonGeometry,
+        properties: PlazaSDK::OptimizeCompletedResult::Properties,
+        status: PlazaSDK::Models::OptimizeCompletedResult::status,
+        type: PlazaSDK::Models::OptimizeCompletedResult::type_
+      ) -> void
+
+      def to_hash: -> {
+        geometry: PlazaSDK::GeoJsonGeometry,
+        properties: PlazaSDK::OptimizeCompletedResult::Properties,
+        status: PlazaSDK::Models::OptimizeCompletedResult::status,
+        type: PlazaSDK::Models::OptimizeCompletedResult::type_
+      }
+
+      type properties =
+        { distance: Float, duration: Float, waypoint_order: ::Array[Integer] }
+
+      class Properties < PlazaSDK::Internal::Type::BaseModel
+        attr_reader distance: Float?
+
+        def distance=: (Float) -> Float
+
+        attr_reader duration: Float?
+
+        def duration=: (Float) -> Float
+
+        attr_reader waypoint_order: ::Array[Integer]?
+
+        def waypoint_order=: (::Array[Integer]) -> ::Array[Integer]
+
+        def initialize: (
+          ?distance: Float,
+          ?duration: Float,
+          ?waypoint_order: ::Array[Integer]
+        ) -> void
+
+        def to_hash: -> {
+          distance: Float,
+          duration: Float,
+          waypoint_order: ::Array[Integer]
+        }
+      end
+
+      type status = :completed
+
+      module Status
+        extend PlazaSDK::Internal::Type::Enum
+
+        COMPLETED: :completed
+
+        def self?.values: -> ::Array[PlazaSDK::Models::OptimizeCompletedResult::status]
+      end
+
+      type type_ = :Feature
+
+      module Type
+        extend PlazaSDK::Internal::Type::Enum
+
+        FEATURE: :Feature
+
+        def self?.values: -> ::Array[PlazaSDK::Models::OptimizeCompletedResult::type_]
+      end
+    end
+  end
+end

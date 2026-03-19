@@ -1,0 +1,56 @@
+module PlazaSDK
+  module Models
+    type element_query_params =
+      {
+        bbox: String,
+        cursor: String,
+        :h3 => String,
+        limit: Integer,
+        type: String
+      }
+      & PlazaSDK::Internal::Type::request_parameters
+
+    class ElementQueryParams < PlazaSDK::Internal::Type::BaseModel
+      extend PlazaSDK::Internal::Type::RequestParameters::Converter
+      include PlazaSDK::Internal::Type::RequestParameters
+
+      attr_reader bbox: String?
+
+      def bbox=: (String) -> String
+
+      attr_reader cursor: String?
+
+      def cursor=: (String) -> String
+
+      attr_reader h3: String?
+
+      def h3=: (String) -> String
+
+      attr_reader limit: Integer?
+
+      def limit=: (Integer) -> Integer
+
+      attr_reader type: String?
+
+      def type=: (String) -> String
+
+      def initialize: (
+        ?bbox: String,
+        ?cursor: String,
+        ?h3: String,
+        ?limit: Integer,
+        ?type: String,
+        ?request_options: PlazaSDK::request_opts
+      ) -> void
+
+      def to_hash: -> {
+        bbox: String,
+        cursor: String,
+        :h3 => String,
+        limit: Integer,
+        type: String,
+        request_options: PlazaSDK::RequestOptions
+      }
+    end
+  end
+end

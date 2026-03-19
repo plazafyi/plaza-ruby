@@ -1,9 +1,0 @@
-module Plaza
-  module Internal
-    extend Plaza::Internal::Util::SorbetRuntimeSupport
-
-    type file_input = Pathname | StringIO | IO | String | Plaza::FilePart
-
-    OMIT: Object
-  end
-end

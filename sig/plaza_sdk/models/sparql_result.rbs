@@ -1,0 +1,35 @@
+module PlazaSDK
+  module Models
+    type sparql_result =
+      {
+        features: ::Array[PlazaSDK::GeoJsonFeature],
+        type: PlazaSDK::Models::SparqlResult::type_
+      }
+
+    class SparqlResult < PlazaSDK::Internal::Type::BaseModel
+      attr_accessor features: ::Array[PlazaSDK::GeoJsonFeature]
+
+      attr_accessor type: PlazaSDK::Models::SparqlResult::type_
+
+      def initialize: (
+        features: ::Array[PlazaSDK::GeoJsonFeature],
+        type: PlazaSDK::Models::SparqlResult::type_
+      ) -> void
+
+      def to_hash: -> {
+        features: ::Array[PlazaSDK::GeoJsonFeature],
+        type: PlazaSDK::Models::SparqlResult::type_
+      }
+
+      type type_ = :FeatureCollection
+
+      module Type
+        extend PlazaSDK::Internal::Type::Enum
+
+        FEATURE_COLLECTION: :FeatureCollection
+
+        def self?.values: -> ::Array[PlazaSDK::Models::SparqlResult::type_]
+      end
+    end
+  end
+end

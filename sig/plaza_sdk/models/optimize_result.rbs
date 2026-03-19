@@ -1,0 +1,12 @@
+module PlazaSDK
+  module Models
+    type optimize_result =
+      PlazaSDK::OptimizeCompletedResult | PlazaSDK::OptimizeProcessingResult
+
+    module OptimizeResult
+      extend PlazaSDK::Internal::Type::Union
+
+      def self?.variants: -> ::Array[PlazaSDK::Models::optimize_result]
+    end
+  end
+end

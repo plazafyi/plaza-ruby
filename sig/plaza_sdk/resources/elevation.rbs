@@ -1,0 +1,24 @@
+module PlazaSDK
+  module Resources
+    class Elevation
+      def batch: (
+        geometry: PlazaSDK::GeoJsonGeometry,
+        ?request_options: PlazaSDK::request_opts
+      ) -> PlazaSDK::ElevationBatchResult
+
+      def lookup: (
+        ?lat: Float,
+        ?lng: Float,
+        ?locations: String,
+        ?request_options: PlazaSDK::request_opts
+      ) -> PlazaSDK::ElevationLookupResult
+
+      def profile: (
+        geometry: PlazaSDK::GeoJsonGeometry,
+        ?request_options: PlazaSDK::request_opts
+      ) -> PlazaSDK::ElevationProfileResult
+
+      def initialize: (client: PlazaSDK::Client) -> void
+    end
+  end
+end

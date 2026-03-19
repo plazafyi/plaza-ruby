@@ -1,0 +1,38 @@
+module PlazaSDK
+  module Models
+    type routing_isochrone_params =
+      { lat: Float, lng: Float, time: Float, mode: String }
+      & PlazaSDK::Internal::Type::request_parameters
+
+    class RoutingIsochroneParams < PlazaSDK::Internal::Type::BaseModel
+      extend PlazaSDK::Internal::Type::RequestParameters::Converter
+      include PlazaSDK::Internal::Type::RequestParameters
+
+      attr_accessor lat: Float
+
+      attr_accessor lng: Float
+
+      attr_accessor time: Float
+
+      attr_reader mode: String?
+
+      def mode=: (String) -> String
+
+      def initialize: (
+        lat: Float,
+        lng: Float,
+        time: Float,
+        ?mode: String,
+        ?request_options: PlazaSDK::request_opts
+      ) -> void
+
+      def to_hash: -> {
+        lat: Float,
+        lng: Float,
+        time: Float,
+        mode: String,
+        request_options: PlazaSDK::RequestOptions
+      }
+    end
+  end
+end
