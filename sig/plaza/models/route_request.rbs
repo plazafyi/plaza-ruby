@@ -1,0 +1,46 @@
+module Plaza
+  module Models
+    type route_request =
+      {
+        destination: Plaza::GeoJsonGeometry,
+        origin: Plaza::GeoJsonGeometry,
+        mode: Plaza::Models::RouteRequest::mode
+      }
+
+    class RouteRequest < Plaza::Internal::Type::BaseModel
+      attr_accessor destination: Plaza::GeoJsonGeometry
+
+      attr_accessor origin: Plaza::GeoJsonGeometry
+
+      attr_reader mode: Plaza::Models::RouteRequest::mode?
+
+      def mode=: (
+        Plaza::Models::RouteRequest::mode
+      ) -> Plaza::Models::RouteRequest::mode
+
+      def initialize: (
+        destination: Plaza::GeoJsonGeometry,
+        origin: Plaza::GeoJsonGeometry,
+        ?mode: Plaza::Models::RouteRequest::mode
+      ) -> void
+
+      def to_hash: -> {
+        destination: Plaza::GeoJsonGeometry,
+        origin: Plaza::GeoJsonGeometry,
+        mode: Plaza::Models::RouteRequest::mode
+      }
+
+      type mode = :auto | :foot | :bicycle
+
+      module Mode
+        extend Plaza::Internal::Type::Enum
+
+        AUTO: :auto
+        FOOT: :foot
+        BICYCLE: :bicycle
+
+        def self?.values: -> ::Array[Plaza::Models::RouteRequest::mode]
+      end
+    end
+  end
+end

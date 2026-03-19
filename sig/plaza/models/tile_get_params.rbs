@@ -1,0 +1,32 @@
+module Plaza
+  module Models
+    type tile_get_params =
+      { z: Integer, x: Integer, y_: Integer }
+      & Plaza::Internal::Type::request_parameters
+
+    class TileGetParams < Plaza::Internal::Type::BaseModel
+      extend Plaza::Internal::Type::RequestParameters::Converter
+      include Plaza::Internal::Type::RequestParameters
+
+      attr_accessor z: Integer
+
+      attr_accessor x: Integer
+
+      attr_accessor y_: Integer
+
+      def initialize: (
+        z: Integer,
+        x: Integer,
+        y_: Integer,
+        ?request_options: Plaza::request_opts
+      ) -> void
+
+      def to_hash: -> {
+        z: Integer,
+        x: Integer,
+        y_: Integer,
+        request_options: Plaza::RequestOptions
+      }
+    end
+  end
+end

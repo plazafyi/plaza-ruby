@@ -1,0 +1,36 @@
+module Plaza
+  module Resources
+    class Routing
+      def isochrone: (
+        lat: Float,
+        lng: Float,
+        time: Float,
+        ?mode: String,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::GeoJsonFeature
+
+      def matrix: (
+        destinations: Plaza::GeoJsonGeometry,
+        origins: Plaza::GeoJsonGeometry,
+        ?mode: Plaza::Models::MatrixRequest::mode,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::MatrixResult
+
+      def nearest: (
+        lat: Float,
+        lng: Float,
+        ?radius: Integer,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::NearestResult
+
+      def route: (
+        destination: Plaza::GeoJsonGeometry,
+        origin: Plaza::GeoJsonGeometry,
+        ?mode: Plaza::Models::RouteRequest::mode,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::RouteResult
+
+      def initialize: (client: Plaza::Client) -> void
+    end
+  end
+end
