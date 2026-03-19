@@ -1,5 +1,0 @@
-module PlazaSDK
-  module Models
-    GeocodeBatchResponse: PlazaSDK::Internal::Type::Converter
-  end
-end

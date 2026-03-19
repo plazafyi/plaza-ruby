@@ -162,7 +162,7 @@ multitask(:"build:gem") do
     sig/*
   GLOB
 
-  sh(*%w[gem build -- plaza_sdk.gemspec])
+  sh(*%w[gem build -- plaza.gemspec])
   rm_rf(ignore_file)
 end
 

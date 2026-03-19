@@ -1,0 +1,35 @@
+module Plaza
+  module Models
+    type autocomplete_result =
+      {
+        features: ::Array[Plaza::GeocodingFeature],
+        type: Plaza::Models::AutocompleteResult::type_
+      }
+
+    class AutocompleteResult < Plaza::Internal::Type::BaseModel
+      attr_accessor features: ::Array[Plaza::GeocodingFeature]
+
+      attr_accessor type: Plaza::Models::AutocompleteResult::type_
+
+      def initialize: (
+        features: ::Array[Plaza::GeocodingFeature],
+        type: Plaza::Models::AutocompleteResult::type_
+      ) -> void
+
+      def to_hash: -> {
+        features: ::Array[Plaza::GeocodingFeature],
+        type: Plaza::Models::AutocompleteResult::type_
+      }
+
+      type type_ = :FeatureCollection
+
+      module Type
+        extend Plaza::Internal::Type::Enum
+
+        FEATURE_COLLECTION: :FeatureCollection
+
+        def self?.values: -> ::Array[Plaza::Models::AutocompleteResult::type_]
+      end
+    end
+  end
+end

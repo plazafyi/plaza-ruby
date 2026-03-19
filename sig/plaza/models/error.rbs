@@ -1,0 +1,27 @@
+module Plaza
+  module Models
+    type error = { error: Plaza::Error::Error }
+
+    class Error < Plaza::Internal::Type::BaseModel
+      attr_accessor error: Plaza::Error::Error
+
+      def initialize: (error: Plaza::Error::Error) -> void
+
+      def to_hash: -> { error: Plaza::Error::Error }
+
+      type error = { code: String, message: String, details: top? }
+
+      class Error < Plaza::Internal::Type::BaseModel
+        attr_accessor code: String
+
+        attr_accessor message: String
+
+        attr_accessor details: top?
+
+        def initialize: (code: String, message: String, ?details: top?) -> void
+
+        def to_hash: -> { code: String, message: String, details: top? }
+      end
+    end
+  end
+end

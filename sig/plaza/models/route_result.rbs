@@ -1,0 +1,64 @@
+module Plaza
+  module Models
+    type route_result =
+      {
+        geometry: Plaza::GeoJsonGeometry,
+        properties: Plaza::RouteResult::Properties,
+        type: Plaza::Models::RouteResult::type_
+      }
+
+    class RouteResult < Plaza::Internal::Type::BaseModel
+      attr_accessor geometry: Plaza::GeoJsonGeometry
+
+      attr_accessor properties: Plaza::RouteResult::Properties
+
+      attr_accessor type: Plaza::Models::RouteResult::type_
+
+      def initialize: (
+        geometry: Plaza::GeoJsonGeometry,
+        properties: Plaza::RouteResult::Properties,
+        type: Plaza::Models::RouteResult::type_
+      ) -> void
+
+      def to_hash: -> {
+        geometry: Plaza::GeoJsonGeometry,
+        properties: Plaza::RouteResult::Properties,
+        type: Plaza::Models::RouteResult::type_
+      }
+
+      type properties = { distance: Float, duration: Float, mode: String }
+
+      class Properties < Plaza::Internal::Type::BaseModel
+        attr_reader distance: Float?
+
+        def distance=: (Float) -> Float
+
+        attr_reader duration: Float?
+
+        def duration=: (Float) -> Float
+
+        attr_reader mode: String?
+
+        def mode=: (String) -> String
+
+        def initialize: (
+          ?distance: Float,
+          ?duration: Float,
+          ?mode: String
+        ) -> void
+
+        def to_hash: -> { distance: Float, duration: Float, mode: String }
+      end
+
+      type type_ = :Feature
+
+      module Type
+        extend Plaza::Internal::Type::Enum
+
+        FEATURE: :Feature
+
+        def self?.values: -> ::Array[Plaza::Models::RouteResult::type_]
+      end
+    end
+  end
+end
