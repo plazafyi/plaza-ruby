@@ -8,12 +8,15 @@ module Plaza
         params(
           coordinates:
             T::Array[Plaza::ElevationBatchParams::Coordinate::OrHash],
+          format_: String,
           request_options: Plaza::RequestOptions::OrHash
         ).returns(Plaza::ElevationBatchResult)
       end
       def batch(
-        # Coordinates to look up elevations for (max 50)
+        # Body param: Coordinates to look up elevations for (max 50)
         coordinates:,
+        # Query param: Response format: json (default), geojson, csv, ndjson
+        format_: nil,
         request_options: {}
       )
       end
@@ -21,6 +24,7 @@ module Plaza
       # Look up elevation at one or more points
       sig do
         params(
+          format_: String,
           lat: Float,
           lng: Float,
           locations: String,
@@ -31,6 +35,8 @@ module Plaza
         ).returns(Plaza::ElevationLookupResult)
       end
       def lookup(
+        # Response format: json (default), geojson, csv, ndjson
+        format_: nil,
         # Latitude (single point)
         lat: nil,
         # Longitude (single point)
@@ -50,6 +56,7 @@ module Plaza
       # Look up elevation at one or more points
       sig do
         params(
+          format_: String,
           lat: Float,
           lng: Float,
           locations: String,
@@ -60,6 +67,8 @@ module Plaza
         ).returns(Plaza::ElevationLookupResult)
       end
       def lookup_post(
+        # Response format: json (default), geojson, csv, ndjson
+        format_: nil,
         # Latitude (single point)
         lat: nil,
         # Longitude (single point)

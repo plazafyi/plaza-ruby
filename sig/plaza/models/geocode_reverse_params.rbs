@@ -2,6 +2,7 @@ module Plaza
   module Models
     type geocode_reverse_params =
       {
+        format_: String,
         lang: String,
         lat: Float,
         layer: String,
@@ -15,6 +16,10 @@ module Plaza
     class GeocodeReverseParams < Plaza::Internal::Type::BaseModel
       extend Plaza::Internal::Type::RequestParameters::Converter
       include Plaza::Internal::Type::RequestParameters
+
+      attr_reader format_: String?
+
+      def format_=: (String) -> String
 
       attr_reader lang: String?
 
@@ -45,6 +50,7 @@ module Plaza
       def radius=: (Integer) -> Integer
 
       def initialize: (
+        ?format_: String,
         ?lang: String,
         ?lat: Float,
         ?layer: String,
@@ -56,6 +62,7 @@ module Plaza
       ) -> void
 
       def to_hash: -> {
+        format_: String,
         lang: String,
         lat: Float,
         layer: String,

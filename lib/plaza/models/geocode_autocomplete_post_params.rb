@@ -19,6 +19,12 @@ module Plaza
       #   @return [String, nil]
       optional :country_code, String
 
+      # @!attribute format_
+      #   Response format: json (default), geojson, csv, ndjson
+      #
+      #   @return [String, nil]
+      optional :format_, String
+
       # @!attribute lang
       #   Language code for localized names (e.g. en, de, fr)
       #
@@ -49,10 +55,12 @@ module Plaza
       #   @return [Float, nil]
       optional :lng, Float
 
-      # @!method initialize(q:, country_code: nil, lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, request_options: {})
+      # @!method initialize(q:, country_code: nil, format_: nil, lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, request_options: {})
       #   @param q [String] Partial address query
       #
       #   @param country_code [String] ISO 3166-1 alpha-2 country code filter
+      #
+      #   @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       #   @param lang [String] Language code for localized names (e.g. en, de, fr)
       #

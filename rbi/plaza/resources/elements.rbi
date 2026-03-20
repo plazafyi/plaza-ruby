@@ -152,6 +152,7 @@ module Plaza
           contains: String,
           crosses: String,
           cursor: String,
+          format_: String,
           h3: String,
           intersects: String,
           limit: Integer,
@@ -181,6 +182,9 @@ module Plaza
         crosses: nil,
         # Cursor for pagination
         cursor: nil,
+        # Response format. json (default) returns paginated GeoJSON. geojson/csv/ndjson
+        # stream via chunked transfer encoding.
+        format_: nil,
         # Legacy shorthand. H3 cell index. Use spatial predicates instead.
         h3: nil,
         # Geometry that features must intersect
@@ -224,6 +228,7 @@ module Plaza
           contains: String,
           crosses: String,
           cursor: String,
+          format_: String,
           h3: String,
           intersects: String,
           limit: Integer,
@@ -253,6 +258,9 @@ module Plaza
         crosses: nil,
         # Cursor for pagination
         cursor: nil,
+        # Response format. json (default) returns paginated GeoJSON. geojson/csv/ndjson
+        # stream via chunked transfer encoding.
+        format_: nil,
         # Legacy shorthand. H3 cell index. Use spatial predicates instead.
         h3: nil,
         # Geometry that features must intersect

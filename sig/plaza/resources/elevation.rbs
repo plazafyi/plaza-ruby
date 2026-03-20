@@ -3,10 +3,12 @@ module Plaza
     class Elevation
       def batch: (
         coordinates: ::Array[Plaza::ElevationBatchParams::Coordinate],
+        ?format_: String,
         ?request_options: Plaza::request_opts
       ) -> Plaza::ElevationBatchResult
 
       def lookup: (
+        ?format_: String,
         ?lat: Float,
         ?lng: Float,
         ?locations: String,
@@ -17,6 +19,7 @@ module Plaza
       ) -> Plaza::ElevationLookupResult
 
       def lookup_post: (
+        ?format_: String,
         ?lat: Float,
         ?lng: Float,
         ?locations: String,

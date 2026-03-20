@@ -22,6 +22,13 @@ module Plaza
       sig { params(cursor: String).void }
       attr_writer :cursor
 
+      # Response format: json (default), geojson, csv, ndjson
+      sig { returns(T.nilable(String)) }
+      attr_reader :format_
+
+      sig { params(format_: String).void }
+      attr_writer :format_
+
       # Maximum results (default 25, max 100)
       sig { returns(T.nilable(Integer)) }
       attr_reader :limit
@@ -61,6 +68,7 @@ module Plaza
         params(
           q: String,
           cursor: String,
+          format_: String,
           limit: Integer,
           output_fields: String,
           output_include: String,
@@ -74,6 +82,8 @@ module Plaza
         q:,
         # Cursor for pagination
         cursor: nil,
+        # Response format: json (default), geojson, csv, ndjson
+        format_: nil,
         # Maximum results (default 25, max 100)
         limit: nil,
         # Comma-separated property fields to include
@@ -93,6 +103,7 @@ module Plaza
           {
             q: String,
             cursor: String,
+            format_: String,
             limit: Integer,
             output_fields: String,
             output_include: String,

@@ -25,6 +25,12 @@ module Plaza
       #   @return [Float]
       required :time, Float
 
+      # @!attribute format_
+      #   Response format: json (default), geojson, csv, ndjson
+      #
+      #   @return [String, nil]
+      optional :format_, String
+
       # @!attribute mode
       #   Travel mode (auto, foot, bicycle)
       #
@@ -61,12 +67,14 @@ module Plaza
       #   @return [Float, nil]
       optional :output_simplify, Float
 
-      # @!method initialize(lat:, lng:, time:, mode: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, request_options: {})
+      # @!method initialize(lat:, lng:, time:, format_: nil, mode: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, request_options: {})
       #   @param lat [Float] Latitude
       #
       #   @param lng [Float] Longitude
       #
       #   @param time [Float] Travel time in seconds (1-7200)
+      #
+      #   @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       #   @param mode [String] Travel mode (auto, foot, bicycle)
       #

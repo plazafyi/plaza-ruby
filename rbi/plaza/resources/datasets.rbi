@@ -71,6 +71,7 @@ module Plaza
         params(
           id: String,
           cursor: String,
+          format_: String,
           limit: Integer,
           output_buffer: Float,
           output_centroid: T::Boolean,
@@ -88,6 +89,8 @@ module Plaza
         id,
         # Cursor for pagination
         cursor: nil,
+        # Response format: json (default), geojson, csv, ndjson
+        format_: nil,
         # Maximum results
         limit: nil,
         # Buffer geometry by meters

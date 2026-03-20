@@ -4,6 +4,7 @@ module Plaza
       def query: (
         q: String,
         ?cursor: String,
+        ?format_: String,
         ?limit: Integer,
         ?output_fields: String,
         ?output_include: String,
@@ -15,6 +16,7 @@ module Plaza
       def query_post: (
         q: String,
         ?cursor: String,
+        ?format_: String,
         ?limit: Integer,
         ?output_fields: String,
         ?output_include: String,

@@ -11,6 +11,13 @@ module Plaza
           T.any(Plaza::ElevationLookupPostParams, Plaza::Internal::AnyHash)
         end
 
+      # Response format: json (default), geojson, csv, ndjson
+      sig { returns(T.nilable(String)) }
+      attr_reader :format_
+
+      sig { params(format_: String).void }
+      attr_writer :format_
+
       # Latitude (single point)
       sig { returns(T.nilable(Float)) }
       attr_reader :lat
@@ -55,6 +62,7 @@ module Plaza
 
       sig do
         params(
+          format_: String,
           lat: Float,
           lng: Float,
           locations: String,
@@ -65,6 +73,8 @@ module Plaza
         ).returns(T.attached_class)
       end
       def self.new(
+        # Response format: json (default), geojson, csv, ndjson
+        format_: nil,
         # Latitude (single point)
         lat: nil,
         # Longitude (single point)
@@ -84,6 +94,7 @@ module Plaza
       sig do
         override.returns(
           {
+            format_: String,
             lat: Float,
             lng: Float,
             locations: String,

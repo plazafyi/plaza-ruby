@@ -23,6 +23,7 @@ module Plaza
       def features: (
         String id,
         ?cursor: String,
+        ?format_: String,
         ?limit: Integer,
         ?output_buffer: Float,
         ?output_centroid: bool,

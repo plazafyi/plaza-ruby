@@ -5,11 +5,13 @@ module Plaza
     class Geocode
       # Autocomplete a partial address
       #
-      # @overload autocomplete(q:, country_code: nil, lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, request_options: {})
+      # @overload autocomplete(q:, country_code: nil, format_: nil, lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, request_options: {})
       #
       # @param q [String] Partial address query
       #
       # @param country_code [String] ISO 3166-1 alpha-2 country code filter
+      #
+      # @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       # @param lang [String] Language code for localized names (e.g. en, de, fr)
       #
@@ -32,7 +34,7 @@ module Plaza
         @client.request(
           method: :get,
           path: "api/v1/geocode/autocomplete",
-          query: query,
+          query: query.transform_keys(format_: "format"),
           model: Plaza::AutocompleteResult,
           options: options
         )
@@ -40,11 +42,13 @@ module Plaza
 
       # Autocomplete a partial address
       #
-      # @overload autocomplete_post(q:, country_code: nil, lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, request_options: {})
+      # @overload autocomplete_post(q:, country_code: nil, format_: nil, lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, request_options: {})
       #
       # @param q [String] Partial address query
       #
       # @param country_code [String] ISO 3166-1 alpha-2 country code filter
+      #
+      # @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       # @param lang [String] Language code for localized names (e.g. en, de, fr)
       #
@@ -67,7 +71,7 @@ module Plaza
         @client.request(
           method: :post,
           path: "api/v1/geocode/autocomplete",
-          query: query,
+          query: query.transform_keys(format_: "format"),
           model: Plaza::AutocompleteResult,
           options: options
         )
@@ -96,13 +100,15 @@ module Plaza
 
       # Forward geocode an address
       #
-      # @overload forward(q:, bbox: nil, country_code: nil, lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, request_options: {})
+      # @overload forward(q:, bbox: nil, country_code: nil, format_: nil, lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, request_options: {})
       #
       # @param q [String] Address or place name
       #
       # @param bbox [String] Bounding box filter: south,west,north,east
       #
       # @param country_code [String] ISO 3166-1 alpha-2 country code filter
+      #
+      # @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       # @param lang [String] Language code for localized names (e.g. en, de, fr)
       #
@@ -125,7 +131,7 @@ module Plaza
         @client.request(
           method: :get,
           path: "api/v1/geocode",
-          query: query,
+          query: query.transform_keys(format_: "format"),
           model: Plaza::GeocodeResult,
           options: options
         )
@@ -133,13 +139,15 @@ module Plaza
 
       # Forward geocode an address
       #
-      # @overload forward_post(q:, bbox: nil, country_code: nil, lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, request_options: {})
+      # @overload forward_post(q:, bbox: nil, country_code: nil, format_: nil, lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, request_options: {})
       #
       # @param q [String] Address or place name
       #
       # @param bbox [String] Bounding box filter: south,west,north,east
       #
       # @param country_code [String] ISO 3166-1 alpha-2 country code filter
+      #
+      # @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       # @param lang [String] Language code for localized names (e.g. en, de, fr)
       #
@@ -162,7 +170,7 @@ module Plaza
         @client.request(
           method: :post,
           path: "api/v1/geocode",
-          query: query,
+          query: query.transform_keys(format_: "format"),
           model: Plaza::GeocodeResult,
           options: options
         )
@@ -173,7 +181,9 @@ module Plaza
       #
       # Reverse geocode a coordinate
       #
-      # @overload reverse(lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, near: nil, radius: nil, request_options: {})
+      # @overload reverse(format_: nil, lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, near: nil, radius: nil, request_options: {})
+      #
+      # @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       # @param lang [String] Language code for localized names (e.g. en, de, fr)
       #
@@ -200,7 +210,7 @@ module Plaza
         @client.request(
           method: :get,
           path: "api/v1/geocode/reverse",
-          query: query,
+          query: query.transform_keys(format_: "format"),
           model: Plaza::ReverseGeocodeResult,
           options: options
         )
@@ -211,7 +221,9 @@ module Plaza
       #
       # Reverse geocode a coordinate
       #
-      # @overload reverse_post(lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, near: nil, radius: nil, request_options: {})
+      # @overload reverse_post(format_: nil, lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, near: nil, radius: nil, request_options: {})
+      #
+      # @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       # @param lang [String] Language code for localized names (e.g. en, de, fr)
       #
@@ -238,7 +250,7 @@ module Plaza
         @client.request(
           method: :post,
           path: "api/v1/geocode/reverse",
-          query: query,
+          query: query.transform_keys(format_: "format"),
           model: Plaza::ReverseGeocodeResult,
           options: options
         )

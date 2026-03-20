@@ -32,6 +32,13 @@ module Plaza
       #   @return [String, nil]
       optional :cursor, String
 
+      # @!attribute format_
+      #   Response format. json (default) returns paginated GeoJSON. geojson/csv/ndjson
+      #   stream via chunked transfer encoding.
+      #
+      #   @return [String, nil]
+      optional :format_, String
+
       # @!attribute h3
       #   Legacy shorthand. H3 cell index. Use spatial predicates instead.
       #
@@ -128,7 +135,7 @@ module Plaza
       #   @return [String, nil]
       optional :within, String
 
-      # @!method initialize(bbox: nil, contains: nil, crosses: nil, cursor: nil, h3: nil, intersects: nil, limit: nil, near: nil, output_buffer: nil, output_centroid: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, output_sort: nil, radius: nil, touches: nil, type: nil, within: nil, request_options: {})
+      # @!method initialize(bbox: nil, contains: nil, crosses: nil, cursor: nil, format_: nil, h3: nil, intersects: nil, limit: nil, near: nil, output_buffer: nil, output_centroid: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, output_sort: nil, radius: nil, touches: nil, type: nil, within: nil, request_options: {})
       #   Some parameter documentations has been truncated, see
       #   {Plaza::Models::ElementQueryPostParams} for more details.
       #
@@ -139,6 +146,8 @@ module Plaza
       #   @param crosses [String] Geometry that features must cross
       #
       #   @param cursor [String] Cursor for pagination
+      #
+      #   @param format_ [String] Response format. json (default) returns paginated GeoJSON. geojson/csv/ndjson st
       #
       #   @param h3 [String] Legacy shorthand. H3 cell index. Use spatial predicates instead.
       #

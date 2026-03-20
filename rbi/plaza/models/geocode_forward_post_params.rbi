@@ -29,6 +29,13 @@ module Plaza
       sig { params(country_code: String).void }
       attr_writer :country_code
 
+      # Response format: json (default), geojson, csv, ndjson
+      sig { returns(T.nilable(String)) }
+      attr_reader :format_
+
+      sig { params(format_: String).void }
+      attr_writer :format_
+
       # Language code for localized names (e.g. en, de, fr)
       sig { returns(T.nilable(String)) }
       attr_reader :lang
@@ -69,6 +76,7 @@ module Plaza
           q: String,
           bbox: String,
           country_code: String,
+          format_: String,
           lang: String,
           lat: Float,
           layer: String,
@@ -84,6 +92,8 @@ module Plaza
         bbox: nil,
         # ISO 3166-1 alpha-2 country code filter
         country_code: nil,
+        # Response format: json (default), geojson, csv, ndjson
+        format_: nil,
         # Language code for localized names (e.g. en, de, fr)
         lang: nil,
         # Focus latitude
@@ -104,6 +114,7 @@ module Plaza
             q: String,
             bbox: String,
             country_code: String,
+            format_: String,
             lang: String,
             lat: Float,
             layer: String,

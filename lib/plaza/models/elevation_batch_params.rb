@@ -13,8 +13,16 @@ module Plaza
       #   @return [Array<Plaza::Models::ElevationBatchParams::Coordinate>]
       required :coordinates, -> { Plaza::Internal::Type::ArrayOf[Plaza::ElevationBatchParams::Coordinate] }
 
-      # @!method initialize(coordinates:, request_options: {})
+      # @!attribute format_
+      #   Response format: json (default), geojson, csv, ndjson
+      #
+      #   @return [String, nil]
+      optional :format_, String
+
+      # @!method initialize(coordinates:, format_: nil, request_options: {})
       #   @param coordinates [Array<Plaza::Models::ElevationBatchParams::Coordinate>] Coordinates to look up elevations for (max 50)
+      #
+      #   @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       #   @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}]
 

@@ -7,6 +7,12 @@ module Plaza
       extend Plaza::Internal::Type::RequestParameters::Converter
       include Plaza::Internal::Type::RequestParameters
 
+      # @!attribute format_
+      #   Response format: json (default), geojson, csv, ndjson
+      #
+      #   @return [String, nil]
+      optional :format_, String
+
       # @!attribute lat
       #   Latitude (single point)
       #
@@ -43,7 +49,9 @@ module Plaza
       #   @return [Integer, nil]
       optional :output_precision, Integer
 
-      # @!method initialize(lat: nil, lng: nil, locations: nil, output_fields: nil, output_include: nil, output_precision: nil, request_options: {})
+      # @!method initialize(format_: nil, lat: nil, lng: nil, locations: nil, output_fields: nil, output_include: nil, output_precision: nil, request_options: {})
+      #   @param format_ [String] Response format: json (default), geojson, csv, ndjson
+      #
       #   @param lat [Float] Latitude (single point)
       #
       #   @param lng [Float] Longitude (single point)

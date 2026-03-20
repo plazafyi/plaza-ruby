@@ -7,6 +7,12 @@ module Plaza
       extend Plaza::Internal::Type::RequestParameters::Converter
       include Plaza::Internal::Type::RequestParameters
 
+      # @!attribute format_
+      #   Response format: json (default), geojson, csv, ndjson
+      #
+      #   @return [String, nil]
+      optional :format_, String
+
       # @!attribute lang
       #   Language code for localized names (e.g. en, de, fr)
       #
@@ -50,9 +56,11 @@ module Plaza
       #   @return [Integer, nil]
       optional :radius, Integer
 
-      # @!method initialize(lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, near: nil, radius: nil, request_options: {})
+      # @!method initialize(format_: nil, lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, near: nil, radius: nil, request_options: {})
       #   Some parameter documentations has been truncated, see
       #   {Plaza::Models::GeocodeReverseParams} for more details.
+      #
+      #   @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       #   @param lang [String] Language code for localized names (e.g. en, de, fr)
       #

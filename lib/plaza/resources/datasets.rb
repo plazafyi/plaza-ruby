@@ -95,11 +95,13 @@ module Plaza
 
       # Query features in a dataset
       #
-      # @overload features(id, cursor: nil, limit: nil, output_buffer: nil, output_centroid: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, output_sort: nil, request_options: {})
+      # @overload features(id, cursor: nil, format_: nil, limit: nil, output_buffer: nil, output_centroid: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, output_sort: nil, request_options: {})
       #
       # @param id [String] Dataset ID
       #
       # @param cursor [String] Cursor for pagination
+      #
+      # @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       # @param limit [Integer] Maximum results
       #
@@ -131,6 +133,7 @@ module Plaza
           method: :get,
           path: ["api/v1/datasets/%1$s/features", id],
           query: query.transform_keys(
+            format_: "format",
             output_buffer: "output[buffer]",
             output_centroid: "output[centroid]",
             output_fields: "output[fields]",

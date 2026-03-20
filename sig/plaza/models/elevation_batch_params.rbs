@@ -1,7 +1,10 @@
 module Plaza
   module Models
     type elevation_batch_params =
-      { coordinates: ::Array[Plaza::ElevationBatchParams::Coordinate] }
+      {
+        coordinates: ::Array[Plaza::ElevationBatchParams::Coordinate],
+        format_: String
+      }
       & Plaza::Internal::Type::request_parameters
 
     class ElevationBatchParams < Plaza::Internal::Type::BaseModel
@@ -10,13 +13,19 @@ module Plaza
 
       attr_accessor coordinates: ::Array[Plaza::ElevationBatchParams::Coordinate]
 
+      attr_reader format_: String?
+
+      def format_=: (String) -> String
+
       def initialize: (
         coordinates: ::Array[Plaza::ElevationBatchParams::Coordinate],
+        ?format_: String,
         ?request_options: Plaza::request_opts
       ) -> void
 
       def to_hash: -> {
         coordinates: ::Array[Plaza::ElevationBatchParams::Coordinate],
+        format_: String,
         request_options: Plaza::RequestOptions
       }
 

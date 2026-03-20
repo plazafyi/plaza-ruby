@@ -9,6 +9,7 @@ module Plaza
           lat: Float,
           lng: Float,
           time: Float,
+          format_: String,
           mode: String,
           output_fields: String,
           output_geometry: T::Boolean,
@@ -25,6 +26,8 @@ module Plaza
         lng:,
         # Travel time in seconds (1-7200)
         time:,
+        # Response format: json (default), geojson, csv, ndjson
+        format_: nil,
         # Travel mode (auto, foot, bicycle)
         mode: nil,
         # Comma-separated property fields to include
@@ -47,6 +50,7 @@ module Plaza
           lat: Float,
           lng: Float,
           time: Float,
+          format_: String,
           mode: String,
           output_fields: String,
           output_geometry: T::Boolean,
@@ -63,6 +67,8 @@ module Plaza
         lng:,
         # Travel time in seconds (1-7200)
         time:,
+        # Response format: json (default), geojson, csv, ndjson
+        format_: nil,
         # Travel mode (auto, foot, bicycle)
         mode: nil,
         # Comma-separated property fields to include
@@ -170,6 +176,7 @@ module Plaza
         params(
           destination: Plaza::RouteRequest::Destination::OrHash,
           origin: Plaza::RouteRequest::Origin::OrHash,
+          format_: String,
           alternatives: Integer,
           annotations: T::Boolean,
           depart_at: T.nilable(Time),
@@ -185,33 +192,37 @@ module Plaza
         ).returns(Plaza::RouteResult)
       end
       def route(
-        # Geographic coordinate as a JSON object with `lat` and `lng` fields.
+        # Body param: Geographic coordinate as a JSON object with `lat` and `lng` fields.
         destination:,
-        # Geographic coordinate as a JSON object with `lat` and `lng` fields.
+        # Body param: Geographic coordinate as a JSON object with `lat` and `lng` fields.
         origin:,
-        # Number of alternative routes to return (0-3, default 0). When > 0, response is a
-        # FeatureCollection of route Features.
+        # Query param: Response format for alternatives: json (default), geojson, csv,
+        # ndjson
+        format_: nil,
+        # Body param: Number of alternative routes to return (0-3, default 0). When > 0,
+        # response is a FeatureCollection of route Features.
         alternatives: nil,
-        # Include per-edge annotations (speed, duration) on the route (default: false)
+        # Body param: Include per-edge annotations (speed, duration) on the route
+        # (default: false)
         annotations: nil,
-        # Departure time for traffic-aware routing (ISO 8601)
+        # Body param: Departure time for traffic-aware routing (ISO 8601)
         depart_at: nil,
-        # Electric vehicle parameters for EV-aware routing
+        # Body param: Electric vehicle parameters for EV-aware routing
         ev: nil,
-        # Comma-separated road types to exclude (e.g. `toll,motorway,ferry`)
+        # Body param: Comma-separated road types to exclude (e.g. `toll,motorway,ferry`)
         exclude: nil,
-        # Geometry encoding format. Default: `geojson`.
+        # Body param: Geometry encoding format. Default: `geojson`.
         geometries: nil,
-        # Travel mode (default: `auto`)
+        # Body param: Travel mode (default: `auto`)
         mode: nil,
-        # Level of geometry detail: `full` (all points), `simplified` (Douglas-Peucker),
-        # `false` (no geometry). Default: `full`.
+        # Body param: Level of geometry detail: `full` (all points), `simplified`
+        # (Douglas-Peucker), `false` (no geometry). Default: `full`.
         overview: nil,
-        # Include turn-by-turn navigation steps (default: false)
+        # Body param: Include turn-by-turn navigation steps (default: false)
         steps: nil,
-        # Traffic prediction model (only used when `depart_at` is set)
+        # Body param: Traffic prediction model (only used when `depart_at` is set)
         traffic_model: nil,
-        # Intermediate waypoints to visit in order (maximum 25)
+        # Body param: Intermediate waypoints to visit in order (maximum 25)
         waypoints: nil,
         request_options: {}
       )
