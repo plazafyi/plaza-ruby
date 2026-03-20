@@ -1,0 +1,7 @@
+module Plaza
+  module Models
+    type matrix_result = ::Hash[Symbol, top]
+
+    MatrixResult: Plaza::Internal::Type::Converter
+  end
+end

@@ -1,0 +1,79 @@
+module Plaza
+  module Resources
+    class Routing
+      def isochrone: (
+        lat: Float,
+        lng: Float,
+        time: Float,
+        ?mode: String,
+        ?output_fields: String,
+        ?output_geometry: bool,
+        ?output_include: String,
+        ?output_precision: Integer,
+        ?output_simplify: Float,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::Models::RoutingIsochroneResponse
+
+      def isochrone_post: (
+        lat: Float,
+        lng: Float,
+        time: Float,
+        ?mode: String,
+        ?output_fields: String,
+        ?output_geometry: bool,
+        ?output_include: String,
+        ?output_precision: Integer,
+        ?output_simplify: Float,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::Models::RoutingIsochronePostResponse
+
+      def matrix: (
+        destinations: ::Array[Plaza::MatrixRequest::Destination],
+        origins: ::Array[Plaza::MatrixRequest::Origin],
+        ?annotations: String,
+        ?fallback_speed: Float?,
+        ?mode: Plaza::Models::MatrixRequest::mode,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::Models::matrix_result
+
+      def nearest: (
+        lat: Float,
+        lng: Float,
+        ?output_fields: String,
+        ?output_include: String,
+        ?output_precision: Integer,
+        ?radius: Integer,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::NearestResult
+
+      def nearest_post: (
+        lat: Float,
+        lng: Float,
+        ?output_fields: String,
+        ?output_include: String,
+        ?output_precision: Integer,
+        ?radius: Integer,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::NearestResult
+
+      def route: (
+        destination: Plaza::RouteRequest::Destination,
+        origin: Plaza::RouteRequest::Origin,
+        ?alternatives: Integer,
+        ?annotations: bool,
+        ?depart_at: Time?,
+        ?ev: Plaza::RouteRequest::Ev?,
+        ?exclude: String?,
+        ?geometries: Plaza::Models::RouteRequest::geometries,
+        ?mode: Plaza::Models::RouteRequest::mode,
+        ?overview: Plaza::Models::RouteRequest::overview,
+        ?steps: bool,
+        ?traffic_model: Plaza::Models::RouteRequest::traffic_model?,
+        ?waypoints: ::Array[Plaza::RouteRequest::Waypoint]?,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::RouteResult
+
+      def initialize: (client: Plaza::Client) -> void
+    end
+  end
+end

@@ -1,0 +1,19 @@
+module Plaza
+  module Models
+    type geocode_batch_response =
+      { count: Integer, results: ::Array[Plaza::GeocodeResult] }
+
+    class GeocodeBatchResponse < Plaza::Internal::Type::BaseModel
+      attr_accessor count: Integer
+
+      attr_accessor results: ::Array[Plaza::GeocodeResult]
+
+      def initialize: (
+        count: Integer,
+        results: ::Array[Plaza::GeocodeResult]
+      ) -> void
+
+      def to_hash: -> { count: Integer, results: ::Array[Plaza::GeocodeResult] }
+    end
+  end
+end

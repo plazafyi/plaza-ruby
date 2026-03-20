@@ -1,0 +1,110 @@
+module Plaza
+  module Models
+    type optimize_completed_result =
+      {
+        features: ::Array[Plaza::OptimizeCompletedResult::Feature],
+        optimization: String,
+        roundtrip: bool,
+        total_cost_s: Float,
+        type: Plaza::Models::OptimizeCompletedResult::type_
+      }
+
+    class OptimizeCompletedResult < Plaza::Internal::Type::BaseModel
+      attr_accessor features: ::Array[Plaza::OptimizeCompletedResult::Feature]
+
+      attr_accessor optimization: String
+
+      attr_accessor roundtrip: bool
+
+      attr_accessor total_cost_s: Float
+
+      attr_accessor type: Plaza::Models::OptimizeCompletedResult::type_
+
+      def initialize: (
+        features: ::Array[Plaza::OptimizeCompletedResult::Feature],
+        optimization: String,
+        roundtrip: bool,
+        total_cost_s: Float,
+        type: Plaza::Models::OptimizeCompletedResult::type_
+      ) -> void
+
+      def to_hash: -> {
+        features: ::Array[Plaza::OptimizeCompletedResult::Feature],
+        optimization: String,
+        roundtrip: bool,
+        total_cost_s: Float,
+        type: Plaza::Models::OptimizeCompletedResult::type_
+      }
+
+      type feature =
+        {
+          geometry: Plaza::GeoJsonGeometry,
+          properties: Plaza::OptimizeCompletedResult::Feature::Properties,
+          type: Plaza::Models::OptimizeCompletedResult::Feature::type_
+        }
+
+      class Feature < Plaza::Internal::Type::BaseModel
+        attr_accessor geometry: Plaza::GeoJsonGeometry
+
+        attr_accessor properties: Plaza::OptimizeCompletedResult::Feature::Properties
+
+        attr_accessor type: Plaza::Models::OptimizeCompletedResult::Feature::type_
+
+        def initialize: (
+          geometry: Plaza::GeoJsonGeometry,
+          properties: Plaza::OptimizeCompletedResult::Feature::Properties,
+          type: Plaza::Models::OptimizeCompletedResult::Feature::type_
+        ) -> void
+
+        def to_hash: -> {
+          geometry: Plaza::GeoJsonGeometry,
+          properties: Plaza::OptimizeCompletedResult::Feature::Properties,
+          type: Plaza::Models::OptimizeCompletedResult::Feature::type_
+        }
+
+        type properties =
+          { cost_s: Float, cumulative_cost_s: Float, waypoint_index: Integer }
+
+        class Properties < Plaza::Internal::Type::BaseModel
+          attr_accessor cost_s: Float
+
+          attr_accessor cumulative_cost_s: Float
+
+          attr_accessor waypoint_index: Integer
+
+          def initialize: (
+            cost_s: Float,
+            cumulative_cost_s: Float,
+            waypoint_index: Integer
+          ) -> void
+
+          def to_hash: -> {
+            cost_s: Float,
+            cumulative_cost_s: Float,
+            waypoint_index: Integer
+          }
+        end
+
+        type type_ = :Feature
+
+        module Type
+          extend Plaza::Internal::Type::Enum
+
+          FEATURE: :Feature
+
+          def self?.values: -> ::Array[Plaza::Models::OptimizeCompletedResult::Feature::type_]
+        end
+      end
+
+      type type_ = :FeatureCollection
+
+      module Type
+        extend Plaza::Internal::Type::Enum
+
+        FEATURE_COLLECTION: :FeatureCollection
+
+        def self?.values: -> ::Array[Plaza::Models::OptimizeCompletedResult::type_]
+      end
+    end
+  end
+end

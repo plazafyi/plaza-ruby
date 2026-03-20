@@ -1,0 +1,77 @@
+module Plaza
+  module Models
+    type elevation_profile_result =
+      {
+        geometry: Plaza::GeoJsonGeometry,
+        properties: Plaza::ElevationProfileResult::Properties,
+        type: Plaza::Models::ElevationProfileResult::type_
+      }
+
+    class ElevationProfileResult < Plaza::Internal::Type::BaseModel
+      attr_accessor geometry: Plaza::GeoJsonGeometry
+
+      attr_accessor properties: Plaza::ElevationProfileResult::Properties
+
+      attr_accessor type: Plaza::Models::ElevationProfileResult::type_
+
+      def initialize: (
+        geometry: Plaza::GeoJsonGeometry,
+        properties: Plaza::ElevationProfileResult::Properties,
+        type: Plaza::Models::ElevationProfileResult::type_
+      ) -> void
+
+      def to_hash: -> {
+        geometry: Plaza::GeoJsonGeometry,
+        properties: Plaza::ElevationProfileResult::Properties,
+        type: Plaza::Models::ElevationProfileResult::type_
+      }
+
+      type properties =
+        {
+          avg_elevation_m: Float,
+          max_elevation_m: Float,
+          min_elevation_m: Float,
+          total_ascent_m: Float,
+          total_descent_m: Float
+        }
+
+      class Properties < Plaza::Internal::Type::BaseModel
+        attr_accessor avg_elevation_m: Float
+
+        attr_accessor max_elevation_m: Float
+
+        attr_accessor min_elevation_m: Float
+
+        attr_accessor total_ascent_m: Float
+
+        attr_accessor total_descent_m: Float
+
+        def initialize: (
+          avg_elevation_m: Float,
+          max_elevation_m: Float,
+          min_elevation_m: Float,
+          total_ascent_m: Float,
+          total_descent_m: Float
+        ) -> void
+
+        def to_hash: -> {
+          avg_elevation_m: Float,
+          max_elevation_m: Float,
+          min_elevation_m: Float,
+          total_ascent_m: Float,
+          total_descent_m: Float
+        }
+      end
+
+      type type_ = :Feature
+
+      module Type
+        extend Plaza::Internal::Type::Enum
+
+        FEATURE: :Feature
+
+        def self?.values: -> ::Array[Plaza::Models::ElevationProfileResult::type_]
+      end
+    end
+  end
+end

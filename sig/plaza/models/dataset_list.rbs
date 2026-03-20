@@ -1,0 +1,13 @@
+module Plaza
+  module Models
+    type dataset_list = { datasets: ::Array[Plaza::Dataset] }
+
+    class DatasetList < Plaza::Internal::Type::BaseModel
+      attr_accessor datasets: ::Array[Plaza::Dataset]
+
+      def initialize: (datasets: ::Array[Plaza::Dataset]) -> void
+
+      def to_hash: -> { datasets: ::Array[Plaza::Dataset] }
+    end
+  end
+end

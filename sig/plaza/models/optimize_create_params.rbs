@@ -1,0 +1,15 @@
+module Plaza
+  module Models
+    type optimize_create_params =
+      {  } & Plaza::Internal::Type::request_parameters
+
+    class OptimizeCreateParams < Plaza::Models::OptimizeRequest
+      extend Plaza::Internal::Type::RequestParameters::Converter
+      include Plaza::Internal::Type::RequestParameters
+
+      def initialize: (?request_options: Plaza::request_opts) -> void
+
+      def to_hash: -> { request_options: Plaza::RequestOptions }
+    end
+  end
+end

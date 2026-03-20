@@ -1,0 +1,19 @@
+module Plaza
+  module Resources
+    class Optimize
+      def create: (
+        waypoints: ::Array[Plaza::OptimizeRequest::Waypoint],
+        ?mode: Plaza::Models::OptimizeRequest::mode,
+        ?roundtrip: bool,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::Models::optimize_result
+
+      def retrieve: (
+        String job_id,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::OptimizeJobStatus
+
+      def initialize: (client: Plaza::Client) -> void
+    end
+  end
+end

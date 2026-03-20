@@ -1,0 +1,80 @@
+module Plaza
+  module Resources
+    class Geocode
+      def autocomplete: (
+        q: String,
+        ?country_code: String,
+        ?lang: String,
+        ?lat: Float,
+        ?layer: String,
+        ?limit: Integer,
+        ?lng: Float,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::AutocompleteResult
+
+      def autocomplete_post: (
+        q: String,
+        ?country_code: String,
+        ?lang: String,
+        ?lat: Float,
+        ?layer: String,
+        ?limit: Integer,
+        ?lng: Float,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::AutocompleteResult
+
+      def batch: (
+        addresses: ::Array[String],
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::Models::GeocodeBatchResponse
+
+      def forward: (
+        q: String,
+        ?bbox: String,
+        ?country_code: String,
+        ?lang: String,
+        ?lat: Float,
+        ?layer: String,
+        ?limit: Integer,
+        ?lng: Float,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::GeocodeResult
+
+      def forward_post: (
+        q: String,
+        ?bbox: String,
+        ?country_code: String,
+        ?lang: String,
+        ?lat: Float,
+        ?layer: String,
+        ?limit: Integer,
+        ?lng: Float,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::GeocodeResult
+
+      def reverse: (
+        ?lang: String,
+        ?lat: Float,
+        ?layer: String,
+        ?limit: Integer,
+        ?lng: Float,
+        ?near: String,
+        ?radius: Integer,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::ReverseGeocodeResult
+
+      def reverse_post: (
+        ?lang: String,
+        ?lat: Float,
+        ?layer: String,
+        ?limit: Integer,
+        ?lng: Float,
+        ?near: String,
+        ?radius: Integer,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::ReverseGeocodeResult
+
+      def initialize: (client: Plaza::Client) -> void
+    end
+  end
+end

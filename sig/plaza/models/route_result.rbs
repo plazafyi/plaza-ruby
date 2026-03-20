@@ -1,0 +1,87 @@
+module Plaza
+  module Models
+    type route_result =
+      {
+        geometry: Plaza::GeoJsonGeometry,
+        properties: Plaza::RouteResult::Properties,
+        type: Plaza::Models::RouteResult::type_
+      }
+
+    class RouteResult < Plaza::Internal::Type::BaseModel
+      attr_accessor geometry: Plaza::GeoJsonGeometry
+
+      attr_accessor properties: Plaza::RouteResult::Properties
+
+      attr_accessor type: Plaza::Models::RouteResult::type_
+
+      def initialize: (
+        geometry: Plaza::GeoJsonGeometry,
+        properties: Plaza::RouteResult::Properties,
+        type: Plaza::Models::RouteResult::type_
+      ) -> void
+
+      def to_hash: -> {
+        geometry: Plaza::GeoJsonGeometry,
+        properties: Plaza::RouteResult::Properties,
+        type: Plaza::Models::RouteResult::type_
+      }
+
+      type properties =
+        {
+          distance_m: Float,
+          duration_s: Float,
+          annotations: ::Hash[Symbol, top]?,
+          charge_profile: ::Array[::Array[Float]]?,
+          charging_stops: ::Array[::Hash[Symbol, top]]?,
+          edges: ::Array[::Hash[Symbol, top]]?,
+          energy_used_wh: Float?
+        }
+
+      class Properties < Plaza::Internal::Type::BaseModel
+        attr_accessor distance_m: Float
+
+        attr_accessor duration_s: Float
+
+        attr_accessor annotations: ::Hash[Symbol, top]?
+
+        attr_accessor charge_profile: ::Array[::Array[Float]]?
+
+        attr_accessor charging_stops: ::Array[::Hash[Symbol, top]]?
+
+        attr_accessor edges: ::Array[::Hash[Symbol, top]]?
+
+        attr_accessor energy_used_wh: Float?
+
+        def initialize: (
+          distance_m: Float,
+          duration_s: Float,
+          ?annotations: ::Hash[Symbol, top]?,
+          ?charge_profile: ::Array[::Array[Float]]?,
+          ?charging_stops: ::Array[::Hash[Symbol, top]]?,
+          ?edges: ::Array[::Hash[Symbol, top]]?,
+          ?energy_used_wh: Float?
+        ) -> void
+
+        def to_hash: -> {
+          distance_m: Float,
+          duration_s: Float,
+          annotations: ::Hash[Symbol, top]?,
+          charge_profile: ::Array[::Array[Float]]?,
+          charging_stops: ::Array[::Hash[Symbol, top]]?,
+          edges: ::Array[::Hash[Symbol, top]]?,
+          energy_used_wh: Float?
+        }
+      end
+
+      type type_ = :Feature
+
+      module Type
+        extend Plaza::Internal::Type::Enum
+
+        FEATURE: :Feature
+
+        def self?.values: -> ::Array[Plaza::Models::RouteResult::type_]
+      end
+    end
+  end
+end

@@ -1,0 +1,37 @@
+module Plaza
+  module Models
+    type map_match_request =
+      {
+        coordinates: ::Array[Plaza::MapMatchRequest::Coordinate],
+        radiuses: ::Array[Float]?
+      }
+
+    class MapMatchRequest < Plaza::Internal::Type::BaseModel
+      attr_accessor coordinates: ::Array[Plaza::MapMatchRequest::Coordinate]
+
+      attr_accessor radiuses: ::Array[Float]?
+
+      def initialize: (
+        coordinates: ::Array[Plaza::MapMatchRequest::Coordinate],
+        ?radiuses: ::Array[Float]?
+      ) -> void
+
+      def to_hash: -> {
+        coordinates: ::Array[Plaza::MapMatchRequest::Coordinate],
+        radiuses: ::Array[Float]?
+      }
+
+      type coordinate = { lat: Float, lng: Float }
+
+      class Coordinate < Plaza::Internal::Type::BaseModel
+        attr_accessor lat: Float
+
+        attr_accessor lng: Float
+
+        def initialize: (lat: Float, lng: Float) -> void
+
+        def to_hash: -> { lat: Float, lng: Float }
+      end
+    end
+  end
+end

@@ -1,0 +1,137 @@
+module Plaza
+  class AutocompleteResult = Plaza::Models::AutocompleteResult
+
+  class BatchRequest = Plaza::Models::BatchRequest
+
+  class Dataset = Plaza::Models::Dataset
+
+  class DatasetCreateParams = Plaza::Models::DatasetCreateParams
+
+  class DatasetDeleteParams = Plaza::Models::DatasetDeleteParams
+
+  class DatasetFeaturesParams = Plaza::Models::DatasetFeaturesParams
+
+  class DatasetList = Plaza::Models::DatasetList
+
+  class DatasetListParams = Plaza::Models::DatasetListParams
+
+  class DatasetRetrieveParams = Plaza::Models::DatasetRetrieveParams
+
+  class ElementBatchParams = Plaza::Models::ElementBatchParams
+
+  class ElementLookupParams = Plaza::Models::ElementLookupParams
+
+  class ElementNearbyParams = Plaza::Models::ElementNearbyParams
+
+  class ElementNearbyPostParams = Plaza::Models::ElementNearbyPostParams
+
+  class ElementQueryParams = Plaza::Models::ElementQueryParams
+
+  class ElementQueryPostParams = Plaza::Models::ElementQueryPostParams
+
+  class ElementRetrieveParams = Plaza::Models::ElementRetrieveParams
+
+  class ElevationBatchParams = Plaza::Models::ElevationBatchParams
+
+  class ElevationBatchResult = Plaza::Models::ElevationBatchResult
+
+  class ElevationLookupParams = Plaza::Models::ElevationLookupParams
+
+  class ElevationLookupPostParams = Plaza::Models::ElevationLookupPostParams
+
+  class ElevationLookupResult = Plaza::Models::ElevationLookupResult
+
+  class ElevationProfileParams = Plaza::Models::ElevationProfileParams
+
+  class ElevationProfileRequest = Plaza::Models::ElevationProfileRequest
+
+  class ElevationProfileResult = Plaza::Models::ElevationProfileResult
+
+  class Error = Plaza::Models::Error
+
+  class FeatureCollection = Plaza::Models::FeatureCollection
+
+  class GeocodeAutocompleteParams = Plaza::Models::GeocodeAutocompleteParams
+
+  class GeocodeAutocompletePostParams = Plaza::Models::GeocodeAutocompletePostParams
+
+  class GeocodeBatchParams = Plaza::Models::GeocodeBatchParams
+
+  class GeocodeForwardParams = Plaza::Models::GeocodeForwardParams
+
+  class GeocodeForwardPostParams = Plaza::Models::GeocodeForwardPostParams
+
+  class GeocodeResult = Plaza::Models::GeocodeResult
+
+  class GeocodeReverseParams = Plaza::Models::GeocodeReverseParams
+
+  class GeocodeReversePostParams = Plaza::Models::GeocodeReversePostParams
+
+  class GeocodingFeature = Plaza::Models::GeocodingFeature
+
+  class GeoJsonFeature = Plaza::Models::GeoJsonFeature
+
+  class GeoJsonGeometry = Plaza::Models::GeoJsonGeometry
+
+  class MapMatchMatchParams = Plaza::Models::MapMatchMatchParams
+
+  class MapMatchRequest = Plaza::Models::MapMatchRequest
+
+  class MapMatchResult = Plaza::Models::MapMatchResult
+
+  class MatrixRequest = Plaza::Models::MatrixRequest
+
+  MatrixResult: Plaza::Internal::Type::Converter
+
+  class NearestResult = Plaza::Models::NearestResult
+
+  class OptimizeCompletedResult = Plaza::Models::OptimizeCompletedResult
+
+  class OptimizeCreateParams = Plaza::Models::OptimizeCreateParams
+
+  class OptimizeJobStatus = Plaza::Models::OptimizeJobStatus
+
+  class OptimizeProcessingResult = Plaza::Models::OptimizeProcessingResult
+
+  class OptimizeRequest = Plaza::Models::OptimizeRequest
+
+  module OptimizeResult = Plaza::Models::OptimizeResult
+
+  class OptimizeRetrieveParams = Plaza::Models::OptimizeRetrieveParams
+
+  class OverpassQuery = Plaza::Models::OverpassQuery
+
+  class QueryExecuteParams = Plaza::Models::QueryExecuteParams
+
+  class QueryOverpassParams = Plaza::Models::QueryOverpassParams
+
+  class QuerySparqlParams = Plaza::Models::QuerySparqlParams
+
+  class ReverseGeocodeResult = Plaza::Models::ReverseGeocodeResult
+
+  class RouteRequest = Plaza::Models::RouteRequest
+
+  class RouteResult = Plaza::Models::RouteResult
+
+  class RoutingIsochroneParams = Plaza::Models::RoutingIsochroneParams
+
+  class RoutingIsochronePostParams = Plaza::Models::RoutingIsochronePostParams
+
+  class RoutingMatrixParams = Plaza::Models::RoutingMatrixParams
+
+  class RoutingNearestParams = Plaza::Models::RoutingNearestParams
+
+  class RoutingNearestPostParams = Plaza::Models::RoutingNearestPostParams
+
+  class RoutingRouteParams = Plaza::Models::RoutingRouteParams
+
+  class SearchQueryParams = Plaza::Models::SearchQueryParams
+
+  class SearchQueryPostParams = Plaza::Models::SearchQueryPostParams
+
+  class SparqlQuery = Plaza::Models::SparqlQuery
+
+  class SparqlResult = Plaza::Models::SparqlResult
+
+  class TileGetParams = Plaza::Models::TileGetParams
+end

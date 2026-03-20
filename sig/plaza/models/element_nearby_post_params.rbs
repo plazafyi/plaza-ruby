@@ -1,0 +1,112 @@
+module Plaza
+  module Models
+    type element_nearby_post_params =
+      {
+        lat: Float,
+        limit: Integer,
+        lng: Float,
+        near: String,
+        output_buffer: Float,
+        output_centroid: bool,
+        output_fields: String,
+        output_geometry: bool,
+        output_include: String,
+        output_precision: Integer,
+        output_simplify: Float,
+        output_sort: String,
+        radius: Integer
+      }
+      & Plaza::Internal::Type::request_parameters
+
+    class ElementNearbyPostParams < Plaza::Internal::Type::BaseModel
+      extend Plaza::Internal::Type::RequestParameters::Converter
+      include Plaza::Internal::Type::RequestParameters
+
+      attr_reader lat: Float?
+
+      def lat=: (Float) -> Float
+
+      attr_reader limit: Integer?
+
+      def limit=: (Integer) -> Integer
+
+      attr_reader lng: Float?
+
+      def lng=: (Float) -> Float
+
+      attr_reader near: String?
+
+      def near=: (String) -> String
+
+      attr_reader output_buffer: Float?
+
+      def output_buffer=: (Float) -> Float
+
+      attr_reader output_centroid: bool?
+
+      def output_centroid=: (bool) -> bool
+
+      attr_reader output_fields: String?
+
+      def output_fields=: (String) -> String
+
+      attr_reader output_geometry: bool?
+
+      def output_geometry=: (bool) -> bool
+
+      attr_reader output_include: String?
+
+      def output_include=: (String) -> String
+
+      attr_reader output_precision: Integer?
+
+      def output_precision=: (Integer) -> Integer
+
+      attr_reader output_simplify: Float?
+
+      def output_simplify=: (Float) -> Float
+
+      attr_reader output_sort: String?
+
+      def output_sort=: (String) -> String
+
+      attr_reader radius: Integer?
+
+      def radius=: (Integer) -> Integer
+
+      def initialize: (
+        ?lat: Float,
+        ?limit: Integer,
+        ?lng: Float,
+        ?near: String,
+        ?output_buffer: Float,
+        ?output_centroid: bool,
+        ?output_fields: String,
+        ?output_geometry: bool,
+        ?output_include: String,
+        ?output_precision: Integer,
+        ?output_simplify: Float,
+        ?output_sort: String,
+        ?radius: Integer,
+        ?request_options: Plaza::request_opts
+      ) -> void
+
+      def to_hash: -> {
+        lat: Float,
+        limit: Integer,
+        lng: Float,
+        near: String,
+        output_buffer: Float,
+        output_centroid: bool,
+        output_fields: String,
+        output_geometry: bool,
+        output_include: String,
+        output_precision: Integer,
+        output_simplify: Float,
+        output_sort: String,
+        radius: Integer,
+        request_options: Plaza::RequestOptions
+      }
+    end
+  end
+end

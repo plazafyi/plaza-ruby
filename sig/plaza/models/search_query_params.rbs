@@ -1,0 +1,68 @@
+module Plaza
+  module Models
+    type search_query_params =
+      {
+        q: String,
+        cursor: String,
+        limit: Integer,
+        output_fields: String,
+        output_include: String,
+        output_precision: Integer,
+        output_sort: String
+      }
+      & Plaza::Internal::Type::request_parameters
+
+    class SearchQueryParams < Plaza::Internal::Type::BaseModel
+      extend Plaza::Internal::Type::RequestParameters::Converter
+      include Plaza::Internal::Type::RequestParameters
+
+      attr_accessor q: String
+
+      attr_reader cursor: String?
+
+      def cursor=: (String) -> String
+
+      attr_reader limit: Integer?
+
+      def limit=: (Integer) -> Integer
+
+      attr_reader output_fields: String?
+
+      def output_fields=: (String) -> String
+
+      attr_reader output_include: String?
+
+      def output_include=: (String) -> String
+
+      attr_reader output_precision: Integer?
+
+      def output_precision=: (Integer) -> Integer
+
+      attr_reader output_sort: String?
+
+      def output_sort=: (String) -> String
+
+      def initialize: (
+        q: String,
+        ?cursor: String,
+        ?limit: Integer,
+        ?output_fields: String,
+        ?output_include: String,
+        ?output_precision: Integer,
+        ?output_sort: String,
+        ?request_options: Plaza::request_opts
+      ) -> void
+
+      def to_hash: -> {
+        q: String,
+        cursor: String,
+        limit: Integer,
+        output_fields: String,
+        output_include: String,
+        output_precision: Integer,
+        output_sort: String,
+        request_options: Plaza::RequestOptions
+      }
+    end
+  end
+end
