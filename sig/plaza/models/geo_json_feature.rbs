@@ -5,8 +5,7 @@ module Plaza
         geometry: Plaza::GeoJsonGeometry,
         properties: ::Hash[Symbol, top],
         type: Plaza::Models::GeoJsonFeature::type_,
-        id: String,
-        osm_id: Integer
+        id: String
       }
 
     class GeoJsonFeature < Plaza::Internal::Type::BaseModel
@@ -20,24 +19,18 @@ module Plaza
 
       def id=: (String) -> String
 
-      attr_reader osm_id: Integer?
-
-      def osm_id=: (Integer) -> Integer
-
       def initialize: (
         geometry: Plaza::GeoJsonGeometry,
         properties: ::Hash[Symbol, top],
         type: Plaza::Models::GeoJsonFeature::type_,
-        ?id: String,
-        ?osm_id: Integer
+        ?id: String
       ) -> void
 
       def to_hash: -> {
         geometry: Plaza::GeoJsonGeometry,
         properties: ::Hash[Symbol, top],
         type: Plaza::Models::GeoJsonFeature::type_,
-        id: String,
-        osm_id: Integer
+        id: String
       }
 
       type type_ = :Feature

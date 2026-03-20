@@ -24,6 +24,14 @@ module Plaza
         String id,
         ?cursor: String,
         ?limit: Integer,
+        ?output_buffer: Float,
+        ?output_centroid: bool,
+        ?output_fields: String,
+        ?output_geometry: bool,
+        ?output_include: String,
+        ?output_precision: Integer,
+        ?output_simplify: Float,
+        ?output_sort: String,
         ?request_options: Plaza::request_opts
       ) -> Plaza::FeatureCollection
 

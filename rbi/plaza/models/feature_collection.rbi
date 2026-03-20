@@ -8,21 +8,38 @@ module Plaza
           T.any(Plaza::FeatureCollection, Plaza::Internal::AnyHash)
         end
 
+      # Array of GeoJSON Feature objects
       sig { returns(T::Array[Plaza::GeoJsonFeature]) }
       attr_accessor :features
 
+      # Always `FeatureCollection`
       sig { returns(Plaza::FeatureCollection::Type::TaggedSymbol) }
       attr_accessor :type
 
-      # Bare GeoJSON FeatureCollection. Pagination metadata is returned in HTTP headers
-      # (X-Limit, X-Has-More, X-Next-Cursor, X-Next-Offset, Link).
+      # GeoJSON FeatureCollection (RFC 7946). For paginated endpoints, metadata is
+      # returned in HTTP response headers rather than the body:
+      #
+      # | Header          | Description                                      |
+      # | --------------- | ------------------------------------------------ |
+      # | `X-Limit`       | Requested result limit                           |
+      # | `X-Has-More`    | `true` if more results exist                     |
+      # | `X-Next-Cursor` | Opaque cursor for next page (cursor pagination)  |
+      # | `X-Next-Offset` | Numeric offset for next page (offset pagination) |
+      # | `Link`          | RFC 8288 `rel="next"` link to the next page      |
+      #
+      # Content-Type is `application/geo+json`.
       sig do
         params(
           features: T::Array[Plaza::GeoJsonFeature::OrHash],
           type: Plaza::FeatureCollection::Type::OrSymbol
         ).returns(T.attached_class)
       end
-      def self.new(features:, type:)
+      def self.new(
+        # Array of GeoJSON Feature objects
+        features:,
+        # Always `FeatureCollection`
+        type:
+      )
       end
 
       sig do
@@ -36,6 +53,7 @@ module Plaza
       def to_hash
       end
 
+      # Always `FeatureCollection`
       module Type
         extend Plaza::Internal::Type::Enum
 

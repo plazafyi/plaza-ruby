@@ -8,15 +8,16 @@ module Plaza
           T.any(Plaza::OptimizeProcessingResult, Plaza::Internal::AnyHash)
         end
 
-      # Job ID for polling
+      # Job ID for polling the result
       sig { returns(String) }
       attr_accessor :job_id
 
-      # Job status
+      # Always `processing`
       sig { returns(Plaza::OptimizeProcessingResult::Status::TaggedSymbol) }
       attr_accessor :status
 
-      # Async optimization in progress — poll with the job_id
+      # Async optimization in progress. Poll `GET /api/v1/optimize/{job_id}` until the
+      # status changes to `completed` or `failed`.
       sig do
         params(
           job_id: String,
@@ -24,9 +25,9 @@ module Plaza
         ).returns(T.attached_class)
       end
       def self.new(
-        # Job ID for polling
+        # Job ID for polling the result
         job_id:,
-        # Job status
+        # Always `processing`
         status:
       )
       end
@@ -42,7 +43,7 @@ module Plaza
       def to_hash
       end
 
-      # Job status
+      # Always `processing`
       module Status
         extend Plaza::Internal::Type::Enum
 

@@ -59,9 +59,15 @@ module Plaza
 
   ElementBatchParams = Plaza::Models::ElementBatchParams
 
+  ElementLookupParams = Plaza::Models::ElementLookupParams
+
   ElementNearbyParams = Plaza::Models::ElementNearbyParams
 
+  ElementNearbyPostParams = Plaza::Models::ElementNearbyPostParams
+
   ElementQueryParams = Plaza::Models::ElementQueryParams
+
+  ElementQueryPostParams = Plaza::Models::ElementQueryPostParams
 
   ElementRetrieveParams = Plaza::Models::ElementRetrieveParams
 
@@ -70,6 +76,8 @@ module Plaza
   ElevationBatchResult = Plaza::Models::ElevationBatchResult
 
   ElevationLookupParams = Plaza::Models::ElevationLookupParams
+
+  ElevationLookupPostParams = Plaza::Models::ElevationLookupPostParams
 
   ElevationLookupResult = Plaza::Models::ElevationLookupResult
 
@@ -85,13 +93,19 @@ module Plaza
 
   GeocodeAutocompleteParams = Plaza::Models::GeocodeAutocompleteParams
 
+  GeocodeAutocompletePostParams = Plaza::Models::GeocodeAutocompletePostParams
+
   GeocodeBatchParams = Plaza::Models::GeocodeBatchParams
 
   GeocodeForwardParams = Plaza::Models::GeocodeForwardParams
 
+  GeocodeForwardPostParams = Plaza::Models::GeocodeForwardPostParams
+
   GeocodeResult = Plaza::Models::GeocodeResult
 
   GeocodeReverseParams = Plaza::Models::GeocodeReverseParams
+
+  GeocodeReversePostParams = Plaza::Models::GeocodeReversePostParams
 
   GeocodingFeature = Plaza::Models::GeocodingFeature
 
@@ -107,6 +121,7 @@ module Plaza
 
   MatrixRequest = Plaza::Models::MatrixRequest
 
+  # @type [Plaza::Internal::Type::Converter]
   MatrixResult = Plaza::Models::MatrixResult
 
   NearestResult = Plaza::Models::NearestResult
@@ -127,6 +142,8 @@ module Plaza
 
   OverpassQuery = Plaza::Models::OverpassQuery
 
+  QueryExecuteParams = Plaza::Models::QueryExecuteParams
+
   QueryOverpassParams = Plaza::Models::QueryOverpassParams
 
   QuerySparqlParams = Plaza::Models::QuerySparqlParams
@@ -139,13 +156,19 @@ module Plaza
 
   RoutingIsochroneParams = Plaza::Models::RoutingIsochroneParams
 
+  RoutingIsochronePostParams = Plaza::Models::RoutingIsochronePostParams
+
   RoutingMatrixParams = Plaza::Models::RoutingMatrixParams
 
   RoutingNearestParams = Plaza::Models::RoutingNearestParams
 
+  RoutingNearestPostParams = Plaza::Models::RoutingNearestPostParams
+
   RoutingRouteParams = Plaza::Models::RoutingRouteParams
 
   SearchQueryParams = Plaza::Models::SearchQueryParams
+
+  SearchQueryPostParams = Plaza::Models::SearchQueryPostParams
 
   SparqlQuery = Plaza::Models::SparqlQuery
 

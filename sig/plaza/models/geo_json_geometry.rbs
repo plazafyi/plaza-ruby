@@ -34,11 +34,11 @@ module Plaza
 
         FloatArray: Plaza::Internal::Type::Converter
 
-        UnionMember1Array: Plaza::Internal::Type::Converter
+        LineStringOrMultiPointArray: Plaza::Internal::Type::Converter
 
-        UnionMember2Array: Plaza::Internal::Type::Converter
+        PolygonOrMultiLineStringArray: Plaza::Internal::Type::Converter
 
-        UnionMember3Array: Plaza::Internal::Type::Converter
+        MultiPolygonArray: Plaza::Internal::Type::Converter
       end
 
       type type_ =

@@ -32,11 +32,35 @@ module Plaza
       sig { params(locations: String).void }
       attr_writer :locations
 
+      # Comma-separated property fields to include
+      sig { returns(T.nilable(String)) }
+      attr_reader :output_fields
+
+      sig { params(output_fields: String).void }
+      attr_writer :output_fields
+
+      # Extra computed fields: bbox, center
+      sig { returns(T.nilable(String)) }
+      attr_reader :output_include
+
+      sig { params(output_include: String).void }
+      attr_writer :output_include
+
+      # Coordinate decimal precision (1-15, default 7)
+      sig { returns(T.nilable(Integer)) }
+      attr_reader :output_precision
+
+      sig { params(output_precision: Integer).void }
+      attr_writer :output_precision
+
       sig do
         params(
           lat: Float,
           lng: Float,
           locations: String,
+          output_fields: String,
+          output_include: String,
+          output_precision: Integer,
           request_options: Plaza::RequestOptions::OrHash
         ).returns(T.attached_class)
       end
@@ -47,6 +71,12 @@ module Plaza
         lng: nil,
         # Pipe-separated lng,lat pairs (batch)
         locations: nil,
+        # Comma-separated property fields to include
+        output_fields: nil,
+        # Extra computed fields: bbox, center
+        output_include: nil,
+        # Coordinate decimal precision (1-15, default 7)
+        output_precision: nil,
         request_options: {}
       )
       end
@@ -57,6 +87,9 @@ module Plaza
             lat: Float,
             lng: Float,
             locations: String,
+            output_fields: String,
+            output_include: String,
+            output_precision: Integer,
             request_options: Plaza::RequestOptions
           }
         )

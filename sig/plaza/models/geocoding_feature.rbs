@@ -28,51 +28,147 @@ module Plaza
 
       type properties =
         {
-          country_code: String?,
           display_name: String,
+          category: String?,
+          city: String?,
+          confidence: Float?,
+          country: String?,
+          country_code: String?,
           distance_m: Float?,
+          full_address: String?,
+          house_number: String?,
+          interpolated: bool?,
+          name: String?,
           osm_id: Integer?,
-          osm_type: String?,
+          osm_type: Plaza::Models::GeocodingFeature::Properties::osm_type?,
+          postcode: String?,
           score: Float?,
-          source: String?
+          source: Plaza::Models::GeocodingFeature::Properties::source?,
+          state: String?,
+          street: String?,
+          subcategory: String?,
+          tags: ::Hash[Symbol, String]?,
+          wikipedia: String?
         }
 
       class Properties < Plaza::Internal::Type::BaseModel
+        attr_accessor display_name: String
+
+        attr_accessor category: String?
+
+        attr_accessor city: String?
+
+        attr_accessor confidence: Float?
+
+        attr_accessor country: String?
+
         attr_accessor country_code: String?
-
-        attr_reader display_name: String?
-
-        def display_name=: (String) -> String
 
         attr_accessor distance_m: Float?
 
+        attr_accessor full_address: String?
+
+        attr_accessor house_number: String?
+
+        attr_accessor interpolated: bool?
+
+        attr_accessor name: String?
+
         attr_accessor osm_id: Integer?
 
-        attr_accessor osm_type: String?
+        attr_accessor osm_type: Plaza::Models::GeocodingFeature::Properties::osm_type?
+
+        attr_accessor postcode: String?
 
         attr_accessor score: Float?
 
-        attr_accessor source: String?
+        attr_accessor source: Plaza::Models::GeocodingFeature::Properties::source?
+
+        attr_accessor state: String?
+
+        attr_accessor street: String?
+
+        attr_accessor subcategory: String?
+
+        attr_accessor tags: ::Hash[Symbol, String]?
+
+        attr_accessor wikipedia: String?
 
         def initialize: (
+          display_name: String,
+          ?category: String?,
+          ?city: String?,
+          ?confidence: Float?,
+          ?country: String?,
           ?country_code: String?,
-          ?display_name: String,
           ?distance_m: Float?,
+          ?full_address: String?,
+          ?house_number: String?,
+          ?interpolated: bool?,
+          ?name: String?,
           ?osm_id: Integer?,
-          ?osm_type: String?,
+          ?osm_type: Plaza::Models::GeocodingFeature::Properties::osm_type?,
+          ?postcode: String?,
           ?score: Float?,
-          ?source: String?
+          ?source: Plaza::Models::GeocodingFeature::Properties::source?,
+          ?state: String?,
+          ?street: String?,
+          ?subcategory: String?,
+          ?tags: ::Hash[Symbol, String]?,
+          ?wikipedia: String?
         ) -> void
 
         def to_hash: -> {
-          country_code: String?,
           display_name: String,
+          category: String?,
+          city: String?,
+          confidence: Float?,
+          country: String?,
+          country_code: String?,
           distance_m: Float?,
+          full_address: String?,
+          house_number: String?,
+          interpolated: bool?,
+          name: String?,
           osm_id: Integer?,
-          osm_type: String?,
+          osm_type: Plaza::Models::GeocodingFeature::Properties::osm_type?,
+          postcode: String?,
           score: Float?,
-          source: String?
+          source: Plaza::Models::GeocodingFeature::Properties::source?,
+          state: String?,
+          street: String?,
+          subcategory: String?,
+          tags: ::Hash[Symbol, String]?,
+          wikipedia: String?
         }
+
+        type osm_type = :node | :way | :relation
+
+        module OsmType
+          extend Plaza::Internal::Type::Enum
+
+          NODE: :node
+          WAY: :way
+          RELATION: :relation
+
+          def self?.values: -> ::Array[Plaza::Models::GeocodingFeature::Properties::osm_type]
+        end
+
+        type source =
+          :structured | :bm25 | :fuzzy | :address | :place | :interpolation
+
+        module Source
+          extend Plaza::Internal::Type::Enum
+
+          STRUCTURED: :structured
+          BM25: :bm25
+          FUZZY: :fuzzy
+          ADDRESS: :address
+          PLACE: :place
+          INTERPOLATION: :interpolation
+
+          def self?.values: -> ::Array[Plaza::Models::GeocodingFeature::Properties::source]
+        end
       end
 
       type type_ = :Feature

@@ -4,7 +4,7 @@ require_relative "../test_helper"
 
 class Plaza::Test::Resources::DatasetsTest < Plaza::Test::ResourceTest
   def test_create_required_params
-    response = @plaza.datasets.create(name: "name", slug: "slug")
+    response = @plaza.datasets.create(name: "NYC Bike Lanes", slug: "nyc-bike-lanes")
 
     assert_pattern do
       response => Plaza::Dataset

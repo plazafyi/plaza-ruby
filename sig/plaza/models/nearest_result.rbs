@@ -26,18 +26,54 @@ module Plaza
         type: Plaza::Models::NearestResult::type_
       }
 
-      type properties = { distance_m: Float, edge_id: Integer? }
+      type properties =
+        {
+          distance_m: Float,
+          edge_id: Integer,
+          edge_length_m: Float,
+          highway: String?,
+          osm_way_id: Integer,
+          surface: String?
+        }
 
       class Properties < Plaza::Internal::Type::BaseModel
         attr_reader distance_m: Float?
 
         def distance_m=: (Float) -> Float
 
-        attr_accessor edge_id: Integer?
+        attr_reader edge_id: Integer?
 
-        def initialize: (?distance_m: Float, ?edge_id: Integer?) -> void
+        def edge_id=: (Integer) -> Integer
 
-        def to_hash: -> { distance_m: Float, edge_id: Integer? }
+        attr_reader edge_length_m: Float?
+
+        def edge_length_m=: (Float) -> Float
+
+        attr_accessor highway: String?
+
+        attr_reader osm_way_id: Integer?
+
+        def osm_way_id=: (Integer) -> Integer
+
+        attr_accessor surface: String?
+
+        def initialize: (
+          ?distance_m: Float,
+          ?edge_id: Integer,
+          ?edge_length_m: Float,
+          ?highway: String?,
+          ?osm_way_id: Integer,
+          ?surface: String?
+        ) -> void
+
+        def to_hash: -> {
+          distance_m: Float,
+          edge_id: Integer,
+          edge_length_m: Float,
+          highway: String?,
+          osm_way_id: Integer,
+          surface: String?
+        }
       end
 
       type type_ = :Feature

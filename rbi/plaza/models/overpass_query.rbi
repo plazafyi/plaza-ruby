@@ -10,6 +10,8 @@ module Plaza
       sig { returns(String) }
       attr_accessor :data
 
+      # Overpass QL query request. The query is executed against Plaza's OSM database
+      # and results are returned as GeoJSON.
       sig { params(data: String).returns(T.attached_class) }
       def self.new(
         # Overpass QL query string

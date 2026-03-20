@@ -4,43 +4,50 @@ module Plaza
   module Models
     class GeoJsonFeature < Plaza::Internal::Type::BaseModel
       # @!attribute geometry
+      #   GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
+      #   order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
       #
       #   @return [Plaza::Models::GeoJsonGeometry]
       required :geometry, -> { Plaza::GeoJsonGeometry }
 
       # @!attribute properties
+      #   OSM tags flattened as key-value pairs, plus `@type` (node/way/relation) and
+      #   `@id` (OSM ID) metadata fields. May include `distance_m` for proximity queries.
       #
       #   @return [Hash{Symbol=>Object}]
       required :properties, Plaza::Internal::Type::HashOf[Plaza::Internal::Type::Unknown]
 
       # @!attribute type
+      #   Always `Feature`
       #
       #   @return [Symbol, Plaza::Models::GeoJsonFeature::Type]
       required :type, enum: -> { Plaza::GeoJsonFeature::Type }
 
       # @!attribute id
-      #   Feature identifier (type/osm_id)
+      #   Compound identifier in `type/osm_id` format
       #
       #   @return [String, nil]
       optional :id, String
 
-      # @!attribute osm_id
-      #   OpenStreetMap ID
+      # @!method initialize(geometry:, properties:, type:, id: nil)
+      #   Some parameter documentations has been truncated, see
+      #   {Plaza::Models::GeoJsonFeature} for more details.
       #
-      #   @return [Integer, nil]
-      optional :osm_id, Integer
+      #   GeoJSON Feature representing an OSM element. Tags from the original OSM element
+      #   are flattened directly into `properties` (not nested under a `tags` key).
+      #   Metadata fields `@type` and `@id` identify the OSM element type and ID within
+      #   properties.
+      #
+      #   @param geometry [Plaza::Models::GeoJsonGeometry] GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude] orde
+      #
+      #   @param properties [Hash{Symbol=>Object}] OSM tags flattened as key-value pairs, plus `@type` (node/way/relation) and `@id
+      #
+      #   @param type [Symbol, Plaza::Models::GeoJsonFeature::Type] Always `Feature`
+      #
+      #   @param id [String] Compound identifier in `type/osm_id` format
 
-      # @!method initialize(geometry:, properties:, type:, id: nil, osm_id: nil)
-      #   @param geometry [Plaza::Models::GeoJsonGeometry]
+      # Always `Feature`
       #
-      #   @param properties [Hash{Symbol=>Object}]
-      #
-      #   @param type [Symbol, Plaza::Models::GeoJsonFeature::Type]
-      #
-      #   @param id [String] Feature identifier (type/osm_id)
-      #
-      #   @param osm_id [Integer] OpenStreetMap ID
-
       # @see Plaza::Models::GeoJsonFeature#type
       module Type
         extend Plaza::Internal::Type::Enum

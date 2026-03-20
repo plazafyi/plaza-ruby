@@ -8,14 +8,15 @@ module Plaza
           T.any(Plaza::ElevationBatchResult, Plaza::Internal::AnyHash)
         end
 
-      # Elevation Point Features for each queried point
+      # Elevation results in the same order as input coordinates
       sig { returns(T::Array[Plaza::ElevationLookupResult]) }
       attr_accessor :features
 
       sig { returns(Plaza::ElevationBatchResult::Type::TaggedSymbol) }
       attr_accessor :type
 
-      # GeoJSON FeatureCollection of elevation Point Features with 3D coordinates
+      # GeoJSON FeatureCollection of elevation Point Features with 3D coordinates. Order
+      # matches the input coordinates array.
       sig do
         params(
           features: T::Array[Plaza::ElevationLookupResult::OrHash],
@@ -23,7 +24,7 @@ module Plaza
         ).returns(T.attached_class)
       end
       def self.new(
-        # Elevation Point Features for each queried point
+        # Elevation results in the same order as input coordinates
         features:,
         type:
       )

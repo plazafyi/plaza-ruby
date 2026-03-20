@@ -8,20 +8,26 @@ module Plaza
           T.any(Plaza::ReverseGeocodeResult, Plaza::Internal::AnyHash)
         end
 
+      # Reverse geocoding results ordered by distance
       sig { returns(T::Array[Plaza::GeocodingFeature]) }
       attr_accessor :features
 
       sig { returns(Plaza::ReverseGeocodeResult::Type::TaggedSymbol) }
       attr_accessor :type
 
-      # GeoJSON FeatureCollection of reverse geocoding results
+      # GeoJSON FeatureCollection of reverse geocoding results, ordered by distance from
+      # the query point. Content-Type: `application/geo+json`.
       sig do
         params(
           features: T::Array[Plaza::GeocodingFeature::OrHash],
           type: Plaza::ReverseGeocodeResult::Type::OrSymbol
         ).returns(T.attached_class)
       end
-      def self.new(features:, type:)
+      def self.new(
+        # Reverse geocoding results ordered by distance
+        features:,
+        type:
+      )
       end
 
       sig do

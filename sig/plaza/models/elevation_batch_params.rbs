@@ -1,15 +1,36 @@
 module Plaza
   module Models
     type elevation_batch_params =
-      {  } & Plaza::Internal::Type::request_parameters
+      { coordinates: ::Array[Plaza::ElevationBatchParams::Coordinate] }
+      & Plaza::Internal::Type::request_parameters
 
-    class ElevationBatchParams < Plaza::Models::ElevationProfileRequest
+    class ElevationBatchParams < Plaza::Internal::Type::BaseModel
       extend Plaza::Internal::Type::RequestParameters::Converter
       include Plaza::Internal::Type::RequestParameters
 
-      def initialize: (?request_options: Plaza::request_opts) -> void
+      attr_accessor coordinates: ::Array[Plaza::ElevationBatchParams::Coordinate]
 
-      def to_hash: -> { request_options: Plaza::RequestOptions }
+      def initialize: (
+        coordinates: ::Array[Plaza::ElevationBatchParams::Coordinate],
+        ?request_options: Plaza::request_opts
+      ) -> void
+
+      def to_hash: -> {
+        coordinates: ::Array[Plaza::ElevationBatchParams::Coordinate],
+        request_options: Plaza::RequestOptions
+      }
+
+      type coordinate = { lat: Float, lng: Float }
+
+      class Coordinate < Plaza::Internal::Type::BaseModel
+        attr_accessor lat: Float
+
+        attr_accessor lng: Float
+
+        def initialize: (lat: Float, lng: Float) -> void
+
+        def to_hash: -> { lat: Float, lng: Float }
+      end
     end
   end
 end

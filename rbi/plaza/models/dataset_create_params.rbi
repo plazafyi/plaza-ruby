@@ -11,15 +11,15 @@ module Plaza
           T.any(Plaza::DatasetCreateParams, Plaza::Internal::AnyHash)
         end
 
-      # Dataset name
+      # Human-readable dataset name
       sig { returns(String) }
       attr_accessor :name
 
-      # URL-friendly slug
+      # URL-friendly identifier (lowercase, hyphens, no spaces)
       sig { returns(String) }
       attr_accessor :slug
 
-      # Attribution text
+      # Required attribution text
       sig { returns(T.nilable(String)) }
       attr_accessor :attribution
 
@@ -27,7 +27,7 @@ module Plaza
       sig { returns(T.nilable(String)) }
       attr_accessor :description
 
-      # License identifier
+      # License identifier (e.g. CC-BY-4.0)
       sig { returns(T.nilable(String)) }
       attr_accessor :license
 
@@ -47,15 +47,15 @@ module Plaza
         ).returns(T.attached_class)
       end
       def self.new(
-        # Dataset name
+        # Human-readable dataset name
         name:,
-        # URL-friendly slug
+        # URL-friendly identifier (lowercase, hyphens, no spaces)
         slug:,
-        # Attribution text
+        # Required attribution text
         attribution: nil,
         # Dataset description
         description: nil,
-        # License identifier
+        # License identifier (e.g. CC-BY-4.0)
         license: nil,
         # Source data URL
         source_url: nil,

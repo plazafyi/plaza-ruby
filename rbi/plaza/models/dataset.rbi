@@ -5,27 +5,27 @@ module Plaza
     class Dataset < Plaza::Internal::Type::BaseModel
       OrHash = T.type_alias { T.any(Plaza::Dataset, Plaza::Internal::AnyHash) }
 
-      # Dataset ID
+      # Dataset UUID
       sig { returns(String) }
       attr_accessor :id
 
-      # Creation timestamp
+      # Creation timestamp (UTC)
       sig { returns(Time) }
       attr_accessor :inserted_at
 
-      # Dataset name
+      # Human-readable dataset name
       sig { returns(String) }
       attr_accessor :name
 
-      # URL-friendly slug
+      # URL-friendly identifier
       sig { returns(String) }
       attr_accessor :slug
 
-      # Last update timestamp
+      # Last update timestamp (UTC)
       sig { returns(Time) }
       attr_accessor :updated_at
 
-      # Attribution text
+      # Required attribution text
       sig { returns(T.nilable(String)) }
       attr_accessor :attribution
 
@@ -33,14 +33,16 @@ module Plaza
       sig { returns(T.nilable(String)) }
       attr_accessor :description
 
-      # License identifier
+      # License identifier (e.g. CC-BY-4.0)
       sig { returns(T.nilable(String)) }
       attr_accessor :license
 
-      # Source data URL
+      # URL of the original data source
       sig { returns(T.nilable(String)) }
       attr_accessor :source_url
 
+      # Metadata for a custom dataset. Datasets contain user-uploaded geospatial
+      # features separate from the OSM data.
       sig do
         params(
           id: String,
@@ -55,23 +57,23 @@ module Plaza
         ).returns(T.attached_class)
       end
       def self.new(
-        # Dataset ID
+        # Dataset UUID
         id:,
-        # Creation timestamp
+        # Creation timestamp (UTC)
         inserted_at:,
-        # Dataset name
+        # Human-readable dataset name
         name:,
-        # URL-friendly slug
+        # URL-friendly identifier
         slug:,
-        # Last update timestamp
+        # Last update timestamp (UTC)
         updated_at:,
-        # Attribution text
+        # Required attribution text
         attribution: nil,
         # Dataset description
         description: nil,
-        # License identifier
+        # License identifier (e.g. CC-BY-4.0)
         license: nil,
-        # Source data URL
+        # URL of the original data source
         source_url: nil
       )
       end

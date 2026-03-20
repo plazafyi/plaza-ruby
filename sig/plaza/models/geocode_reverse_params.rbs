@@ -2,11 +2,12 @@ module Plaza
   module Models
     type geocode_reverse_params =
       {
-        lat: Float,
-        lng: Float,
         lang: String,
+        lat: Float,
         layer: String,
         limit: Integer,
+        lng: Float,
+        near: String,
         radius: Integer
       }
       & Plaza::Internal::Type::request_parameters
@@ -15,13 +16,13 @@ module Plaza
       extend Plaza::Internal::Type::RequestParameters::Converter
       include Plaza::Internal::Type::RequestParameters
 
-      attr_accessor lat: Float
-
-      attr_accessor lng: Float
-
       attr_reader lang: String?
 
       def lang=: (String) -> String
+
+      attr_reader lat: Float?
+
+      def lat=: (Float) -> Float
 
       attr_reader layer: String?
 
@@ -31,26 +32,36 @@ module Plaza
 
       def limit=: (Integer) -> Integer
 
+      attr_reader lng: Float?
+
+      def lng=: (Float) -> Float
+
+      attr_reader near: String?
+
+      def near=: (String) -> String
+
       attr_reader radius: Integer?
 
       def radius=: (Integer) -> Integer
 
       def initialize: (
-        lat: Float,
-        lng: Float,
         ?lang: String,
+        ?lat: Float,
         ?layer: String,
         ?limit: Integer,
+        ?lng: Float,
+        ?near: String,
         ?radius: Integer,
         ?request_options: Plaza::request_opts
       ) -> void
 
       def to_hash: -> {
-        lat: Float,
-        lng: Float,
         lang: String,
+        lat: Float,
         layer: String,
         limit: Integer,
+        lng: Float,
+        near: String,
         radius: Integer,
         request_options: Plaza::RequestOptions
       }

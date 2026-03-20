@@ -36,32 +36,22 @@ module Plaza
         }
 
       class Properties < Plaza::Internal::Type::BaseModel
-        attr_reader avg_elevation_m: Float?
+        attr_accessor avg_elevation_m: Float
 
-        def avg_elevation_m=: (Float) -> Float
+        attr_accessor max_elevation_m: Float
 
-        attr_reader max_elevation_m: Float?
+        attr_accessor min_elevation_m: Float
 
-        def max_elevation_m=: (Float) -> Float
+        attr_accessor total_ascent_m: Float
 
-        attr_reader min_elevation_m: Float?
-
-        def min_elevation_m=: (Float) -> Float
-
-        attr_reader total_ascent_m: Float?
-
-        def total_ascent_m=: (Float) -> Float
-
-        attr_reader total_descent_m: Float?
-
-        def total_descent_m=: (Float) -> Float
+        attr_accessor total_descent_m: Float
 
         def initialize: (
-          ?avg_elevation_m: Float,
-          ?max_elevation_m: Float,
-          ?min_elevation_m: Float,
-          ?total_ascent_m: Float,
-          ?total_descent_m: Float
+          avg_elevation_m: Float,
+          max_elevation_m: Float,
+          min_elevation_m: Float,
+          total_ascent_m: Float,
+          total_descent_m: Float
         ) -> void
 
         def to_hash: -> {

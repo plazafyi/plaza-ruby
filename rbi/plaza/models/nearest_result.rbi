@@ -6,12 +6,15 @@ module Plaza
       OrHash =
         T.type_alias { T.any(Plaza::NearestResult, Plaza::Internal::AnyHash) }
 
+      # GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
+      # order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
       sig { returns(Plaza::GeoJsonGeometry) }
       attr_reader :geometry
 
       sig { params(geometry: Plaza::GeoJsonGeometry::OrHash).void }
       attr_writer :geometry
 
+      # Snap result metadata
       sig { returns(Plaza::NearestResult::Properties) }
       attr_reader :properties
 
@@ -21,7 +24,8 @@ module Plaza
       sig { returns(Plaza::NearestResult::Type::TaggedSymbol) }
       attr_accessor :type
 
-      # GeoJSON Point Feature snapped to the nearest road segment
+      # GeoJSON Point Feature representing the nearest point on the road network to the
+      # input coordinate. Used for snapping GPS coordinates to roads.
       sig do
         params(
           geometry: Plaza::GeoJsonGeometry::OrHash,
@@ -29,7 +33,14 @@ module Plaza
           type: Plaza::NearestResult::Type::OrSymbol
         ).returns(T.attached_class)
       end
-      def self.new(geometry:, properties:, type:)
+      def self.new(
+        # GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
+        # order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
+        geometry:,
+        # Snap result metadata
+        properties:,
+        type:
+      )
       end
 
       sig do
@@ -50,32 +61,80 @@ module Plaza
             T.any(Plaza::NearestResult::Properties, Plaza::Internal::AnyHash)
           end
 
-        # Distance to nearest road in meters
+        # Distance from the input coordinate to the snapped point in meters
         sig { returns(T.nilable(Float)) }
         attr_reader :distance_m
 
         sig { params(distance_m: Float).void }
         attr_writer :distance_m
 
-        # Road edge ID
+        # ID of the road network edge that was snapped to
         sig { returns(T.nilable(Integer)) }
-        attr_accessor :edge_id
+        attr_reader :edge_id
 
+        sig { params(edge_id: Integer).void }
+        attr_writer :edge_id
+
+        # Length of the matched road edge in meters
+        sig { returns(T.nilable(Float)) }
+        attr_reader :edge_length_m
+
+        sig { params(edge_length_m: Float).void }
+        attr_writer :edge_length_m
+
+        # OSM highway tag value (e.g. `residential`, `primary`, `motorway`)
+        sig { returns(T.nilable(String)) }
+        attr_accessor :highway
+
+        # OSM way ID of the matched road segment
+        sig { returns(T.nilable(Integer)) }
+        attr_reader :osm_way_id
+
+        sig { params(osm_way_id: Integer).void }
+        attr_writer :osm_way_id
+
+        # OSM surface tag value (e.g. `asphalt`, `gravel`, `paved`)
+        sig { returns(T.nilable(String)) }
+        attr_accessor :surface
+
+        # Snap result metadata
         sig do
-          params(distance_m: Float, edge_id: T.nilable(Integer)).returns(
-            T.attached_class
-          )
+          params(
+            distance_m: Float,
+            edge_id: Integer,
+            edge_length_m: Float,
+            highway: T.nilable(String),
+            osm_way_id: Integer,
+            surface: T.nilable(String)
+          ).returns(T.attached_class)
         end
         def self.new(
-          # Distance to nearest road in meters
+          # Distance from the input coordinate to the snapped point in meters
           distance_m: nil,
-          # Road edge ID
-          edge_id: nil
+          # ID of the road network edge that was snapped to
+          edge_id: nil,
+          # Length of the matched road edge in meters
+          edge_length_m: nil,
+          # OSM highway tag value (e.g. `residential`, `primary`, `motorway`)
+          highway: nil,
+          # OSM way ID of the matched road segment
+          osm_way_id: nil,
+          # OSM surface tag value (e.g. `asphalt`, `gravel`, `paved`)
+          surface: nil
         )
         end
 
         sig do
-          override.returns({ distance_m: Float, edge_id: T.nilable(Integer) })
+          override.returns(
+            {
+              distance_m: Float,
+              edge_id: Integer,
+              edge_length_m: Float,
+              highway: T.nilable(String),
+              osm_way_id: Integer,
+              surface: T.nilable(String)
+            }
+          )
         end
         def to_hash
         end

@@ -2,67 +2,125 @@ module Plaza
   module Models
     type map_match_result =
       {
-        geometry: Plaza::GeoJsonGeometry,
-        properties: Plaza::MapMatchResult::Properties,
-        type: Plaza::Models::MapMatchResult::type_,
-        legs: ::Array[::Hash[Symbol, top]]
+        features: ::Array[Plaza::MapMatchResult::Feature],
+        matchings: ::Array[::Hash[Symbol, top]],
+        type: Plaza::Models::MapMatchResult::type_
       }
 
     class MapMatchResult < Plaza::Internal::Type::BaseModel
-      attr_accessor geometry: Plaza::GeoJsonGeometry
+      attr_accessor features: ::Array[Plaza::MapMatchResult::Feature]
 
-      attr_accessor properties: Plaza::MapMatchResult::Properties
+      attr_accessor matchings: ::Array[::Hash[Symbol, top]]
 
       attr_accessor type: Plaza::Models::MapMatchResult::type_
 
-      attr_reader legs: ::Array[::Hash[Symbol, top]]?
-
-      def legs=: (::Array[::Hash[Symbol, top]]) -> ::Array[::Hash[Symbol, top]]
-
       def initialize: (
-        geometry: Plaza::GeoJsonGeometry,
-        properties: Plaza::MapMatchResult::Properties,
-        type: Plaza::Models::MapMatchResult::type_,
-        ?legs: ::Array[::Hash[Symbol, top]]
+        features: ::Array[Plaza::MapMatchResult::Feature],
+        matchings: ::Array[::Hash[Symbol, top]],
+        type: Plaza::Models::MapMatchResult::type_
       ) -> void
 
       def to_hash: -> {
-        geometry: Plaza::GeoJsonGeometry,
-        properties: Plaza::MapMatchResult::Properties,
-        type: Plaza::Models::MapMatchResult::type_,
-        legs: ::Array[::Hash[Symbol, top]]
+        features: ::Array[Plaza::MapMatchResult::Feature],
+        matchings: ::Array[::Hash[Symbol, top]],
+        type: Plaza::Models::MapMatchResult::type_
       }
 
-      type properties = { confidence: Float, distance: Float, duration: Float }
+      type feature =
+        {
+          geometry: Plaza::GeoJsonGeometry,
+          properties: Plaza::MapMatchResult::Feature::Properties,
+          type: Plaza::Models::MapMatchResult::Feature::type_
+        }
 
-      class Properties < Plaza::Internal::Type::BaseModel
-        attr_reader confidence: Float?
+      class Feature < Plaza::Internal::Type::BaseModel
+        attr_accessor geometry: Plaza::GeoJsonGeometry
 
-        def confidence=: (Float) -> Float
+        attr_accessor properties: Plaza::MapMatchResult::Feature::Properties
 
-        attr_reader distance: Float?
-
-        def distance=: (Float) -> Float
-
-        attr_reader duration: Float?
-
-        def duration=: (Float) -> Float
+        attr_accessor type: Plaza::Models::MapMatchResult::Feature::type_
 
         def initialize: (
-          ?confidence: Float,
-          ?distance: Float,
-          ?duration: Float
+          geometry: Plaza::GeoJsonGeometry,
+          properties: Plaza::MapMatchResult::Feature::Properties,
+          type: Plaza::Models::MapMatchResult::Feature::type_
         ) -> void
 
-        def to_hash: -> { confidence: Float, distance: Float, duration: Float }
+        def to_hash: -> {
+          geometry: Plaza::GeoJsonGeometry,
+          properties: Plaza::MapMatchResult::Feature::Properties,
+          type: Plaza::Models::MapMatchResult::Feature::type_
+        }
+
+        type properties =
+          {
+            distance_m: Float,
+            edge_id: Integer,
+            matchings_index: Integer,
+            name: String?,
+            original: ::Array[Float],
+            waypoint_index: Integer
+          }
+
+        class Properties < Plaza::Internal::Type::BaseModel
+          attr_reader distance_m: Float?
+
+          def distance_m=: (Float) -> Float
+
+          attr_reader edge_id: Integer?
+
+          def edge_id=: (Integer) -> Integer
+
+          attr_reader matchings_index: Integer?
+
+          def matchings_index=: (Integer) -> Integer
+
+          attr_accessor name: String?
+
+          attr_reader original: ::Array[Float]?
+
+          def original=: (::Array[Float]) -> ::Array[Float]
+
+          attr_reader waypoint_index: Integer?
+
+          def waypoint_index=: (Integer) -> Integer
+
+          def initialize: (
+            ?distance_m: Float,
+            ?edge_id: Integer,
+            ?matchings_index: Integer,
+            ?name: String?,
+            ?original: ::Array[Float],
+            ?waypoint_index: Integer
+          ) -> void
+
+          def to_hash: -> {
+            distance_m: Float,
+            edge_id: Integer,
+            matchings_index: Integer,
+            name: String?,
+            original: ::Array[Float],
+            waypoint_index: Integer
+          }
+        end
+
+        type type_ = :Feature
+
+        module Type
+          extend Plaza::Internal::Type::Enum
+
+          FEATURE: :Feature
+
+          def self?.values: -> ::Array[Plaza::Models::MapMatchResult::Feature::type_]
+        end
       end
 
-      type type_ = :Feature
+      type type_ = :FeatureCollection
 
       module Type
         extend Plaza::Internal::Type::Enum
 
-        FEATURE: :Feature
+        FEATURE_COLLECTION: :FeatureCollection
 
         def self?.values: -> ::Array[Plaza::Models::MapMatchResult::type_]
       end

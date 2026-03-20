@@ -1,0 +1,13 @@
+module Plaza
+  module Models
+    type query_execute_response = { steps: ::Array[::Hash[Symbol, top]] }
+
+    class QueryExecuteResponse < Plaza::Internal::Type::BaseModel
+      attr_accessor steps: ::Array[::Hash[Symbol, top]]
+
+      def initialize: (steps: ::Array[::Hash[Symbol, top]]) -> void
+
+      def to_hash: -> { steps: ::Array[::Hash[Symbol, top]] }
+    end
+  end
+end

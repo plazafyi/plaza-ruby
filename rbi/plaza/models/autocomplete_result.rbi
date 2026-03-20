@@ -8,20 +8,26 @@ module Plaza
           T.any(Plaza::AutocompleteResult, Plaza::Internal::AnyHash)
         end
 
+      # Autocomplete suggestions ordered by relevance
       sig { returns(T::Array[Plaza::GeocodingFeature]) }
       attr_accessor :features
 
       sig { returns(Plaza::AutocompleteResult::Type::TaggedSymbol) }
       attr_accessor :type
 
-      # GeoJSON FeatureCollection of autocomplete suggestions
+      # GeoJSON FeatureCollection of autocomplete suggestions for partial address input.
+      # Optimized for low-latency type-ahead UIs. Content-Type: `application/geo+json`.
       sig do
         params(
           features: T::Array[Plaza::GeocodingFeature::OrHash],
           type: Plaza::AutocompleteResult::Type::OrSymbol
         ).returns(T.attached_class)
       end
-      def self.new(features:, type:)
+      def self.new(
+        # Autocomplete suggestions ordered by relevance
+        features:,
+        type:
+      )
       end
 
       sig do
