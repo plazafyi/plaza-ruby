@@ -4,6 +4,7 @@ module Plaza
       {
         q: String,
         country_code: String,
+        format_: String,
         lang: String,
         lat: Float,
         layer: String,
@@ -21,6 +22,10 @@ module Plaza
       attr_reader country_code: String?
 
       def country_code=: (String) -> String
+
+      attr_reader format_: String?
+
+      def format_=: (String) -> String
 
       attr_reader lang: String?
 
@@ -45,6 +50,7 @@ module Plaza
       def initialize: (
         q: String,
         ?country_code: String,
+        ?format_: String,
         ?lang: String,
         ?lat: Float,
         ?layer: String,
@@ -56,6 +62,7 @@ module Plaza
       def to_hash: -> {
         q: String,
         country_code: String,
+        format_: String,
         lang: String,
         lat: Float,
         layer: String,

@@ -5,9 +5,11 @@ module Plaza
     class Elevation
       # Look up elevation for multiple coordinates
       #
-      # @overload batch(coordinates:, request_options: {})
+      # @overload batch(coordinates:, format_: nil, request_options: {})
       #
-      # @param coordinates [Array<Plaza::Models::ElevationBatchParams::Coordinate>] Coordinates to look up elevations for (max 50)
+      # @param coordinates [Array<Plaza::Models::ElevationBatchParams::Coordinate>] Body param: Coordinates to look up elevations for (max 50)
+      #
+      # @param format_ [String] Query param: Response format: json (default), geojson, csv, ndjson
       #
       # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
       #
@@ -15,11 +17,14 @@ module Plaza
       #
       # @see Plaza::Models::ElevationBatchParams
       def batch(params)
+        query_params = [:format_]
         parsed, options = Plaza::ElevationBatchParams.dump_request(params)
+        query = Plaza::Internal::Util.encode_query_params(parsed.slice(*query_params))
         @client.request(
           method: :post,
           path: "api/v1/elevation/batch",
-          body: parsed,
+          query: query.transform_keys(format_: "format"),
+          body: parsed.except(*query_params),
           model: Plaza::ElevationBatchResult,
           options: options
         )
@@ -27,7 +32,9 @@ module Plaza
 
       # Look up elevation at one or more points
       #
-      # @overload lookup(lat: nil, lng: nil, locations: nil, output_fields: nil, output_include: nil, output_precision: nil, request_options: {})
+      # @overload lookup(format_: nil, lat: nil, lng: nil, locations: nil, output_fields: nil, output_include: nil, output_precision: nil, request_options: {})
+      #
+      # @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       # @param lat [Float] Latitude (single point)
       #
@@ -53,6 +60,7 @@ module Plaza
           method: :get,
           path: "api/v1/elevation",
           query: query.transform_keys(
+            format_: "format",
             output_fields: "output[fields]",
             output_include: "output[include]",
             output_precision: "output[precision]"
@@ -64,7 +72,9 @@ module Plaza
 
       # Look up elevation at one or more points
       #
-      # @overload lookup_post(lat: nil, lng: nil, locations: nil, output_fields: nil, output_include: nil, output_precision: nil, request_options: {})
+      # @overload lookup_post(format_: nil, lat: nil, lng: nil, locations: nil, output_fields: nil, output_include: nil, output_precision: nil, request_options: {})
+      #
+      # @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       # @param lat [Float] Latitude (single point)
       #
@@ -90,6 +100,7 @@ module Plaza
           method: :post,
           path: "api/v1/elevation",
           query: query.transform_keys(
+            format_: "format",
             output_fields: "output[fields]",
             output_include: "output[include]",
             output_precision: "output[precision]"

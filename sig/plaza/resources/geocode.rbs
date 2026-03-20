@@ -4,6 +4,7 @@ module Plaza
       def autocomplete: (
         q: String,
         ?country_code: String,
+        ?format_: String,
         ?lang: String,
         ?lat: Float,
         ?layer: String,
@@ -15,6 +16,7 @@ module Plaza
       def autocomplete_post: (
         q: String,
         ?country_code: String,
+        ?format_: String,
         ?lang: String,
         ?lat: Float,
         ?layer: String,
@@ -32,6 +34,7 @@ module Plaza
         q: String,
         ?bbox: String,
         ?country_code: String,
+        ?format_: String,
         ?lang: String,
         ?lat: Float,
         ?layer: String,
@@ -44,6 +47,7 @@ module Plaza
         q: String,
         ?bbox: String,
         ?country_code: String,
+        ?format_: String,
         ?lang: String,
         ?lat: Float,
         ?layer: String,
@@ -53,6 +57,7 @@ module Plaza
       ) -> Plaza::GeocodeResult
 
       def reverse: (
+        ?format_: String,
         ?lang: String,
         ?lat: Float,
         ?layer: String,
@@ -64,6 +69,7 @@ module Plaza
       ) -> Plaza::ReverseGeocodeResult
 
       def reverse_post: (
+        ?format_: String,
         ?lang: String,
         ?lat: Float,
         ?layer: String,

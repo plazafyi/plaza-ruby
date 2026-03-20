@@ -193,7 +193,7 @@ module Plaza
       #
       # Query features by spatial predicate, bounding box, or H3 cell
       #
-      # @overload query(bbox: nil, contains: nil, crosses: nil, cursor: nil, h3: nil, intersects: nil, limit: nil, near: nil, output_buffer: nil, output_centroid: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, output_sort: nil, radius: nil, touches: nil, type: nil, within: nil, request_options: {})
+      # @overload query(bbox: nil, contains: nil, crosses: nil, cursor: nil, format_: nil, h3: nil, intersects: nil, limit: nil, near: nil, output_buffer: nil, output_centroid: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, output_sort: nil, radius: nil, touches: nil, type: nil, within: nil, request_options: {})
       #
       # @param bbox [String] Legacy shorthand. Bounding box: south,west,north,east. Use spatial predicates (n
       #
@@ -202,6 +202,8 @@ module Plaza
       # @param crosses [String] Geometry that features must cross
       #
       # @param cursor [String] Cursor for pagination
+      #
+      # @param format_ [String] Response format. json (default) returns paginated GeoJSON. geojson/csv/ndjson st
       #
       # @param h3 [String] Legacy shorthand. H3 cell index. Use spatial predicates instead.
       #
@@ -247,6 +249,7 @@ module Plaza
           method: :get,
           path: "api/v1/features",
           query: query.transform_keys(
+            format_: "format",
             output_buffer: "output[buffer]",
             output_centroid: "output[centroid]",
             output_fields: "output[fields]",
@@ -266,7 +269,7 @@ module Plaza
       #
       # Query features by spatial predicate, bounding box, or H3 cell
       #
-      # @overload query_post(bbox: nil, contains: nil, crosses: nil, cursor: nil, h3: nil, intersects: nil, limit: nil, near: nil, output_buffer: nil, output_centroid: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, output_sort: nil, radius: nil, touches: nil, type: nil, within: nil, request_options: {})
+      # @overload query_post(bbox: nil, contains: nil, crosses: nil, cursor: nil, format_: nil, h3: nil, intersects: nil, limit: nil, near: nil, output_buffer: nil, output_centroid: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, output_sort: nil, radius: nil, touches: nil, type: nil, within: nil, request_options: {})
       #
       # @param bbox [String] Legacy shorthand. Bounding box: south,west,north,east. Use spatial predicates (n
       #
@@ -275,6 +278,8 @@ module Plaza
       # @param crosses [String] Geometry that features must cross
       #
       # @param cursor [String] Cursor for pagination
+      #
+      # @param format_ [String] Response format. json (default) returns paginated GeoJSON. geojson/csv/ndjson st
       #
       # @param h3 [String] Legacy shorthand. H3 cell index. Use spatial predicates instead.
       #
@@ -320,6 +325,7 @@ module Plaza
           method: :post,
           path: "api/v1/features",
           query: query.transform_keys(
+            format_: "format",
             output_buffer: "output[buffer]",
             output_centroid: "output[centroid]",
             output_fields: "output[fields]",

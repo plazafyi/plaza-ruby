@@ -5,13 +5,15 @@ module Plaza
     class Routing
       # Calculate an isochrone from a point
       #
-      # @overload isochrone(lat:, lng:, time:, mode: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, request_options: {})
+      # @overload isochrone(lat:, lng:, time:, format_: nil, mode: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, request_options: {})
       #
       # @param lat [Float] Latitude
       #
       # @param lng [Float] Longitude
       #
       # @param time [Float] Travel time in seconds (1-7200)
+      #
+      # @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       # @param mode [String] Travel mode (auto, foot, bicycle)
       #
@@ -37,6 +39,7 @@ module Plaza
           method: :get,
           path: "api/v1/isochrone",
           query: query.transform_keys(
+            format_: "format",
             output_fields: "output[fields]",
             output_geometry: "output[geometry]",
             output_include: "output[include]",
@@ -50,13 +53,15 @@ module Plaza
 
       # Calculate an isochrone from a point
       #
-      # @overload isochrone_post(lat:, lng:, time:, mode: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, request_options: {})
+      # @overload isochrone_post(lat:, lng:, time:, format_: nil, mode: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, request_options: {})
       #
       # @param lat [Float] Latitude
       #
       # @param lng [Float] Longitude
       #
       # @param time [Float] Travel time in seconds (1-7200)
+      #
+      # @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       # @param mode [String] Travel mode (auto, foot, bicycle)
       #
@@ -82,6 +87,7 @@ module Plaza
           method: :post,
           path: "api/v1/isochrone",
           query: query.transform_keys(
+            format_: "format",
             output_fields: "output[fields]",
             output_geometry: "output[geometry]",
             output_include: "output[include]",
@@ -205,33 +211,35 @@ module Plaza
       #
       # Calculate a route between two points
       #
-      # @overload route(destination:, origin:, alternatives: nil, annotations: nil, depart_at: nil, ev: nil, exclude: nil, geometries: nil, mode: nil, overview: nil, steps: nil, traffic_model: nil, waypoints: nil, request_options: {})
+      # @overload route(destination:, origin:, format_: nil, alternatives: nil, annotations: nil, depart_at: nil, ev: nil, exclude: nil, geometries: nil, mode: nil, overview: nil, steps: nil, traffic_model: nil, waypoints: nil, request_options: {})
       #
-      # @param destination [Plaza::Models::RouteRequest::Destination] Geographic coordinate as a JSON object with `lat` and `lng` fields.
+      # @param destination [Plaza::Models::RouteRequest::Destination] Body param: Geographic coordinate as a JSON object with `lat` and `lng` fields.
       #
-      # @param origin [Plaza::Models::RouteRequest::Origin] Geographic coordinate as a JSON object with `lat` and `lng` fields.
+      # @param origin [Plaza::Models::RouteRequest::Origin] Body param: Geographic coordinate as a JSON object with `lat` and `lng` fields.
       #
-      # @param alternatives [Integer] Number of alternative routes to return (0-3, default 0). When > 0, response is a
+      # @param format_ [String] Query param: Response format for alternatives: json (default), geojson, csv, ndj
       #
-      # @param annotations [Boolean] Include per-edge annotations (speed, duration) on the route (default: false)
+      # @param alternatives [Integer] Body param: Number of alternative routes to return (0-3, default 0). When > 0, r
       #
-      # @param depart_at [Time, nil] Departure time for traffic-aware routing (ISO 8601)
+      # @param annotations [Boolean] Body param: Include per-edge annotations (speed, duration) on the route (default
       #
-      # @param ev [Plaza::Models::RouteRequest::Ev, nil] Electric vehicle parameters for EV-aware routing
+      # @param depart_at [Time, nil] Body param: Departure time for traffic-aware routing (ISO 8601)
       #
-      # @param exclude [String, nil] Comma-separated road types to exclude (e.g. `toll,motorway,ferry`)
+      # @param ev [Plaza::Models::RouteRequest::Ev, nil] Body param: Electric vehicle parameters for EV-aware routing
       #
-      # @param geometries [Symbol, Plaza::Models::RouteRequest::Geometries] Geometry encoding format. Default: `geojson`.
+      # @param exclude [String, nil] Body param: Comma-separated road types to exclude (e.g. `toll,motorway,ferry`)
       #
-      # @param mode [Symbol, Plaza::Models::RouteRequest::Mode] Travel mode (default: `auto`)
+      # @param geometries [Symbol, Plaza::Models::RouteRequest::Geometries] Body param: Geometry encoding format. Default: `geojson`.
       #
-      # @param overview [Symbol, Plaza::Models::RouteRequest::Overview] Level of geometry detail: `full` (all points), `simplified` (Douglas-Peucker), `
+      # @param mode [Symbol, Plaza::Models::RouteRequest::Mode] Body param: Travel mode (default: `auto`)
       #
-      # @param steps [Boolean] Include turn-by-turn navigation steps (default: false)
+      # @param overview [Symbol, Plaza::Models::RouteRequest::Overview] Body param: Level of geometry detail: `full` (all points), `simplified` (Douglas
       #
-      # @param traffic_model [Symbol, Plaza::Models::RouteRequest::TrafficModel, nil] Traffic prediction model (only used when `depart_at` is set)
+      # @param steps [Boolean] Body param: Include turn-by-turn navigation steps (default: false)
       #
-      # @param waypoints [Array<Plaza::Models::RouteRequest::Waypoint>, nil] Intermediate waypoints to visit in order (maximum 25)
+      # @param traffic_model [Symbol, Plaza::Models::RouteRequest::TrafficModel, nil] Body param: Traffic prediction model (only used when `depart_at` is set)
+      #
+      # @param waypoints [Array<Plaza::Models::RouteRequest::Waypoint>, nil] Body param: Intermediate waypoints to visit in order (maximum 25)
       #
       # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
       #
@@ -239,11 +247,14 @@ module Plaza
       #
       # @see Plaza::Models::RoutingRouteParams
       def route(params)
+        query_params = [:format_]
         parsed, options = Plaza::RoutingRouteParams.dump_request(params)
+        query = Plaza::Internal::Util.encode_query_params(parsed.slice(*query_params))
         @client.request(
           method: :post,
           path: "api/v1/route",
-          body: parsed,
+          query: query.transform_keys(format_: "format"),
+          body: parsed.except(*query_params),
           model: Plaza::RouteResult,
           options: options
         )

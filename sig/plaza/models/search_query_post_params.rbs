@@ -4,6 +4,7 @@ module Plaza
       {
         q: String,
         cursor: String,
+        format_: String,
         limit: Integer,
         output_fields: String,
         output_include: String,
@@ -21,6 +22,10 @@ module Plaza
       attr_reader cursor: String?
 
       def cursor=: (String) -> String
+
+      attr_reader format_: String?
+
+      def format_=: (String) -> String
 
       attr_reader limit: Integer?
 
@@ -45,6 +50,7 @@ module Plaza
       def initialize: (
         q: String,
         ?cursor: String,
+        ?format_: String,
         ?limit: Integer,
         ?output_fields: String,
         ?output_include: String,
@@ -56,6 +62,7 @@ module Plaza
       def to_hash: -> {
         q: String,
         cursor: String,
+        format_: String,
         limit: Integer,
         output_fields: String,
         output_include: String,

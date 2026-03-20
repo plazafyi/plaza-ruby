@@ -5,11 +5,13 @@ module Plaza
     class Search
       # Search OSM features by name
       #
-      # @overload query(q:, cursor: nil, limit: nil, output_fields: nil, output_include: nil, output_precision: nil, output_sort: nil, request_options: {})
+      # @overload query(q:, cursor: nil, format_: nil, limit: nil, output_fields: nil, output_include: nil, output_precision: nil, output_sort: nil, request_options: {})
       #
       # @param q [String] Search query string
       #
       # @param cursor [String] Cursor for pagination
+      #
+      # @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       # @param limit [Integer] Maximum results (default 25, max 100)
       #
@@ -33,6 +35,7 @@ module Plaza
           method: :get,
           path: "api/v1/search",
           query: query.transform_keys(
+            format_: "format",
             output_fields: "output[fields]",
             output_include: "output[include]",
             output_precision: "output[precision]",
@@ -45,11 +48,13 @@ module Plaza
 
       # Search OSM features by name
       #
-      # @overload query_post(q:, cursor: nil, limit: nil, output_fields: nil, output_include: nil, output_precision: nil, output_sort: nil, request_options: {})
+      # @overload query_post(q:, cursor: nil, format_: nil, limit: nil, output_fields: nil, output_include: nil, output_precision: nil, output_sort: nil, request_options: {})
       #
       # @param q [String] Search query string
       #
       # @param cursor [String] Cursor for pagination
+      #
+      # @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       # @param limit [Integer] Maximum results (default 25, max 100)
       #
@@ -73,6 +78,7 @@ module Plaza
           method: :post,
           path: "api/v1/search",
           query: query.transform_keys(
+            format_: "format",
             output_fields: "output[fields]",
             output_include: "output[include]",
             output_precision: "output[precision]",

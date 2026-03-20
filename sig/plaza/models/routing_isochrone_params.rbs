@@ -5,6 +5,7 @@ module Plaza
         lat: Float,
         lng: Float,
         time: Float,
+        format_: String,
         mode: String,
         output_fields: String,
         output_geometry: bool,
@@ -23,6 +24,10 @@ module Plaza
       attr_accessor lng: Float
 
       attr_accessor time: Float
+
+      attr_reader format_: String?
+
+      def format_=: (String) -> String
 
       attr_reader mode: String?
 
@@ -52,6 +57,7 @@ module Plaza
         lat: Float,
         lng: Float,
         time: Float,
+        ?format_: String,
         ?mode: String,
         ?output_fields: String,
         ?output_geometry: bool,
@@ -65,6 +71,7 @@ module Plaza
         lat: Float,
         lng: Float,
         time: Float,
+        format_: String,
         mode: String,
         output_fields: String,
         output_geometry: bool,

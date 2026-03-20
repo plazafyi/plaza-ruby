@@ -11,6 +11,13 @@ module Plaza
           T.any(Plaza::GeocodeReverseParams, Plaza::Internal::AnyHash)
         end
 
+      # Response format: json (default), geojson, csv, ndjson
+      sig { returns(T.nilable(String)) }
+      attr_reader :format_
+
+      sig { params(format_: String).void }
+      attr_writer :format_
+
       # Language code for localized names (e.g. en, de, fr)
       sig { returns(T.nilable(String)) }
       attr_reader :lang
@@ -63,6 +70,7 @@ module Plaza
 
       sig do
         params(
+          format_: String,
           lang: String,
           lat: Float,
           layer: String,
@@ -74,6 +82,8 @@ module Plaza
         ).returns(T.attached_class)
       end
       def self.new(
+        # Response format: json (default), geojson, csv, ndjson
+        format_: nil,
         # Language code for localized names (e.g. en, de, fr)
         lang: nil,
         # Legacy shorthand. Latitude. Use near param instead.
@@ -96,6 +106,7 @@ module Plaza
       sig do
         override.returns(
           {
+            format_: String,
             lang: String,
             lat: Float,
             layer: String,

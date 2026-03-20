@@ -8,6 +8,7 @@ module Plaza
 
       def overpass: (
         data: String,
+        ?format_: String,
         ?request_options: Plaza::request_opts
       ) -> Plaza::FeatureCollection
 

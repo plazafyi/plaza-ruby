@@ -23,6 +23,13 @@ module Plaza
       sig { returns(Float) }
       attr_accessor :time
 
+      # Response format: json (default), geojson, csv, ndjson
+      sig { returns(T.nilable(String)) }
+      attr_reader :format_
+
+      sig { params(format_: String).void }
+      attr_writer :format_
+
       # Travel mode (auto, foot, bicycle)
       sig { returns(T.nilable(String)) }
       attr_reader :mode
@@ -70,6 +77,7 @@ module Plaza
           lat: Float,
           lng: Float,
           time: Float,
+          format_: String,
           mode: String,
           output_fields: String,
           output_geometry: T::Boolean,
@@ -86,6 +94,8 @@ module Plaza
         lng:,
         # Travel time in seconds (1-7200)
         time:,
+        # Response format: json (default), geojson, csv, ndjson
+        format_: nil,
         # Travel mode (auto, foot, bicycle)
         mode: nil,
         # Comma-separated property fields to include
@@ -108,6 +118,7 @@ module Plaza
             lat: Float,
             lng: Float,
             time: Float,
+            format_: String,
             mode: String,
             output_fields: String,
             output_geometry: T::Boolean,

@@ -40,6 +40,14 @@ module Plaza
       sig { params(cursor: String).void }
       attr_writer :cursor
 
+      # Response format. json (default) returns paginated GeoJSON. geojson/csv/ndjson
+      # stream via chunked transfer encoding.
+      sig { returns(T.nilable(String)) }
+      attr_reader :format_
+
+      sig { params(format_: String).void }
+      attr_writer :format_
+
       # Legacy shorthand. H3 cell index. Use spatial predicates instead.
       sig { returns(T.nilable(String)) }
       attr_reader :h3
@@ -158,6 +166,7 @@ module Plaza
           contains: String,
           crosses: String,
           cursor: String,
+          format_: String,
           h3: String,
           intersects: String,
           limit: Integer,
@@ -187,6 +196,9 @@ module Plaza
         crosses: nil,
         # Cursor for pagination
         cursor: nil,
+        # Response format. json (default) returns paginated GeoJSON. geojson/csv/ndjson
+        # stream via chunked transfer encoding.
+        format_: nil,
         # Legacy shorthand. H3 cell index. Use spatial predicates instead.
         h3: nil,
         # Geometry that features must intersect
@@ -230,6 +242,7 @@ module Plaza
             contains: String,
             crosses: String,
             cursor: String,
+            format_: String,
             h3: String,
             intersects: String,
             limit: Integer,

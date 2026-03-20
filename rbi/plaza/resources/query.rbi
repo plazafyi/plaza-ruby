@@ -21,12 +21,15 @@ module Plaza
       sig do
         params(
           data: String,
+          format_: String,
           request_options: Plaza::RequestOptions::OrHash
         ).returns(Plaza::FeatureCollection)
       end
       def overpass(
-        # Overpass QL query string
+        # Body param: Overpass QL query string
         data:,
+        # Query param: Response format: json (default), geojson, csv, ndjson
+        format_: nil,
         request_options: {}
       )
       end

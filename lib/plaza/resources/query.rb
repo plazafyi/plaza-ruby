@@ -27,9 +27,11 @@ module Plaza
 
       # Execute an Overpass QL query
       #
-      # @overload overpass(data:, request_options: {})
+      # @overload overpass(data:, format_: nil, request_options: {})
       #
-      # @param data [String] Overpass QL query string
+      # @param data [String] Body param: Overpass QL query string
+      #
+      # @param format_ [String] Query param: Response format: json (default), geojson, csv, ndjson
       #
       # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
       #
@@ -37,11 +39,14 @@ module Plaza
       #
       # @see Plaza::Models::QueryOverpassParams
       def overpass(params)
+        query_params = [:format_]
         parsed, options = Plaza::QueryOverpassParams.dump_request(params)
+        query = Plaza::Internal::Util.encode_query_params(parsed.slice(*query_params))
         @client.request(
           method: :post,
           path: "api/v1/overpass",
-          body: parsed,
+          query: query.transform_keys(format_: "format"),
+          body: parsed.except(*query_params),
           model: Plaza::FeatureCollection,
           options: options
         )

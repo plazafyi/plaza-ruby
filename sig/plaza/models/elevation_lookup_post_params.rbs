@@ -2,6 +2,7 @@ module Plaza
   module Models
     type elevation_lookup_post_params =
       {
+        format_: String,
         lat: Float,
         lng: Float,
         locations: String,
@@ -14,6 +15,10 @@ module Plaza
     class ElevationLookupPostParams < Plaza::Internal::Type::BaseModel
       extend Plaza::Internal::Type::RequestParameters::Converter
       include Plaza::Internal::Type::RequestParameters
+
+      attr_reader format_: String?
+
+      def format_=: (String) -> String
 
       attr_reader lat: Float?
 
@@ -40,6 +45,7 @@ module Plaza
       def output_precision=: (Integer) -> Integer
 
       def initialize: (
+        ?format_: String,
         ?lat: Float,
         ?lng: Float,
         ?locations: String,
@@ -50,6 +56,7 @@ module Plaza
       ) -> void
 
       def to_hash: -> {
+        format_: String,
         lat: Float,
         lng: Float,
         locations: String,

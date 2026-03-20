@@ -21,6 +21,13 @@ module Plaza
       sig { params(cursor: String).void }
       attr_writer :cursor
 
+      # Response format: json (default), geojson, csv, ndjson
+      sig { returns(T.nilable(String)) }
+      attr_reader :format_
+
+      sig { params(format_: String).void }
+      attr_writer :format_
+
       # Maximum results
       sig { returns(T.nilable(Integer)) }
       attr_reader :limit
@@ -88,6 +95,7 @@ module Plaza
         params(
           id: String,
           cursor: String,
+          format_: String,
           limit: Integer,
           output_buffer: Float,
           output_centroid: T::Boolean,
@@ -104,6 +112,8 @@ module Plaza
         id:,
         # Cursor for pagination
         cursor: nil,
+        # Response format: json (default), geojson, csv, ndjson
+        format_: nil,
         # Maximum results
         limit: nil,
         # Buffer geometry by meters
@@ -131,6 +141,7 @@ module Plaza
           {
             id: String,
             cursor: String,
+            format_: String,
             limit: Integer,
             output_buffer: Float,
             output_centroid: T::Boolean,

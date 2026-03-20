@@ -6,6 +6,7 @@ module Plaza
         contains: String,
         crosses: String,
         cursor: String,
+        format_: String,
         :h3 => String,
         intersects: String,
         limit: Integer,
@@ -44,6 +45,10 @@ module Plaza
       attr_reader cursor: String?
 
       def cursor=: (String) -> String
+
+      attr_reader format_: String?
+
+      def format_=: (String) -> String
 
       attr_reader h3: String?
 
@@ -114,6 +119,7 @@ module Plaza
         ?contains: String,
         ?crosses: String,
         ?cursor: String,
+        ?format_: String,
         ?h3: String,
         ?intersects: String,
         ?limit: Integer,
@@ -138,6 +144,7 @@ module Plaza
         contains: String,
         crosses: String,
         cursor: String,
+        format_: String,
         :h3 => String,
         intersects: String,
         limit: Integer,

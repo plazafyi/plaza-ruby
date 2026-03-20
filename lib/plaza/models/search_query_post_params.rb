@@ -19,6 +19,12 @@ module Plaza
       #   @return [String, nil]
       optional :cursor, String
 
+      # @!attribute format_
+      #   Response format: json (default), geojson, csv, ndjson
+      #
+      #   @return [String, nil]
+      optional :format_, String
+
       # @!attribute limit
       #   Maximum results (default 25, max 100)
       #
@@ -49,10 +55,12 @@ module Plaza
       #   @return [String, nil]
       optional :output_sort, String
 
-      # @!method initialize(q:, cursor: nil, limit: nil, output_fields: nil, output_include: nil, output_precision: nil, output_sort: nil, request_options: {})
+      # @!method initialize(q:, cursor: nil, format_: nil, limit: nil, output_fields: nil, output_include: nil, output_precision: nil, output_sort: nil, request_options: {})
       #   @param q [String] Search query string
       #
       #   @param cursor [String] Cursor for pagination
+      #
+      #   @param format_ [String] Response format: json (default), geojson, csv, ndjson
       #
       #   @param limit [Integer] Maximum results (default 25, max 100)
       #
