@@ -6,13 +6,17 @@ module Plaza
       OrHash =
         T.type_alias { T.any(Plaza::GeoJsonGeometry, Plaza::Internal::AnyHash) }
 
-      # GeoJSON coordinates array (nesting depth varies by geometry type)
+      # Coordinates array. Nesting depth varies by geometry type: Point = [lng, lat],
+      # LineString = [[lng, lat], ...], Polygon = [[[lng, lat], ...], ...], etc.
       sig { returns(Plaza::GeoJsonGeometry::Coordinates::Variants) }
       attr_accessor :coordinates
 
-      sig { returns(Plaza::GeoJsonGeometry::Type::OrSymbol) }
+      # Geometry type
+      sig { returns(Plaza::GeoJsonGeometry::Type::TaggedSymbol) }
       attr_accessor :type
 
+      # GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
+      # order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
       sig do
         params(
           coordinates: Plaza::GeoJsonGeometry::Coordinates::Variants,
@@ -20,8 +24,10 @@ module Plaza
         ).returns(T.attached_class)
       end
       def self.new(
-        # GeoJSON coordinates array (nesting depth varies by geometry type)
+        # Coordinates array. Nesting depth varies by geometry type: Point = [lng, lat],
+        # LineString = [[lng, lat], ...], Polygon = [[[lng, lat], ...], ...], etc.
         coordinates:,
+        # Geometry type
         type:
       )
       end
@@ -30,14 +36,15 @@ module Plaza
         override.returns(
           {
             coordinates: Plaza::GeoJsonGeometry::Coordinates::Variants,
-            type: Plaza::GeoJsonGeometry::Type::OrSymbol
+            type: Plaza::GeoJsonGeometry::Type::TaggedSymbol
           }
         )
       end
       def to_hash
       end
 
-      # GeoJSON coordinates array (nesting depth varies by geometry type)
+      # Coordinates array. Nesting depth varies by geometry type: Point = [lng, lat],
+      # LineString = [[lng, lat], ...], Polygon = [[[lng, lat], ...], ...], etc.
       module Coordinates
         extend Plaza::Internal::Type::Union
 
@@ -65,7 +72,7 @@ module Plaza
             Plaza::Internal::Type::Converter
           )
 
-        UnionMember1Array =
+        LineStringOrMultiPointArray =
           T.let(
             Plaza::Internal::Type::ArrayOf[
               Plaza::Internal::Type::ArrayOf[Float]
@@ -73,7 +80,7 @@ module Plaza
             Plaza::Internal::Type::Converter
           )
 
-        UnionMember2Array =
+        PolygonOrMultiLineStringArray =
           T.let(
             Plaza::Internal::Type::ArrayOf[
               Plaza::Internal::Type::ArrayOf[
@@ -83,7 +90,7 @@ module Plaza
             Plaza::Internal::Type::Converter
           )
 
-        UnionMember3Array =
+        MultiPolygonArray =
           T.let(
             Plaza::Internal::Type::ArrayOf[
               Plaza::Internal::Type::ArrayOf[
@@ -96,6 +103,7 @@ module Plaza
           )
       end
 
+      # Geometry type
       module Type
         extend Plaza::Internal::Type::Enum
 

@@ -8,43 +8,45 @@ module Plaza
           T.any(Plaza::OptimizeCompletedResult, Plaza::Internal::AnyHash)
         end
 
-      sig { returns(Plaza::GeoJsonGeometry) }
-      attr_reader :geometry
+      # Waypoints in optimized visit order
+      sig { returns(T::Array[Plaza::OptimizeCompletedResult::Feature]) }
+      attr_accessor :features
 
-      sig { params(geometry: Plaza::GeoJsonGeometry::OrHash).void }
-      attr_writer :geometry
+      # Optimization method used (e.g. `nearest_neighbor`, `2opt`)
+      sig { returns(String) }
+      attr_accessor :optimization
 
-      sig { returns(Plaza::OptimizeCompletedResult::Properties) }
-      attr_reader :properties
+      # Whether the route returns to the starting waypoint
+      sig { returns(T::Boolean) }
+      attr_accessor :roundtrip
 
-      sig do
-        params(
-          properties: Plaza::OptimizeCompletedResult::Properties::OrHash
-        ).void
-      end
-      attr_writer :properties
-
-      # Job status
-      sig { returns(Plaza::OptimizeCompletedResult::Status::TaggedSymbol) }
-      attr_accessor :status
+      # Total travel time for the optimized route in seconds
+      sig { returns(Float) }
+      attr_accessor :total_cost_s
 
       sig { returns(Plaza::OptimizeCompletedResult::Type::TaggedSymbol) }
       attr_accessor :type
 
-      # Completed optimization — GeoJSON Feature with optimized route
+      # Completed optimization result as a GeoJSON FeatureCollection. Each Feature is a
+      # waypoint in optimized visit order. Top-level fields provide summary statistics.
       sig do
         params(
-          geometry: Plaza::GeoJsonGeometry::OrHash,
-          properties: Plaza::OptimizeCompletedResult::Properties::OrHash,
-          status: Plaza::OptimizeCompletedResult::Status::OrSymbol,
+          features: T::Array[Plaza::OptimizeCompletedResult::Feature::OrHash],
+          optimization: String,
+          roundtrip: T::Boolean,
+          total_cost_s: Float,
           type: Plaza::OptimizeCompletedResult::Type::OrSymbol
         ).returns(T.attached_class)
       end
       def self.new(
-        geometry:,
-        properties:,
-        # Job status
-        status:,
+        # Waypoints in optimized visit order
+        features:,
+        # Optimization method used (e.g. `nearest_neighbor`, `2opt`)
+        optimization:,
+        # Whether the route returns to the starting waypoint
+        roundtrip:,
+        # Total travel time for the optimized route in seconds
+        total_cost_s:,
         type:
       )
       end
@@ -52,9 +54,10 @@ module Plaza
       sig do
         override.returns(
           {
-            geometry: Plaza::GeoJsonGeometry,
-            properties: Plaza::OptimizeCompletedResult::Properties,
-            status: Plaza::OptimizeCompletedResult::Status::TaggedSymbol,
+            features: T::Array[Plaza::OptimizeCompletedResult::Feature],
+            optimization: String,
+            roundtrip: T::Boolean,
+            total_cost_s: Float,
             type: Plaza::OptimizeCompletedResult::Type::TaggedSymbol
           }
         )
@@ -62,86 +65,146 @@ module Plaza
       def to_hash
       end
 
-      class Properties < Plaza::Internal::Type::BaseModel
+      class Feature < Plaza::Internal::Type::BaseModel
         OrHash =
           T.type_alias do
             T.any(
-              Plaza::OptimizeCompletedResult::Properties,
+              Plaza::OptimizeCompletedResult::Feature,
               Plaza::Internal::AnyHash
             )
           end
 
-        # Total distance in meters
-        sig { returns(T.nilable(Float)) }
-        attr_reader :distance
+        # GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
+        # order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
+        sig { returns(Plaza::GeoJsonGeometry) }
+        attr_reader :geometry
 
-        sig { params(distance: Float).void }
-        attr_writer :distance
+        sig { params(geometry: Plaza::GeoJsonGeometry::OrHash).void }
+        attr_writer :geometry
 
-        # Estimated duration in seconds
-        sig { returns(T.nilable(Float)) }
-        attr_reader :duration
-
-        sig { params(duration: Float).void }
-        attr_writer :duration
-
-        # Optimized waypoint ordering
-        sig { returns(T.nilable(T::Array[Integer])) }
-        attr_reader :waypoint_order
-
-        sig { params(waypoint_order: T::Array[Integer]).void }
-        attr_writer :waypoint_order
+        sig { returns(Plaza::OptimizeCompletedResult::Feature::Properties) }
+        attr_reader :properties
 
         sig do
           params(
-            distance: Float,
-            duration: Float,
-            waypoint_order: T::Array[Integer]
+            properties:
+              Plaza::OptimizeCompletedResult::Feature::Properties::OrHash
+          ).void
+        end
+        attr_writer :properties
+
+        sig do
+          returns(Plaza::OptimizeCompletedResult::Feature::Type::TaggedSymbol)
+        end
+        attr_accessor :type
+
+        # GeoJSON Point Feature representing an optimized waypoint with cost data.
+        sig do
+          params(
+            geometry: Plaza::GeoJsonGeometry::OrHash,
+            properties:
+              Plaza::OptimizeCompletedResult::Feature::Properties::OrHash,
+            type: Plaza::OptimizeCompletedResult::Feature::Type::OrSymbol
           ).returns(T.attached_class)
         end
         def self.new(
-          # Total distance in meters
-          distance: nil,
-          # Estimated duration in seconds
-          duration: nil,
-          # Optimized waypoint ordering
-          waypoint_order: nil
+          # GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
+          # order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
+          geometry:,
+          properties:,
+          type:
         )
         end
 
         sig do
           override.returns(
             {
-              distance: Float,
-              duration: Float,
-              waypoint_order: T::Array[Integer]
+              geometry: Plaza::GeoJsonGeometry,
+              properties: Plaza::OptimizeCompletedResult::Feature::Properties,
+              type: Plaza::OptimizeCompletedResult::Feature::Type::TaggedSymbol
             }
           )
         end
         def to_hash
         end
-      end
 
-      # Job status
-      module Status
-        extend Plaza::Internal::Type::Enum
+        class Properties < Plaza::Internal::Type::BaseModel
+          OrHash =
+            T.type_alias do
+              T.any(
+                Plaza::OptimizeCompletedResult::Feature::Properties,
+                Plaza::Internal::AnyHash
+              )
+            end
 
-        TaggedSymbol =
-          T.type_alias { T.all(Symbol, Plaza::OptimizeCompletedResult::Status) }
-        OrSymbol = T.type_alias { T.any(Symbol, String) }
+          # Travel time in seconds from the previous waypoint to this one (0 for the first
+          # waypoint)
+          sig { returns(Float) }
+          attr_accessor :cost_s
 
-        COMPLETED =
-          T.let(
-            :completed,
-            Plaza::OptimizeCompletedResult::Status::TaggedSymbol
+          # Cumulative travel time in seconds from the start to this waypoint
+          sig { returns(Float) }
+          attr_accessor :cumulative_cost_s
+
+          # Position of this waypoint in the optimized visit order (0-based)
+          sig { returns(Integer) }
+          attr_accessor :waypoint_index
+
+          sig do
+            params(
+              cost_s: Float,
+              cumulative_cost_s: Float,
+              waypoint_index: Integer
+            ).returns(T.attached_class)
+          end
+          def self.new(
+            # Travel time in seconds from the previous waypoint to this one (0 for the first
+            # waypoint)
+            cost_s:,
+            # Cumulative travel time in seconds from the start to this waypoint
+            cumulative_cost_s:,
+            # Position of this waypoint in the optimized visit order (0-based)
+            waypoint_index:
           )
+          end
 
-        sig do
-          override.returns(
-            T::Array[Plaza::OptimizeCompletedResult::Status::TaggedSymbol]
-          )
+          sig do
+            override.returns(
+              {
+                cost_s: Float,
+                cumulative_cost_s: Float,
+                waypoint_index: Integer
+              }
+            )
+          end
+          def to_hash
+          end
         end
-        def self.values
+
+        module Type
+          extend Plaza::Internal::Type::Enum
+
+          TaggedSymbol =
+            T.type_alias do
+              T.all(Symbol, Plaza::OptimizeCompletedResult::Feature::Type)
+            end
+          OrSymbol = T.type_alias { T.any(Symbol, String) }
+
+          FEATURE =
+            T.let(
+              :Feature,
+              Plaza::OptimizeCompletedResult::Feature::Type::TaggedSymbol
+            )
+
+          sig do
+            override.returns(
+              T::Array[
+                Plaza::OptimizeCompletedResult::Feature::Type::TaggedSymbol
+              ]
+            )
+          end
+          def self.values
+          end
         end
       end
 
@@ -152,8 +215,11 @@ module Plaza
           T.type_alias { T.all(Symbol, Plaza::OptimizeCompletedResult::Type) }
         OrSymbol = T.type_alias { T.any(Symbol, String) }
 
-        FEATURE =
-          T.let(:Feature, Plaza::OptimizeCompletedResult::Type::TaggedSymbol)
+        FEATURE_COLLECTION =
+          T.let(
+            :FeatureCollection,
+            Plaza::OptimizeCompletedResult::Type::TaggedSymbol
+          )
 
         sig do
           override.returns(

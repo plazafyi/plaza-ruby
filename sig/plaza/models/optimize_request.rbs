@@ -2,13 +2,13 @@ module Plaza
   module Models
     type optimize_request =
       {
-        waypoints: Plaza::GeoJsonGeometry,
+        waypoints: ::Array[Plaza::OptimizeRequest::Waypoint],
         mode: Plaza::Models::OptimizeRequest::mode,
         roundtrip: bool
       }
 
     class OptimizeRequest < Plaza::Internal::Type::BaseModel
-      attr_accessor waypoints: Plaza::GeoJsonGeometry
+      attr_accessor waypoints: ::Array[Plaza::OptimizeRequest::Waypoint]
 
       attr_reader mode: Plaza::Models::OptimizeRequest::mode?
 
@@ -21,16 +21,28 @@ module Plaza
       def roundtrip=: (bool) -> bool
 
       def initialize: (
-        waypoints: Plaza::GeoJsonGeometry,
+        waypoints: ::Array[Plaza::OptimizeRequest::Waypoint],
         ?mode: Plaza::Models::OptimizeRequest::mode,
         ?roundtrip: bool
       ) -> void
 
       def to_hash: -> {
-        waypoints: Plaza::GeoJsonGeometry,
+        waypoints: ::Array[Plaza::OptimizeRequest::Waypoint],
         mode: Plaza::Models::OptimizeRequest::mode,
         roundtrip: bool
       }
+
+      type waypoint = { lat: Float, lng: Float }
+
+      class Waypoint < Plaza::Internal::Type::BaseModel
+        attr_accessor lat: Float
+
+        attr_accessor lng: Float
+
+        def initialize: (lat: Float, lng: Float) -> void
+
+        def to_hash: -> { lat: Float, lng: Float }
+      end
 
       type mode = :auto | :foot | :bicycle
 

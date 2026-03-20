@@ -7,23 +7,17 @@ module Plaza
       extend Plaza::Internal::Type::RequestParameters::Converter
       include Plaza::Internal::Type::RequestParameters
 
-      # @!attribute lat
-      #   Latitude
-      #
-      #   @return [Float]
-      required :lat, Float
-
-      # @!attribute lng
-      #   Longitude
-      #
-      #   @return [Float]
-      required :lng, Float
-
       # @!attribute lang
       #   Language code for localized names (e.g. en, de, fr)
       #
       #   @return [String, nil]
       optional :lang, String
+
+      # @!attribute lat
+      #   Legacy shorthand. Latitude. Use near param instead.
+      #
+      #   @return [Float, nil]
+      optional :lat, Float
 
       # @!attribute layer
       #   Filter by layer: house or poi
@@ -37,22 +31,40 @@ module Plaza
       #   @return [Integer, nil]
       optional :limit, Integer
 
+      # @!attribute lng
+      #   Legacy shorthand. Longitude. Use near param instead.
+      #
+      #   @return [Float, nil]
+      optional :lng, Float
+
+      # @!attribute near
+      #   Point geometry for reverse geocode (lat,lng or GeoJSON). Alternative to lat/lng
+      #   params.
+      #
+      #   @return [String, nil]
+      optional :near, String
+
       # @!attribute radius
       #   Search radius in meters (default 200, max 5000)
       #
       #   @return [Integer, nil]
       optional :radius, Integer
 
-      # @!method initialize(lat:, lng:, lang: nil, layer: nil, limit: nil, radius: nil, request_options: {})
-      #   @param lat [Float] Latitude
-      #
-      #   @param lng [Float] Longitude
+      # @!method initialize(lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, near: nil, radius: nil, request_options: {})
+      #   Some parameter documentations has been truncated, see
+      #   {Plaza::Models::GeocodeReverseParams} for more details.
       #
       #   @param lang [String] Language code for localized names (e.g. en, de, fr)
+      #
+      #   @param lat [Float] Legacy shorthand. Latitude. Use near param instead.
       #
       #   @param layer [String] Filter by layer: house or poi
       #
       #   @param limit [Integer] Maximum results (default 1, max 20)
+      #
+      #   @param lng [Float] Legacy shorthand. Longitude. Use near param instead.
+      #
+      #   @param near [String] Point geometry for reverse geocode (lat,lng or GeoJSON). Alternative to lat/lng
       #
       #   @param radius [Integer] Search radius in meters (default 200, max 5000)
       #

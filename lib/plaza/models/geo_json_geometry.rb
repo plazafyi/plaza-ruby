@@ -4,34 +4,47 @@ module Plaza
   module Models
     class GeoJsonGeometry < Plaza::Internal::Type::BaseModel
       # @!attribute coordinates
-      #   GeoJSON coordinates array (nesting depth varies by geometry type)
+      #   Coordinates array. Nesting depth varies by geometry type: Point = [lng, lat],
+      #   LineString = [[lng, lat], ...], Polygon = [[[lng, lat], ...], ...], etc.
       #
       #   @return [Array<Float>, Array<Array<Float>>, Array<Array<Array<Float>>>, Array<Array<Array<Array<Float>>>>]
       required :coordinates, union: -> { Plaza::GeoJsonGeometry::Coordinates }
 
       # @!attribute type
+      #   Geometry type
       #
       #   @return [Symbol, Plaza::Models::GeoJsonGeometry::Type]
       required :type, enum: -> { Plaza::GeoJsonGeometry::Type }
 
       # @!method initialize(coordinates:, type:)
-      #   @param coordinates [Array<Float>, Array<Array<Float>>, Array<Array<Array<Float>>>, Array<Array<Array<Array<Float>>>>] GeoJSON coordinates array (nesting depth varies by geometry type)
+      #   Some parameter documentations has been truncated, see
+      #   {Plaza::Models::GeoJsonGeometry} for more details.
       #
-      #   @param type [Symbol, Plaza::Models::GeoJsonGeometry::Type]
+      #   GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
+      #   order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
+      #
+      #   @param coordinates [Array<Float>, Array<Array<Float>>, Array<Array<Array<Float>>>, Array<Array<Array<Array<Float>>>>] Coordinates array. Nesting depth varies by geometry type: Point = [lng, lat], Li
+      #
+      #   @param type [Symbol, Plaza::Models::GeoJsonGeometry::Type] Geometry type
 
-      # GeoJSON coordinates array (nesting depth varies by geometry type)
+      # Coordinates array. Nesting depth varies by geometry type: Point = [lng, lat],
+      # LineString = [[lng, lat], ...], Polygon = [[[lng, lat], ...], ...], etc.
       #
       # @see Plaza::Models::GeoJsonGeometry#coordinates
       module Coordinates
         extend Plaza::Internal::Type::Union
 
+        # [longitude, latitude] or [longitude, latitude, elevation]
         variant -> { Plaza::Models::GeoJsonGeometry::Coordinates::FloatArray }
 
-        variant -> { Plaza::Models::GeoJsonGeometry::Coordinates::UnionMember1Array }
+        # Array of [lng, lat] positions
+        variant -> { Plaza::Models::GeoJsonGeometry::Coordinates::LineStringOrMultiPointArray }
 
-        variant -> { Plaza::Models::GeoJsonGeometry::Coordinates::UnionMember2Array }
+        # Array of linear rings / line strings
+        variant -> { Plaza::Models::GeoJsonGeometry::Coordinates::PolygonOrMultiLineStringArray }
 
-        variant -> { Plaza::Models::GeoJsonGeometry::Coordinates::UnionMember3Array }
+        # Array of polygons
+        variant -> { Plaza::Models::GeoJsonGeometry::Coordinates::MultiPolygonArray }
 
         # @!method self.variants
         #   @return [Array(Array<Float>, Array<Array<Float>>, Array<Array<Array<Float>>>, Array<Array<Array<Array<Float>>>>)]
@@ -40,17 +53,19 @@ module Plaza
         FloatArray = Plaza::Internal::Type::ArrayOf[Float]
 
         # @type [Plaza::Internal::Type::Converter]
-        UnionMember1Array = Plaza::Internal::Type::ArrayOf[Plaza::Internal::Type::ArrayOf[Float]]
+        LineStringOrMultiPointArray = Plaza::Internal::Type::ArrayOf[Plaza::Internal::Type::ArrayOf[Float]]
 
         # @type [Plaza::Internal::Type::Converter]
-        UnionMember2Array =
+        PolygonOrMultiLineStringArray =
           Plaza::Internal::Type::ArrayOf[Plaza::Internal::Type::ArrayOf[Plaza::Internal::Type::ArrayOf[Float]]]
 
         # @type [Plaza::Internal::Type::Converter]
-        UnionMember3Array =
+        MultiPolygonArray =
           Plaza::Internal::Type::ArrayOf[Plaza::Internal::Type::ArrayOf[Plaza::Internal::Type::ArrayOf[Plaza::Internal::Type::ArrayOf[Float]]]]
       end
 
+      # Geometry type
+      #
       # @see Plaza::Models::GeoJsonGeometry#type
       module Type
         extend Plaza::Internal::Type::Enum

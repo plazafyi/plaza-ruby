@@ -8,6 +8,8 @@ module Plaza
           T.any(Plaza::ElevationLookupResult, Plaza::Internal::AnyHash)
         end
 
+      # GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
+      # order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
       sig { returns(Plaza::GeoJsonGeometry) }
       attr_reader :geometry
 
@@ -27,7 +29,9 @@ module Plaza
       sig { returns(Plaza::ElevationLookupResult::Type::TaggedSymbol) }
       attr_accessor :type
 
-      # GeoJSON Point Feature with 3D coordinate [lng, lat, elevation] (RFC 7946 §3.1.1)
+      # GeoJSON Point Feature with a 3D coordinate [lng, lat, elevation] per RFC 7946
+      # §3.1.1. The elevation is also available in `properties.elevation_m` for
+      # convenience.
       sig do
         params(
           geometry: Plaza::GeoJsonGeometry::OrHash,
@@ -35,7 +39,13 @@ module Plaza
           type: Plaza::ElevationLookupResult::Type::OrSymbol
         ).returns(T.attached_class)
       end
-      def self.new(geometry:, properties:, type:)
+      def self.new(
+        # GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
+        # order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
+        geometry:,
+        properties:,
+        type:
+      )
       end
 
       sig do
@@ -59,17 +69,14 @@ module Plaza
             )
           end
 
-        # Elevation in meters above mean sea level
-        sig { returns(T.nilable(Float)) }
-        attr_reader :elevation_m
-
-        sig { params(elevation_m: Float).void }
-        attr_writer :elevation_m
+        # Elevation in meters above mean sea level (WGS84 EGM96 geoid)
+        sig { returns(Float) }
+        attr_accessor :elevation_m
 
         sig { params(elevation_m: Float).returns(T.attached_class) }
         def self.new(
-          # Elevation in meters above mean sea level
-          elevation_m: nil
+          # Elevation in meters above mean sea level (WGS84 EGM96 geoid)
+          elevation_m:
         )
         end
 

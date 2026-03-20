@@ -10,6 +10,8 @@ module Plaza
       sig { returns(String) }
       attr_accessor :query
 
+      # SPARQL query request. Queries OSM data using SPARQL syntax. Results are returned
+      # as a JSON object with a `results` array.
       sig { params(query: String).returns(T.attached_class) }
       def self.new(
         # SPARQL query string

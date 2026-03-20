@@ -1,7 +1,14 @@
 module Plaza
   module Models
     type elevation_lookup_params =
-      { lat: Float, lng: Float, locations: String }
+      {
+        lat: Float,
+        lng: Float,
+        locations: String,
+        output_fields: String,
+        output_include: String,
+        output_precision: Integer
+      }
       & Plaza::Internal::Type::request_parameters
 
     class ElevationLookupParams < Plaza::Internal::Type::BaseModel
@@ -20,10 +27,25 @@ module Plaza
 
       def locations=: (String) -> String
 
+      attr_reader output_fields: String?
+
+      def output_fields=: (String) -> String
+
+      attr_reader output_include: String?
+
+      def output_include=: (String) -> String
+
+      attr_reader output_precision: Integer?
+
+      def output_precision=: (Integer) -> Integer
+
       def initialize: (
         ?lat: Float,
         ?lng: Float,
         ?locations: String,
+        ?output_fields: String,
+        ?output_include: String,
+        ?output_precision: Integer,
         ?request_options: Plaza::request_opts
       ) -> void
 
@@ -31,6 +53,9 @@ module Plaza
         lat: Float,
         lng: Float,
         locations: String,
+        output_fields: String,
+        output_include: String,
+        output_precision: Integer,
         request_options: Plaza::RequestOptions
       }
     end

@@ -10,6 +10,9 @@ module Plaza
       required :query, String
 
       # @!method initialize(query:)
+      #   SPARQL query request. Queries OSM data using SPARQL syntax. Results are returned
+      #   as a JSON object with a `results` array.
+      #
       #   @param query [String] SPARQL query string
     end
   end

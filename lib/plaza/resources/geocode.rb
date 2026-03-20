@@ -33,7 +33,41 @@ module Plaza
           method: :get,
           path: "api/v1/geocode/autocomplete",
           query: query,
-          headers: {"accept" => "application/geo+json"},
+          model: Plaza::AutocompleteResult,
+          options: options
+        )
+      end
+
+      # Autocomplete a partial address
+      #
+      # @overload autocomplete_post(q:, country_code: nil, lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, request_options: {})
+      #
+      # @param q [String] Partial address query
+      #
+      # @param country_code [String] ISO 3166-1 alpha-2 country code filter
+      #
+      # @param lang [String] Language code for localized names (e.g. en, de, fr)
+      #
+      # @param lat [Float] Focus latitude
+      #
+      # @param layer [String] Filter by layer: address, poi, or admin
+      #
+      # @param limit [Integer] Maximum results (default 10, max 20)
+      #
+      # @param lng [Float] Focus longitude
+      #
+      # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
+      #
+      # @return [Plaza::Models::AutocompleteResult]
+      #
+      # @see Plaza::Models::GeocodeAutocompletePostParams
+      def autocomplete_post(params)
+        parsed, options = Plaza::GeocodeAutocompletePostParams.dump_request(params)
+        query = Plaza::Internal::Util.encode_query_params(parsed)
+        @client.request(
+          method: :post,
+          path: "api/v1/geocode/autocomplete",
+          query: query,
           model: Plaza::AutocompleteResult,
           options: options
         )
@@ -46,7 +80,7 @@ module Plaza
       # @param addresses [Array<String>]
       # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
       #
-      # @return [Object]
+      # @return [Plaza::Models::GeocodeBatchResponse]
       #
       # @see Plaza::Models::GeocodeBatchParams
       def batch(params)
@@ -55,7 +89,7 @@ module Plaza
           method: :post,
           path: "api/v1/geocode/batch",
           body: parsed,
-          model: Plaza::Internal::Type::Unknown,
+          model: Plaza::Models::GeocodeBatchResponse,
           options: options
         )
       end
@@ -92,25 +126,66 @@ module Plaza
           method: :get,
           path: "api/v1/geocode",
           query: query,
-          headers: {"accept" => "application/geo+json"},
           model: Plaza::GeocodeResult,
           options: options
         )
       end
 
-      # Reverse geocode a coordinate
+      # Forward geocode an address
       #
-      # @overload reverse(lat:, lng:, lang: nil, layer: nil, limit: nil, radius: nil, request_options: {})
+      # @overload forward_post(q:, bbox: nil, country_code: nil, lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, request_options: {})
       #
-      # @param lat [Float] Latitude
+      # @param q [String] Address or place name
       #
-      # @param lng [Float] Longitude
+      # @param bbox [String] Bounding box filter: south,west,north,east
+      #
+      # @param country_code [String] ISO 3166-1 alpha-2 country code filter
       #
       # @param lang [String] Language code for localized names (e.g. en, de, fr)
+      #
+      # @param lat [Float] Focus latitude
+      #
+      # @param layer [String] Filter by layer: address, poi, or admin
+      #
+      # @param limit [Integer] Maximum results (default 20, max 100)
+      #
+      # @param lng [Float] Focus longitude
+      #
+      # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
+      #
+      # @return [Plaza::Models::GeocodeResult]
+      #
+      # @see Plaza::Models::GeocodeForwardPostParams
+      def forward_post(params)
+        parsed, options = Plaza::GeocodeForwardPostParams.dump_request(params)
+        query = Plaza::Internal::Util.encode_query_params(parsed)
+        @client.request(
+          method: :post,
+          path: "api/v1/geocode",
+          query: query,
+          model: Plaza::GeocodeResult,
+          options: options
+        )
+      end
+
+      # Some parameter documentations has been truncated, see
+      # {Plaza::Models::GeocodeReverseParams} for more details.
+      #
+      # Reverse geocode a coordinate
+      #
+      # @overload reverse(lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, near: nil, radius: nil, request_options: {})
+      #
+      # @param lang [String] Language code for localized names (e.g. en, de, fr)
+      #
+      # @param lat [Float] Legacy shorthand. Latitude. Use near param instead.
       #
       # @param layer [String] Filter by layer: house or poi
       #
       # @param limit [Integer] Maximum results (default 1, max 20)
+      #
+      # @param lng [Float] Legacy shorthand. Longitude. Use near param instead.
+      #
+      # @param near [String] Point geometry for reverse geocode (lat,lng or GeoJSON). Alternative to lat/lng
       #
       # @param radius [Integer] Search radius in meters (default 200, max 5000)
       #
@@ -119,14 +194,51 @@ module Plaza
       # @return [Plaza::Models::ReverseGeocodeResult]
       #
       # @see Plaza::Models::GeocodeReverseParams
-      def reverse(params)
+      def reverse(params = {})
         parsed, options = Plaza::GeocodeReverseParams.dump_request(params)
         query = Plaza::Internal::Util.encode_query_params(parsed)
         @client.request(
           method: :get,
           path: "api/v1/geocode/reverse",
           query: query,
-          headers: {"accept" => "application/geo+json"},
+          model: Plaza::ReverseGeocodeResult,
+          options: options
+        )
+      end
+
+      # Some parameter documentations has been truncated, see
+      # {Plaza::Models::GeocodeReversePostParams} for more details.
+      #
+      # Reverse geocode a coordinate
+      #
+      # @overload reverse_post(lang: nil, lat: nil, layer: nil, limit: nil, lng: nil, near: nil, radius: nil, request_options: {})
+      #
+      # @param lang [String] Language code for localized names (e.g. en, de, fr)
+      #
+      # @param lat [Float] Legacy shorthand. Latitude. Use near param instead.
+      #
+      # @param layer [String] Filter by layer: house or poi
+      #
+      # @param limit [Integer] Maximum results (default 1, max 20)
+      #
+      # @param lng [Float] Legacy shorthand. Longitude. Use near param instead.
+      #
+      # @param near [String] Point geometry for reverse geocode (lat,lng or GeoJSON). Alternative to lat/lng
+      #
+      # @param radius [Integer] Search radius in meters (default 200, max 5000)
+      #
+      # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
+      #
+      # @return [Plaza::Models::ReverseGeocodeResult]
+      #
+      # @see Plaza::Models::GeocodeReversePostParams
+      def reverse_post(params = {})
+        parsed, options = Plaza::GeocodeReversePostParams.dump_request(params)
+        query = Plaza::Internal::Util.encode_query_params(parsed)
+        @client.request(
+          method: :post,
+          path: "api/v1/geocode/reverse",
+          query: query,
           model: Plaza::ReverseGeocodeResult,
           options: options
         )

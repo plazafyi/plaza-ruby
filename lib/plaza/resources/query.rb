@@ -3,6 +3,28 @@
 module Plaza
   module Resources
     class Query
+      # Execute a multi-step query pipeline
+      #
+      # @overload execute(steps:, request_options: {})
+      #
+      # @param steps [Array<Plaza::Models::QueryExecuteParams::Step>] Ordered list of query steps to execute
+      #
+      # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
+      #
+      # @return [Plaza::Models::QueryExecuteResponse]
+      #
+      # @see Plaza::Models::QueryExecuteParams
+      def execute(params)
+        parsed, options = Plaza::QueryExecuteParams.dump_request(params)
+        @client.request(
+          method: :post,
+          path: "api/v1/query",
+          body: parsed,
+          model: Plaza::Models::QueryExecuteResponse,
+          options: options
+        )
+      end
+
       # Execute an Overpass QL query
       #
       # @overload overpass(data:, request_options: {})
@@ -19,7 +41,6 @@ module Plaza
         @client.request(
           method: :post,
           path: "api/v1/overpass",
-          headers: {"accept" => "application/geo+json"},
           body: parsed,
           model: Plaza::FeatureCollection,
           options: options
@@ -42,7 +63,6 @@ module Plaza
         @client.request(
           method: :post,
           path: "api/v1/sparql",
-          headers: {"accept" => "application/geo+json"},
           body: parsed,
           model: Plaza::SparqlResult,
           options: options

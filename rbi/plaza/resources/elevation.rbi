@@ -6,13 +6,14 @@ module Plaza
       # Look up elevation for multiple coordinates
       sig do
         params(
-          geometry: Plaza::GeoJsonGeometry::OrHash,
+          coordinates:
+            T::Array[Plaza::ElevationBatchParams::Coordinate::OrHash],
           request_options: Plaza::RequestOptions::OrHash
         ).returns(Plaza::ElevationBatchResult)
       end
       def batch(
-        # Path to profile (GeoJSON LineString geometry, minimum 2 points)
-        geometry:,
+        # Coordinates to look up elevations for (max 50)
+        coordinates:,
         request_options: {}
       )
       end
@@ -23,6 +24,9 @@ module Plaza
           lat: Float,
           lng: Float,
           locations: String,
+          output_fields: String,
+          output_include: String,
+          output_precision: Integer,
           request_options: Plaza::RequestOptions::OrHash
         ).returns(Plaza::ElevationLookupResult)
       end
@@ -33,6 +37,41 @@ module Plaza
         lng: nil,
         # Pipe-separated lng,lat pairs (batch)
         locations: nil,
+        # Comma-separated property fields to include
+        output_fields: nil,
+        # Extra computed fields: bbox, center
+        output_include: nil,
+        # Coordinate decimal precision (1-15, default 7)
+        output_precision: nil,
+        request_options: {}
+      )
+      end
+
+      # Look up elevation at one or more points
+      sig do
+        params(
+          lat: Float,
+          lng: Float,
+          locations: String,
+          output_fields: String,
+          output_include: String,
+          output_precision: Integer,
+          request_options: Plaza::RequestOptions::OrHash
+        ).returns(Plaza::ElevationLookupResult)
+      end
+      def lookup_post(
+        # Latitude (single point)
+        lat: nil,
+        # Longitude (single point)
+        lng: nil,
+        # Pipe-separated lng,lat pairs (batch)
+        locations: nil,
+        # Comma-separated property fields to include
+        output_fields: nil,
+        # Extra computed fields: bbox, center
+        output_include: nil,
+        # Coordinate decimal precision (1-15, default 7)
+        output_precision: nil,
         request_options: {}
       )
       end
@@ -40,13 +79,14 @@ module Plaza
       # Elevation profile along coordinates
       sig do
         params(
-          geometry: Plaza::GeoJsonGeometry::OrHash,
+          coordinates:
+            T::Array[Plaza::ElevationProfileRequest::Coordinate::OrHash],
           request_options: Plaza::RequestOptions::OrHash
         ).returns(Plaza::ElevationProfileResult)
       end
       def profile(
-        # Path to profile (GeoJSON LineString geometry, minimum 2 points)
-        geometry:,
+        # Path coordinates in order of travel (min 2, max 50)
+        coordinates:,
         request_options: {}
       )
       end

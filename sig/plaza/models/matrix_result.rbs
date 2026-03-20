@@ -1,25 +1,7 @@
 module Plaza
   module Models
-    type matrix_result =
-      {
-        distances: ::Array[::Array[Float?]],
-        durations: ::Array[::Array[Float?]]
-      }
+    type matrix_result = ::Hash[Symbol, top]
 
-    class MatrixResult < Plaza::Internal::Type::BaseModel
-      attr_accessor distances: ::Array[::Array[Float?]]
-
-      attr_accessor durations: ::Array[::Array[Float?]]
-
-      def initialize: (
-        distances: ::Array[::Array[Float?]],
-        durations: ::Array[::Array[Float?]]
-      ) -> void
-
-      def to_hash: -> {
-        distances: ::Array[::Array[Float?]],
-        durations: ::Array[::Array[Float?]]
-      }
-    end
+    MatrixResult: Plaza::Internal::Type::Converter
   end
 end

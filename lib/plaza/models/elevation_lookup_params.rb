@@ -25,12 +25,36 @@ module Plaza
       #   @return [String, nil]
       optional :locations, String
 
-      # @!method initialize(lat: nil, lng: nil, locations: nil, request_options: {})
+      # @!attribute output_fields
+      #   Comma-separated property fields to include
+      #
+      #   @return [String, nil]
+      optional :output_fields, String
+
+      # @!attribute output_include
+      #   Extra computed fields: bbox, center
+      #
+      #   @return [String, nil]
+      optional :output_include, String
+
+      # @!attribute output_precision
+      #   Coordinate decimal precision (1-15, default 7)
+      #
+      #   @return [Integer, nil]
+      optional :output_precision, Integer
+
+      # @!method initialize(lat: nil, lng: nil, locations: nil, output_fields: nil, output_include: nil, output_precision: nil, request_options: {})
       #   @param lat [Float] Latitude (single point)
       #
       #   @param lng [Float] Longitude (single point)
       #
       #   @param locations [String] Pipe-separated lng,lat pairs (batch)
+      #
+      #   @param output_fields [String] Comma-separated property fields to include
+      #
+      #   @param output_include [String] Extra computed fields: bbox, center
+      #
+      #   @param output_precision [Integer] Coordinate decimal precision (1-15, default 7)
       #
       #   @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}]
     end

@@ -1,0 +1,107 @@
+module Plaza
+  module Models
+    type routing_isochrone_post_response =
+      {
+        features: ::Array[Plaza::GeoJsonFeature]?,
+        geometry: Plaza::GeoJsonGeometry?,
+        properties: Plaza::Models::RoutingIsochronePostResponse::Properties?,
+        type: Plaza::Models::RoutingIsochronePostResponse::type_
+      }
+
+    class RoutingIsochronePostResponse < Plaza::Internal::Type::BaseModel
+      attr_accessor features: ::Array[Plaza::GeoJsonFeature]?
+
+      attr_accessor geometry: Plaza::GeoJsonGeometry?
+
+      attr_accessor properties: Plaza::Models::RoutingIsochronePostResponse::Properties?
+
+      attr_reader type: Plaza::Models::RoutingIsochronePostResponse::type_?
+
+      def type=: (
+        Plaza::Models::RoutingIsochronePostResponse::type_
+      ) -> Plaza::Models::RoutingIsochronePostResponse::type_
+
+      def initialize: (
+        ?features: ::Array[Plaza::GeoJsonFeature]?,
+        ?geometry: Plaza::GeoJsonGeometry?,
+        ?properties: Plaza::Models::RoutingIsochronePostResponse::Properties?,
+        ?type: Plaza::Models::RoutingIsochronePostResponse::type_
+      ) -> void
+
+      def to_hash: -> {
+        features: ::Array[Plaza::GeoJsonFeature]?,
+        geometry: Plaza::GeoJsonGeometry?,
+        properties: Plaza::Models::RoutingIsochronePostResponse::Properties?,
+        type: Plaza::Models::RoutingIsochronePostResponse::type_
+      }
+
+      type properties =
+        {
+          :area_m2 => Float?,
+          max_cost_s: Float?,
+          mode: Plaza::Models::RoutingIsochronePostResponse::Properties::mode,
+          time_seconds: Float,
+          vertices_reached: Integer
+        }
+
+      class Properties < Plaza::Internal::Type::BaseModel
+        attr_accessor area_m2: Float?
+
+        attr_accessor max_cost_s: Float?
+
+        attr_reader mode: Plaza::Models::RoutingIsochronePostResponse::Properties::mode?
+
+        def mode=: (
+          Plaza::Models::RoutingIsochronePostResponse::Properties::mode
+        ) -> Plaza::Models::RoutingIsochronePostResponse::Properties::mode
+
+        attr_reader time_seconds: Float?
+
+        def time_seconds=: (Float) -> Float
+
+        attr_reader vertices_reached: Integer?
+
+        def vertices_reached=: (Integer) -> Integer
+
+        def initialize: (
+          ?area_m2: Float?,
+          ?max_cost_s: Float?,
+          ?mode: Plaza::Models::RoutingIsochronePostResponse::Properties::mode,
+          ?time_seconds: Float,
+          ?vertices_reached: Integer
+        ) -> void
+
+        def to_hash: -> {
+          :area_m2 => Float?,
+          max_cost_s: Float?,
+          mode: Plaza::Models::RoutingIsochronePostResponse::Properties::mode,
+          time_seconds: Float,
+          vertices_reached: Integer
+        }
+
+        type mode = :auto | :foot | :bicycle
+
+        module Mode
+          extend Plaza::Internal::Type::Enum
+
+          AUTO: :auto
+          FOOT: :foot
+          BICYCLE: :bicycle
+
+          def self?.values: -> ::Array[Plaza::Models::RoutingIsochronePostResponse::Properties::mode]
+        end
+      end
+
+      type type_ = :Feature | :FeatureCollection
+
+      module Type
+        extend Plaza::Internal::Type::Enum
+
+        FEATURE: :Feature
+        FEATURE_COLLECTION: :FeatureCollection
+
+        def self?.values: -> ::Array[Plaza::Models::RoutingIsochronePostResponse::type_]
+      end
+    end
+  end
+end

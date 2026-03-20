@@ -16,15 +16,15 @@ module Plaza
         ).returns(Plaza::Dataset)
       end
       def create(
-        # Dataset name
+        # Human-readable dataset name
         name:,
-        # URL-friendly slug
+        # URL-friendly identifier (lowercase, hyphens, no spaces)
         slug:,
-        # Attribution text
+        # Required attribution text
         attribution: nil,
         # Dataset description
         description: nil,
-        # License identifier
+        # License identifier (e.g. CC-BY-4.0)
         license: nil,
         # Source data URL
         source_url: nil,
@@ -72,6 +72,14 @@ module Plaza
           id: String,
           cursor: String,
           limit: Integer,
+          output_buffer: Float,
+          output_centroid: T::Boolean,
+          output_fields: String,
+          output_geometry: T::Boolean,
+          output_include: String,
+          output_precision: Integer,
+          output_simplify: Float,
+          output_sort: String,
           request_options: Plaza::RequestOptions::OrHash
         ).returns(Plaza::FeatureCollection)
       end
@@ -82,6 +90,22 @@ module Plaza
         cursor: nil,
         # Maximum results
         limit: nil,
+        # Buffer geometry by meters
+        output_buffer: nil,
+        # Replace geometry with centroid
+        output_centroid: nil,
+        # Comma-separated property fields to include
+        output_fields: nil,
+        # Include geometry (default true)
+        output_geometry: nil,
+        # Extra computed fields: bbox, distance, center
+        output_include: nil,
+        # Coordinate decimal precision (1-15, default 7)
+        output_precision: nil,
+        # Simplify geometry tolerance in meters
+        output_simplify: nil,
+        # Sort by: distance, name, osm_id
+        output_sort: nil,
         request_options: {}
       )
       end

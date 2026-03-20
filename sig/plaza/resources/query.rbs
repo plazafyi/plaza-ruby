@@ -1,6 +1,11 @@
 module Plaza
   module Resources
     class Query
+      def execute: (
+        steps: ::Array[Plaza::QueryExecuteParams::Step],
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::Models::QueryExecuteResponse
+
       def overpass: (
         data: String,
         ?request_options: Plaza::request_opts

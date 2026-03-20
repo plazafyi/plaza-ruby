@@ -6,20 +6,26 @@ module Plaza
       OrHash =
         T.type_alias { T.any(Plaza::GeocodeResult, Plaza::Internal::AnyHash) }
 
+      # Geocoding results ordered by relevance score
       sig { returns(T::Array[Plaza::GeocodingFeature]) }
       attr_accessor :features
 
       sig { returns(Plaza::GeocodeResult::Type::TaggedSymbol) }
       attr_accessor :type
 
-      # GeoJSON FeatureCollection of geocoding results
+      # GeoJSON FeatureCollection of forward geocoding results, ordered by relevance.
+      # Content-Type: `application/geo+json`.
       sig do
         params(
           features: T::Array[Plaza::GeocodingFeature::OrHash],
           type: Plaza::GeocodeResult::Type::OrSymbol
         ).returns(T.attached_class)
       end
-      def self.new(features:, type:)
+      def self.new(
+        # Geocoding results ordered by relevance score
+        features:,
+        type:
+      )
       end
 
       sig do

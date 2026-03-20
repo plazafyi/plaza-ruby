@@ -5,6 +5,7 @@ module Plaza
     # @see Plaza::Resources::Geocode#reverse
     class ReverseGeocodeResult < Plaza::Internal::Type::BaseModel
       # @!attribute features
+      #   Reverse geocoding results ordered by distance
       #
       #   @return [Array<Plaza::Models::GeocodingFeature>]
       required :features, -> { Plaza::Internal::Type::ArrayOf[Plaza::GeocodingFeature] }
@@ -15,9 +16,11 @@ module Plaza
       required :type, enum: -> { Plaza::ReverseGeocodeResult::Type }
 
       # @!method initialize(features:, type:)
-      #   GeoJSON FeatureCollection of reverse geocoding results
+      #   GeoJSON FeatureCollection of reverse geocoding results, ordered by distance from
+      #   the query point. Content-Type: `application/geo+json`.
       #
-      #   @param features [Array<Plaza::Models::GeocodingFeature>]
+      #   @param features [Array<Plaza::Models::GeocodingFeature>] Reverse geocoding results ordered by distance
+      #
       #   @param type [Symbol, Plaza::Models::ReverseGeocodeResult::Type]
 
       # @see Plaza::Models::ReverseGeocodeResult#type

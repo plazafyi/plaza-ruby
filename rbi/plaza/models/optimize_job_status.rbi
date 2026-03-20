@@ -8,32 +8,35 @@ module Plaza
           T.any(Plaza::OptimizeJobStatus, Plaza::Internal::AnyHash)
         end
 
-      # Job status
+      # Current job state
       sig { returns(Plaza::OptimizeJobStatus::Status::TaggedSymbol) }
       attr_accessor :status
 
-      # Error message when failed
-      sig { returns(T.nilable(String)) }
-      attr_accessor :error
+      # Completed optimization result as a GeoJSON FeatureCollection. Each Feature is a
+      # waypoint in optimized visit order. Top-level fields provide summary statistics.
+      sig { returns(T.nilable(Plaza::OptimizeCompletedResult)) }
+      attr_reader :result
 
-      # Optimization result when completed
-      sig { returns(T.nilable(T.anything)) }
-      attr_accessor :result
+      sig do
+        params(result: T.nilable(Plaza::OptimizeCompletedResult::OrHash)).void
+      end
+      attr_writer :result
 
-      # Status of an async optimization job
+      # Status of an async optimization job. When `completed`, the `result` field
+      # contains the full OptimizeCompletedResult. When `processing`, the job is still
+      # running — poll again. Failed jobs return a standard Error response (HTTP 422),
+      # not this schema.
       sig do
         params(
           status: Plaza::OptimizeJobStatus::Status::OrSymbol,
-          error: T.nilable(String),
-          result: T.nilable(T.anything)
+          result: T.nilable(Plaza::OptimizeCompletedResult::OrHash)
         ).returns(T.attached_class)
       end
       def self.new(
-        # Job status
+        # Current job state
         status:,
-        # Error message when failed
-        error: nil,
-        # Optimization result when completed
+        # Completed optimization result as a GeoJSON FeatureCollection. Each Feature is a
+        # waypoint in optimized visit order. Top-level fields provide summary statistics.
         result: nil
       )
       end
@@ -42,15 +45,14 @@ module Plaza
         override.returns(
           {
             status: Plaza::OptimizeJobStatus::Status::TaggedSymbol,
-            error: T.nilable(String),
-            result: T.nilable(T.anything)
+            result: T.nilable(Plaza::OptimizeCompletedResult)
           }
         )
       end
       def to_hash
       end
 
-      # Job status
+      # Current job state
       module Status
         extend Plaza::Internal::Type::Enum
 
@@ -62,7 +64,6 @@ module Plaza
           T.let(:completed, Plaza::OptimizeJobStatus::Status::TaggedSymbol)
         PROCESSING =
           T.let(:processing, Plaza::OptimizeJobStatus::Status::TaggedSymbol)
-        FAILED = T.let(:failed, Plaza::OptimizeJobStatus::Status::TaggedSymbol)
 
         sig do
           override.returns(

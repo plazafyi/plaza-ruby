@@ -4,7 +4,10 @@ require_relative "../test_helper"
 
 class Plaza::Test::Resources::OptimizeTest < Plaza::Test::ResourceTest
   def test_create_required_params
-    response = @plaza.optimize.create(waypoints: {coordinates: [0], type: :Point})
+    response =
+      @plaza.optimize.create(
+        waypoints: [{lat: 48.8566, lng: 2.3522}, {lat: 48.8606, lng: 2.3376}, {lat: 48.8584, lng: 2.2945}]
+      )
 
     assert_pattern do
       response => Plaza::OptimizeResult
@@ -28,8 +31,7 @@ class Plaza::Test::Resources::OptimizeTest < Plaza::Test::ResourceTest
     assert_pattern do
       response => {
         status: Plaza::OptimizeJobStatus::Status,
-        error: String | nil,
-        result: Plaza::Internal::Type::Unknown | nil
+        result: Plaza::OptimizeCompletedResult | nil
       }
     end
   end

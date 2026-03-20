@@ -1,7 +1,17 @@
 module Plaza
   module Models
     type routing_isochrone_params =
-      { lat: Float, lng: Float, time: Float, mode: String }
+      {
+        lat: Float,
+        lng: Float,
+        time: Float,
+        mode: String,
+        output_fields: String,
+        output_geometry: bool,
+        output_include: String,
+        output_precision: Integer,
+        output_simplify: Float
+      }
       & Plaza::Internal::Type::request_parameters
 
     class RoutingIsochroneParams < Plaza::Internal::Type::BaseModel
@@ -18,11 +28,36 @@ module Plaza
 
       def mode=: (String) -> String
 
+      attr_reader output_fields: String?
+
+      def output_fields=: (String) -> String
+
+      attr_reader output_geometry: bool?
+
+      def output_geometry=: (bool) -> bool
+
+      attr_reader output_include: String?
+
+      def output_include=: (String) -> String
+
+      attr_reader output_precision: Integer?
+
+      def output_precision=: (Integer) -> Integer
+
+      attr_reader output_simplify: Float?
+
+      def output_simplify=: (Float) -> Float
+
       def initialize: (
         lat: Float,
         lng: Float,
         time: Float,
         ?mode: String,
+        ?output_fields: String,
+        ?output_geometry: bool,
+        ?output_include: String,
+        ?output_precision: Integer,
+        ?output_simplify: Float,
         ?request_options: Plaza::request_opts
       ) -> void
 
@@ -31,6 +66,11 @@ module Plaza
         lng: Float,
         time: Float,
         mode: String,
+        output_fields: String,
+        output_geometry: bool,
+        output_include: String,
+        output_precision: Integer,
+        output_simplify: Float,
         request_options: Plaza::RequestOptions
       }
     end

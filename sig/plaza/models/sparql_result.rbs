@@ -1,34 +1,54 @@
 module Plaza
   module Models
-    type sparql_result =
-      {
-        features: ::Array[Plaza::GeoJsonFeature],
-        type: Plaza::Models::SparqlResult::type_
-      }
+    type sparql_result = { results: ::Array[Plaza::SparqlResult::Result] }
 
     class SparqlResult < Plaza::Internal::Type::BaseModel
-      attr_accessor features: ::Array[Plaza::GeoJsonFeature]
+      attr_accessor results: ::Array[Plaza::SparqlResult::Result]
 
-      attr_accessor type: Plaza::Models::SparqlResult::type_
+      def initialize: (results: ::Array[Plaza::SparqlResult::Result]) -> void
 
-      def initialize: (
-        features: ::Array[Plaza::GeoJsonFeature],
-        type: Plaza::Models::SparqlResult::type_
-      ) -> void
+      def to_hash: -> { results: ::Array[Plaza::SparqlResult::Result] }
 
-      def to_hash: -> {
-        features: ::Array[Plaza::GeoJsonFeature],
-        type: Plaza::Models::SparqlResult::type_
-      }
+      type result =
+        {
+          geometry: Plaza::GeoJsonGeometry,
+          properties: ::Hash[Symbol, top],
+          type: Plaza::Models::SparqlResult::Result::type_,
+          id: String?
+        }
 
-      type type_ = :FeatureCollection
+      class Result < Plaza::Internal::Type::BaseModel
+        attr_accessor geometry: Plaza::GeoJsonGeometry
 
-      module Type
-        extend Plaza::Internal::Type::Enum
+        attr_accessor properties: ::Hash[Symbol, top]
 
-        FEATURE_COLLECTION: :FeatureCollection
+        attr_accessor type: Plaza::Models::SparqlResult::Result::type_
 
-        def self?.values: -> ::Array[Plaza::Models::SparqlResult::type_]
+        attr_accessor id: String?
+
+        def initialize: (
+          geometry: Plaza::GeoJsonGeometry,
+          properties: ::Hash[Symbol, top],
+          type: Plaza::Models::SparqlResult::Result::type_,
+          ?id: String?
+        ) -> void
+
+        def to_hash: -> {
+          geometry: Plaza::GeoJsonGeometry,
+          properties: ::Hash[Symbol, top],
+          type: Plaza::Models::SparqlResult::Result::type_,
+          id: String?
+        }
+
+        type type_ = :Feature
+
+        module Type
+          extend Plaza::Internal::Type::Enum
+
+          FEATURE: :Feature
+
+          def self?.values: -> ::Array[Plaza::Models::SparqlResult::Result::type_]
+        end
       end
     end
   end

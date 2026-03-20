@@ -6,40 +6,58 @@ module Plaza
       OrHash =
         T.type_alias { T.any(Plaza::MatrixRequest, Plaza::Internal::AnyHash) }
 
-      # Destination points (GeoJSON MultiPoint geometry)
-      sig { returns(Plaza::GeoJsonGeometry) }
-      attr_reader :destinations
+      # Array of destination coordinates (max 50)
+      sig { returns(T::Array[Plaza::MatrixRequest::Destination]) }
+      attr_accessor :destinations
 
-      sig { params(destinations: Plaza::GeoJsonGeometry::OrHash).void }
-      attr_writer :destinations
+      # Array of origin coordinates (max 50)
+      sig { returns(T::Array[Plaza::MatrixRequest::Origin]) }
+      attr_accessor :origins
 
-      # Origin points (GeoJSON MultiPoint geometry)
-      sig { returns(Plaza::GeoJsonGeometry) }
-      attr_reader :origins
+      # Comma-separated list of annotations to include: `duration` (always included),
+      # `distance`. Example: `duration,distance`.
+      sig { returns(T.nilable(String)) }
+      attr_reader :annotations
 
-      sig { params(origins: Plaza::GeoJsonGeometry::OrHash).void }
-      attr_writer :origins
+      sig { params(annotations: String).void }
+      attr_writer :annotations
 
-      # Travel mode
+      # Fallback speed in km/h for pairs where no route exists. When set, unreachable
+      # pairs get estimated values instead of null.
+      sig { returns(T.nilable(Float)) }
+      attr_accessor :fallback_speed
+
+      # Travel mode (default: `auto`)
       sig { returns(T.nilable(Plaza::MatrixRequest::Mode::OrSymbol)) }
       attr_reader :mode
 
       sig { params(mode: Plaza::MatrixRequest::Mode::OrSymbol).void }
       attr_writer :mode
 
+      # Request body for distance matrix calculation. Computes travel durations (and
+      # optionally distances) between every origin-destination pair. Maximum 2,500 pairs
+      # (origins × destinations), each list capped at 50 coordinates.
       sig do
         params(
-          destinations: Plaza::GeoJsonGeometry::OrHash,
-          origins: Plaza::GeoJsonGeometry::OrHash,
+          destinations: T::Array[Plaza::MatrixRequest::Destination::OrHash],
+          origins: T::Array[Plaza::MatrixRequest::Origin::OrHash],
+          annotations: String,
+          fallback_speed: T.nilable(Float),
           mode: Plaza::MatrixRequest::Mode::OrSymbol
         ).returns(T.attached_class)
       end
       def self.new(
-        # Destination points (GeoJSON MultiPoint geometry)
+        # Array of destination coordinates (max 50)
         destinations:,
-        # Origin points (GeoJSON MultiPoint geometry)
+        # Array of origin coordinates (max 50)
         origins:,
-        # Travel mode
+        # Comma-separated list of annotations to include: `duration` (always included),
+        # `distance`. Example: `duration,distance`.
+        annotations: nil,
+        # Fallback speed in km/h for pairs where no route exists. When set, unreachable
+        # pairs get estimated values instead of null.
+        fallback_speed: nil,
+        # Travel mode (default: `auto`)
         mode: nil
       )
       end
@@ -47,8 +65,10 @@ module Plaza
       sig do
         override.returns(
           {
-            destinations: Plaza::GeoJsonGeometry,
-            origins: Plaza::GeoJsonGeometry,
+            destinations: T::Array[Plaza::MatrixRequest::Destination],
+            origins: T::Array[Plaza::MatrixRequest::Origin],
+            annotations: String,
+            fallback_speed: T.nilable(Float),
             mode: Plaza::MatrixRequest::Mode::OrSymbol
           }
         )
@@ -56,7 +76,65 @@ module Plaza
       def to_hash
       end
 
-      # Travel mode
+      class Destination < Plaza::Internal::Type::BaseModel
+        OrHash =
+          T.type_alias do
+            T.any(Plaza::MatrixRequest::Destination, Plaza::Internal::AnyHash)
+          end
+
+        # Latitude in decimal degrees (-90 to 90)
+        sig { returns(Float) }
+        attr_accessor :lat
+
+        # Longitude in decimal degrees (-180 to 180)
+        sig { returns(Float) }
+        attr_accessor :lng
+
+        # Geographic coordinate as a JSON object with `lat` and `lng` fields.
+        sig { params(lat: Float, lng: Float).returns(T.attached_class) }
+        def self.new(
+          # Latitude in decimal degrees (-90 to 90)
+          lat:,
+          # Longitude in decimal degrees (-180 to 180)
+          lng:
+        )
+        end
+
+        sig { override.returns({ lat: Float, lng: Float }) }
+        def to_hash
+        end
+      end
+
+      class Origin < Plaza::Internal::Type::BaseModel
+        OrHash =
+          T.type_alias do
+            T.any(Plaza::MatrixRequest::Origin, Plaza::Internal::AnyHash)
+          end
+
+        # Latitude in decimal degrees (-90 to 90)
+        sig { returns(Float) }
+        attr_accessor :lat
+
+        # Longitude in decimal degrees (-180 to 180)
+        sig { returns(Float) }
+        attr_accessor :lng
+
+        # Geographic coordinate as a JSON object with `lat` and `lng` fields.
+        sig { params(lat: Float, lng: Float).returns(T.attached_class) }
+        def self.new(
+          # Latitude in decimal degrees (-90 to 90)
+          lat:,
+          # Longitude in decimal degrees (-180 to 180)
+          lng:
+        )
+        end
+
+        sig { override.returns({ lat: Float, lng: Float }) }
+        def to_hash
+        end
+      end
+
+      # Travel mode (default: `auto`)
       module Mode
         extend Plaza::Internal::Type::Enum
 

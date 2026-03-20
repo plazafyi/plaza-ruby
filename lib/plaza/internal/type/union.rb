@@ -9,7 +9,7 @@ module Plaza
       #   # `optimize_result` is a `Plaza::OptimizeResult`
       #   case optimize_result
       #   when Plaza::OptimizeCompletedResult
-      #     puts(optimize_result.geometry)
+      #     puts(optimize_result.features)
       #   when Plaza::OptimizeProcessingResult
       #     puts(optimize_result.job_id)
       #   else

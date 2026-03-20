@@ -42,7 +42,7 @@ plaza = Plaza::Client.new(
   environment: "local" # defaults to "production"
 )
 
-feature_collection = plaza.elements.nearby(lat: 48.8584, radius: 500)
+feature_collection = plaza.elements.query(near: "48.8584,2.2945", radius: 500)
 
 puts(feature_collection.features)
 ```
@@ -53,7 +53,7 @@ When the library is unable to connect to the API, or if the API returns a non-su
 
 ```ruby
 begin
-  element = plaza.elements.nearby(lat: 48.8584, radius: 500)
+  element = plaza.elements.query(near: "48.8584,2.2945", radius: 500)
 rescue Plaza::Errors::APIConnectionError => e
   puts("The server could not be reached")
   puts(e.cause)  # an underlying Exception, likely raised within `net/http`
@@ -96,7 +96,7 @@ plaza = Plaza::Client.new(
 )
 
 # Or, configure per-request:
-plaza.elements.nearby(lat: 48.8584, radius: 500, request_options: {max_retries: 5})
+plaza.elements.query(near: "48.8584,2.2945", radius: 500, request_options: {max_retries: 5})
 ```
 
 ### Timeouts
@@ -110,7 +110,7 @@ plaza = Plaza::Client.new(
 )
 
 # Or, configure per-request:
-plaza.elements.nearby(lat: 48.8584, radius: 500, request_options: {timeout: 5})
+plaza.elements.query(near: "48.8584,2.2945", radius: 500, request_options: {timeout: 5})
 ```
 
 On timeout, `Plaza::Errors::APITimeoutError` is raised.
@@ -141,8 +141,8 @@ Note: the `extra_` parameters of the same name overrides the documented paramete
 
 ```ruby
 feature_collection =
-  plaza.elements.nearby(
-    lat: 48.8584,
+  plaza.elements.query(
+    near: "48.8584,2.2945",
     radius: 500,
     request_options: {
       extra_query: {my_query_parameter: value},
@@ -189,18 +189,18 @@ This library provides comprehensive [RBI](https://sorbet.org/docs/rbi) definitio
 You can provide typesafe request parameters like so:
 
 ```ruby
-plaza.elements.nearby(lat: 48.8584, radius: 500)
+plaza.elements.query(near: "48.8584,2.2945", radius: 500)
 ```
 
 Or, equivalently:
 
 ```ruby
 # Hashes work, but are not typesafe:
-plaza.elements.nearby(lat: 48.8584, radius: 500)
+plaza.elements.query(near: "48.8584,2.2945", radius: 500)
 
 # You can also splat a full Params class:
-params = Plaza::ElementNearbyParams.new(lat: 48.8584, radius: 500)
-plaza.elements.nearby(**params)
+params = Plaza::ElementQueryParams.new(near: "48.8584,2.2945", radius: 500)
+plaza.elements.query(**params)
 ```
 
 ### Enums

@@ -5,7 +5,7 @@ module Plaza
     # @see Plaza::Resources::Elevation#batch
     class ElevationBatchResult < Plaza::Internal::Type::BaseModel
       # @!attribute features
-      #   Elevation Point Features for each queried point
+      #   Elevation results in the same order as input coordinates
       #
       #   @return [Array<Plaza::Models::ElevationLookupResult>]
       required :features, -> { Plaza::Internal::Type::ArrayOf[Plaza::ElevationLookupResult] }
@@ -16,9 +16,10 @@ module Plaza
       required :type, enum: -> { Plaza::ElevationBatchResult::Type }
 
       # @!method initialize(features:, type:)
-      #   GeoJSON FeatureCollection of elevation Point Features with 3D coordinates
+      #   GeoJSON FeatureCollection of elevation Point Features with 3D coordinates. Order
+      #   matches the input coordinates array.
       #
-      #   @param features [Array<Plaza::Models::ElevationLookupResult>] Elevation Point Features for each queried point
+      #   @param features [Array<Plaza::Models::ElevationLookupResult>] Elevation results in the same order as input coordinates
       #
       #   @param type [Symbol, Plaza::Models::ElevationBatchResult::Type]
 

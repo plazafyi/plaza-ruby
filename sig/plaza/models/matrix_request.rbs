@@ -2,15 +2,23 @@ module Plaza
   module Models
     type matrix_request =
       {
-        destinations: Plaza::GeoJsonGeometry,
-        origins: Plaza::GeoJsonGeometry,
+        destinations: ::Array[Plaza::MatrixRequest::Destination],
+        origins: ::Array[Plaza::MatrixRequest::Origin],
+        annotations: String,
+        fallback_speed: Float?,
         mode: Plaza::Models::MatrixRequest::mode
       }
 
     class MatrixRequest < Plaza::Internal::Type::BaseModel
-      attr_accessor destinations: Plaza::GeoJsonGeometry
+      attr_accessor destinations: ::Array[Plaza::MatrixRequest::Destination]
 
-      attr_accessor origins: Plaza::GeoJsonGeometry
+      attr_accessor origins: ::Array[Plaza::MatrixRequest::Origin]
+
+      attr_reader annotations: String?
+
+      def annotations=: (String) -> String
+
+      attr_accessor fallback_speed: Float?
 
       attr_reader mode: Plaza::Models::MatrixRequest::mode?
 
@@ -19,16 +27,44 @@ module Plaza
       ) -> Plaza::Models::MatrixRequest::mode
 
       def initialize: (
-        destinations: Plaza::GeoJsonGeometry,
-        origins: Plaza::GeoJsonGeometry,
+        destinations: ::Array[Plaza::MatrixRequest::Destination],
+        origins: ::Array[Plaza::MatrixRequest::Origin],
+        ?annotations: String,
+        ?fallback_speed: Float?,
         ?mode: Plaza::Models::MatrixRequest::mode
       ) -> void
 
       def to_hash: -> {
-        destinations: Plaza::GeoJsonGeometry,
-        origins: Plaza::GeoJsonGeometry,
+        destinations: ::Array[Plaza::MatrixRequest::Destination],
+        origins: ::Array[Plaza::MatrixRequest::Origin],
+        annotations: String,
+        fallback_speed: Float?,
         mode: Plaza::Models::MatrixRequest::mode
       }
+
+      type destination = { lat: Float, lng: Float }
+
+      class Destination < Plaza::Internal::Type::BaseModel
+        attr_accessor lat: Float
+
+        attr_accessor lng: Float
+
+        def initialize: (lat: Float, lng: Float) -> void
+
+        def to_hash: -> { lat: Float, lng: Float }
+      end
+
+      type origin = { lat: Float, lng: Float }
+
+      class Origin < Plaza::Internal::Type::BaseModel
+        attr_accessor lat: Float
+
+        attr_accessor lng: Float
+
+        def initialize: (lat: Float, lng: Float) -> void
+
+        def to_hash: -> { lat: Float, lng: Float }
+      end
 
       type mode = :auto | :foot | :bicycle
 

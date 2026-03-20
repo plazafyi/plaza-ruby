@@ -2,8 +2,8 @@
 
 module Plaza
   module Models
-    # Optimization response — either a completed GeoJSON Feature route or an async job
-    # reference
+    # Optimization response — either a completed FeatureCollection with the optimized
+    # route, or an async job reference to poll.
     module OptimizeResult
       extend Plaza::Internal::Type::Union
 

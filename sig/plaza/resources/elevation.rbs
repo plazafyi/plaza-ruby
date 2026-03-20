@@ -2,7 +2,7 @@ module Plaza
   module Resources
     class Elevation
       def batch: (
-        geometry: Plaza::GeoJsonGeometry,
+        coordinates: ::Array[Plaza::ElevationBatchParams::Coordinate],
         ?request_options: Plaza::request_opts
       ) -> Plaza::ElevationBatchResult
 
@@ -10,11 +10,24 @@ module Plaza
         ?lat: Float,
         ?lng: Float,
         ?locations: String,
+        ?output_fields: String,
+        ?output_include: String,
+        ?output_precision: Integer,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::ElevationLookupResult
+
+      def lookup_post: (
+        ?lat: Float,
+        ?lng: Float,
+        ?locations: String,
+        ?output_fields: String,
+        ?output_include: String,
+        ?output_precision: Integer,
         ?request_options: Plaza::request_opts
       ) -> Plaza::ElevationLookupResult
 
       def profile: (
-        geometry: Plaza::GeoJsonGeometry,
+        coordinates: ::Array[Plaza::ElevationProfileRequest::Coordinate],
         ?request_options: Plaza::request_opts
       ) -> Plaza::ElevationProfileResult
 

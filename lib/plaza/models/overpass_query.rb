@@ -10,6 +10,9 @@ module Plaza
       required :data, String
 
       # @!method initialize(data:)
+      #   Overpass QL query request. The query is executed against Plaza's OSM database
+      #   and results are returned as GeoJSON.
+      #
       #   @param data [String] Overpass QL query string
     end
   end

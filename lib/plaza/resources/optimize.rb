@@ -7,11 +7,11 @@ module Plaza
       #
       # @overload create(waypoints:, mode: nil, roundtrip: nil, request_options: {})
       #
-      # @param waypoints [Plaza::Models::GeoJsonGeometry] Waypoints to visit (GeoJSON MultiPoint geometry, minimum 2 points)
+      # @param waypoints [Array<Plaza::Models::OptimizeRequest::Waypoint>] Waypoints to visit in optimized order (2-50 points)
       #
-      # @param mode [Symbol, Plaza::Models::OptimizeRequest::Mode] Travel mode (default: auto)
+      # @param mode [Symbol, Plaza::Models::OptimizeRequest::Mode] Travel mode (default: `auto`)
       #
-      # @param roundtrip [Boolean] Whether route returns to start (default: true)
+      # @param roundtrip [Boolean] Whether the route should return to the starting waypoint (default: true)
       #
       # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
       #
@@ -23,7 +23,6 @@ module Plaza
         @client.request(
           method: :post,
           path: "api/v1/optimize",
-          headers: {"accept" => "application/geo+json"},
           body: parsed,
           model: Plaza::OptimizeResult,
           options: options

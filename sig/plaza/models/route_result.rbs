@@ -26,28 +26,51 @@ module Plaza
         type: Plaza::Models::RouteResult::type_
       }
 
-      type properties = { distance: Float, duration: Float, mode: String }
+      type properties =
+        {
+          distance_m: Float,
+          duration_s: Float,
+          annotations: ::Hash[Symbol, top]?,
+          charge_profile: ::Array[::Array[Float]]?,
+          charging_stops: ::Array[::Hash[Symbol, top]]?,
+          edges: ::Array[::Hash[Symbol, top]]?,
+          energy_used_wh: Float?
+        }
 
       class Properties < Plaza::Internal::Type::BaseModel
-        attr_reader distance: Float?
+        attr_accessor distance_m: Float
 
-        def distance=: (Float) -> Float
+        attr_accessor duration_s: Float
 
-        attr_reader duration: Float?
+        attr_accessor annotations: ::Hash[Symbol, top]?
 
-        def duration=: (Float) -> Float
+        attr_accessor charge_profile: ::Array[::Array[Float]]?
 
-        attr_reader mode: String?
+        attr_accessor charging_stops: ::Array[::Hash[Symbol, top]]?
 
-        def mode=: (String) -> String
+        attr_accessor edges: ::Array[::Hash[Symbol, top]]?
+
+        attr_accessor energy_used_wh: Float?
 
         def initialize: (
-          ?distance: Float,
-          ?duration: Float,
-          ?mode: String
+          distance_m: Float,
+          duration_s: Float,
+          ?annotations: ::Hash[Symbol, top]?,
+          ?charge_profile: ::Array[::Array[Float]]?,
+          ?charging_stops: ::Array[::Hash[Symbol, top]]?,
+          ?edges: ::Array[::Hash[Symbol, top]]?,
+          ?energy_used_wh: Float?
         ) -> void
 
-        def to_hash: -> { distance: Float, duration: Float, mode: String }
+        def to_hash: -> {
+          distance_m: Float,
+          duration_s: Float,
+          annotations: ::Hash[Symbol, top]?,
+          charge_profile: ::Array[::Array[Float]]?,
+          charging_stops: ::Array[::Hash[Symbol, top]]?,
+          edges: ::Array[::Hash[Symbol, top]]?,
+          energy_used_wh: Float?
+        }
       end
 
       type type_ = :Feature

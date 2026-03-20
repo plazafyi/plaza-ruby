@@ -3,37 +3,31 @@ module Plaza
     type optimize_job_status =
       {
         status: Plaza::Models::OptimizeJobStatus::status,
-        error: String?,
-        result: top?
+        result: Plaza::OptimizeCompletedResult?
       }
 
     class OptimizeJobStatus < Plaza::Internal::Type::BaseModel
       attr_accessor status: Plaza::Models::OptimizeJobStatus::status
 
-      attr_accessor error: String?
-
-      attr_accessor result: top?
+      attr_accessor result: Plaza::OptimizeCompletedResult?
 
       def initialize: (
         status: Plaza::Models::OptimizeJobStatus::status,
-        ?error: String?,
-        ?result: top?
+        ?result: Plaza::OptimizeCompletedResult?
       ) -> void
 
       def to_hash: -> {
         status: Plaza::Models::OptimizeJobStatus::status,
-        error: String?,
-        result: top?
+        result: Plaza::OptimizeCompletedResult?
       }
 
-      type status = :completed | :processing | :failed
+      type status = :completed | :processing
 
       module Status
         extend Plaza::Internal::Type::Enum
 
         COMPLETED: :completed
         PROCESSING: :processing
-        FAILED: :failed
 
         def self?.values: -> ::Array[Plaza::Models::OptimizeJobStatus::status]
       end

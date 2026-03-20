@@ -8,12 +8,15 @@ module Plaza
           T.any(Plaza::ElevationProfileResult, Plaza::Internal::AnyHash)
         end
 
+      # GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
+      # order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
       sig { returns(Plaza::GeoJsonGeometry) }
       attr_reader :geometry
 
       sig { params(geometry: Plaza::GeoJsonGeometry::OrHash).void }
       attr_writer :geometry
 
+      # Elevation profile summary statistics
       sig { returns(Plaza::ElevationProfileResult::Properties) }
       attr_reader :properties
 
@@ -27,7 +30,9 @@ module Plaza
       sig { returns(Plaza::ElevationProfileResult::Type::TaggedSymbol) }
       attr_accessor :type
 
-      # GeoJSON LineString Feature with 3D coordinates representing an elevation profile
+      # GeoJSON LineString Feature with 3D coordinates [lng, lat, elevation]
+      # representing the elevation profile along the input path. Summary statistics are
+      # in properties.
       sig do
         params(
           geometry: Plaza::GeoJsonGeometry::OrHash,
@@ -35,7 +40,14 @@ module Plaza
           type: Plaza::ElevationProfileResult::Type::OrSymbol
         ).returns(T.attached_class)
       end
-      def self.new(geometry:, properties:, type:)
+      def self.new(
+        # GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
+        # order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
+        geometry:,
+        # Elevation profile summary statistics
+        properties:,
+        type:
+      )
       end
 
       sig do
@@ -59,41 +71,27 @@ module Plaza
             )
           end
 
-        # Average elevation along profile
-        sig { returns(T.nilable(Float)) }
-        attr_reader :avg_elevation_m
+        # Average elevation along the profile in meters
+        sig { returns(Float) }
+        attr_accessor :avg_elevation_m
 
-        sig { params(avg_elevation_m: Float).void }
-        attr_writer :avg_elevation_m
+        # Maximum elevation along the profile in meters
+        sig { returns(Float) }
+        attr_accessor :max_elevation_m
 
-        # Maximum elevation along profile
-        sig { returns(T.nilable(Float)) }
-        attr_reader :max_elevation_m
+        # Minimum elevation along the profile in meters
+        sig { returns(Float) }
+        attr_accessor :min_elevation_m
 
-        sig { params(max_elevation_m: Float).void }
-        attr_writer :max_elevation_m
+        # Total cumulative elevation gain in meters
+        sig { returns(Float) }
+        attr_accessor :total_ascent_m
 
-        # Minimum elevation along profile
-        sig { returns(T.nilable(Float)) }
-        attr_reader :min_elevation_m
+        # Total cumulative elevation loss in meters
+        sig { returns(Float) }
+        attr_accessor :total_descent_m
 
-        sig { params(min_elevation_m: Float).void }
-        attr_writer :min_elevation_m
-
-        # Total elevation gain in meters
-        sig { returns(T.nilable(Float)) }
-        attr_reader :total_ascent_m
-
-        sig { params(total_ascent_m: Float).void }
-        attr_writer :total_ascent_m
-
-        # Total elevation loss in meters
-        sig { returns(T.nilable(Float)) }
-        attr_reader :total_descent_m
-
-        sig { params(total_descent_m: Float).void }
-        attr_writer :total_descent_m
-
+        # Elevation profile summary statistics
         sig do
           params(
             avg_elevation_m: Float,
@@ -104,16 +102,16 @@ module Plaza
           ).returns(T.attached_class)
         end
         def self.new(
-          # Average elevation along profile
-          avg_elevation_m: nil,
-          # Maximum elevation along profile
-          max_elevation_m: nil,
-          # Minimum elevation along profile
-          min_elevation_m: nil,
-          # Total elevation gain in meters
-          total_ascent_m: nil,
-          # Total elevation loss in meters
-          total_descent_m: nil
+          # Average elevation along the profile in meters
+          avg_elevation_m:,
+          # Maximum elevation along the profile in meters
+          max_elevation_m:,
+          # Minimum elevation along the profile in meters
+          min_elevation_m:,
+          # Total cumulative elevation gain in meters
+          total_ascent_m:,
+          # Total cumulative elevation loss in meters
+          total_descent_m:
         )
         end
 

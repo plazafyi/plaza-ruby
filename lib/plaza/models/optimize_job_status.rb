@@ -5,33 +5,32 @@ module Plaza
     # @see Plaza::Resources::Optimize#retrieve
     class OptimizeJobStatus < Plaza::Internal::Type::BaseModel
       # @!attribute status
-      #   Job status
+      #   Current job state
       #
       #   @return [Symbol, Plaza::Models::OptimizeJobStatus::Status]
       required :status, enum: -> { Plaza::OptimizeJobStatus::Status }
 
-      # @!attribute error
-      #   Error message when failed
-      #
-      #   @return [String, nil]
-      optional :error, String, nil?: true
-
       # @!attribute result
-      #   Optimization result when completed
+      #   Completed optimization result as a GeoJSON FeatureCollection. Each Feature is a
+      #   waypoint in optimized visit order. Top-level fields provide summary statistics.
       #
-      #   @return [Object, nil]
-      optional :result, Plaza::Internal::Type::Unknown, nil?: true
+      #   @return [Plaza::Models::OptimizeCompletedResult, nil]
+      optional :result, -> { Plaza::OptimizeCompletedResult }, nil?: true
 
-      # @!method initialize(status:, error: nil, result: nil)
-      #   Status of an async optimization job
+      # @!method initialize(status:, result: nil)
+      #   Some parameter documentations has been truncated, see
+      #   {Plaza::Models::OptimizeJobStatus} for more details.
       #
-      #   @param status [Symbol, Plaza::Models::OptimizeJobStatus::Status] Job status
+      #   Status of an async optimization job. When `completed`, the `result` field
+      #   contains the full OptimizeCompletedResult. When `processing`, the job is still
+      #   running — poll again. Failed jobs return a standard Error response (HTTP 422),
+      #   not this schema.
       #
-      #   @param error [String, nil] Error message when failed
+      #   @param status [Symbol, Plaza::Models::OptimizeJobStatus::Status] Current job state
       #
-      #   @param result [Object, nil] Optimization result when completed
+      #   @param result [Plaza::Models::OptimizeCompletedResult, nil] Completed optimization result as a GeoJSON FeatureCollection. Each Feature is a
 
-      # Job status
+      # Current job state
       #
       # @see Plaza::Models::OptimizeJobStatus#status
       module Status
@@ -39,7 +38,6 @@ module Plaza
 
         COMPLETED = :completed
         PROCESSING = :processing
-        FAILED = :failed
 
         # @!method self.values
         #   @return [Array<Symbol>]
