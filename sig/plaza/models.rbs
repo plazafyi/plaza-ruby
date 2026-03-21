@@ -105,8 +105,6 @@ module Plaza
 
   class QueryOverpassParams = Plaza::Models::QueryOverpassParams
 
-  class QuerySparqlParams = Plaza::Models::QuerySparqlParams
-
   class ReverseGeocodeResult = Plaza::Models::ReverseGeocodeResult
 
   class RouteRequest = Plaza::Models::RouteRequest
@@ -128,10 +126,6 @@ module Plaza
   class SearchQueryParams = Plaza::Models::SearchQueryParams
 
   class SearchQueryPostParams = Plaza::Models::SearchQueryPostParams
-
-  class SparqlQuery = Plaza::Models::SparqlQuery
-
-  class SparqlResult = Plaza::Models::SparqlResult
 
   class TileGetParams = Plaza::Models::TileGetParams
 end

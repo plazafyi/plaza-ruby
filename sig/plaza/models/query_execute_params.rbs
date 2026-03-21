@@ -40,13 +40,12 @@ module Plaza
           query: String
         }
 
-        type type_ = :overpass | :sparql | :filter | :transform
+        type type_ = :overpass | :filter | :transform
 
         module Type
           extend Plaza::Internal::Type::Enum
 
           OVERPASS: :overpass
-          SPARQL: :sparql
           FILTER: :filter
           TRANSFORM: :transform
 
