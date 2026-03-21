@@ -52,28 +52,6 @@ module Plaza
         )
       end
 
-      # Execute a SPARQL query
-      #
-      # @overload sparql(query:, request_options: {})
-      #
-      # @param query [String] SPARQL query string
-      #
-      # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
-      #
-      # @return [Plaza::Models::SparqlResult]
-      #
-      # @see Plaza::Models::QuerySparqlParams
-      def sparql(params)
-        parsed, options = Plaza::QuerySparqlParams.dump_request(params)
-        @client.request(
-          method: :post,
-          path: "api/v1/sparql",
-          body: parsed,
-          model: Plaza::SparqlResult,
-          options: options
-        )
-      end
-
       # @api private
       #
       # @param client [Plaza::Client]

@@ -20,13 +20,13 @@ module Plaza
 
       class Step < Plaza::Internal::Type::BaseModel
         # @!attribute type
-        #   Step type: `overpass`, `sparql`, `filter`, or `transform`
+        #   Step type: `overpass`, `filter`, or `transform`
         #
         #   @return [Symbol, Plaza::Models::QueryExecuteParams::Step::Type]
         required :type, enum: -> { Plaza::QueryExecuteParams::Step::Type }
 
         # @!attribute query
-        #   Query string for this step (required for overpass/sparql steps)
+        #   Query string for this step (required for overpass steps)
         #
         #   @return [String, nil]
         optional :query, String
@@ -34,18 +34,17 @@ module Plaza
         # @!method initialize(type:, query: nil)
         #   A single pipeline step
         #
-        #   @param type [Symbol, Plaza::Models::QueryExecuteParams::Step::Type] Step type: `overpass`, `sparql`, `filter`, or `transform`
+        #   @param type [Symbol, Plaza::Models::QueryExecuteParams::Step::Type] Step type: `overpass`, `filter`, or `transform`
         #
-        #   @param query [String] Query string for this step (required for overpass/sparql steps)
+        #   @param query [String] Query string for this step (required for overpass steps)
 
-        # Step type: `overpass`, `sparql`, `filter`, or `transform`
+        # Step type: `overpass`, `filter`, or `transform`
         #
         # @see Plaza::Models::QueryExecuteParams::Step#type
         module Type
           extend Plaza::Internal::Type::Enum
 
           OVERPASS = :overpass
-          SPARQL = :sparql
           FILTER = :filter
           TRANSFORM = :transform
 

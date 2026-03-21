@@ -45,11 +45,11 @@ module Plaza
             T.any(Plaza::QueryExecuteParams::Step, Plaza::Internal::AnyHash)
           end
 
-        # Step type: `overpass`, `sparql`, `filter`, or `transform`
+        # Step type: `overpass`, `filter`, or `transform`
         sig { returns(Plaza::QueryExecuteParams::Step::Type::OrSymbol) }
         attr_accessor :type
 
-        # Query string for this step (required for overpass/sparql steps)
+        # Query string for this step (required for overpass steps)
         sig { returns(T.nilable(String)) }
         attr_reader :query
 
@@ -64,9 +64,9 @@ module Plaza
           ).returns(T.attached_class)
         end
         def self.new(
-          # Step type: `overpass`, `sparql`, `filter`, or `transform`
+          # Step type: `overpass`, `filter`, or `transform`
           type:,
-          # Query string for this step (required for overpass/sparql steps)
+          # Query string for this step (required for overpass steps)
           query: nil
         )
         end
@@ -82,7 +82,7 @@ module Plaza
         def to_hash
         end
 
-        # Step type: `overpass`, `sparql`, `filter`, or `transform`
+        # Step type: `overpass`, `filter`, or `transform`
         module Type
           extend Plaza::Internal::Type::Enum
 
@@ -97,8 +97,6 @@ module Plaza
               :overpass,
               Plaza::QueryExecuteParams::Step::Type::TaggedSymbol
             )
-          SPARQL =
-            T.let(:sparql, Plaza::QueryExecuteParams::Step::Type::TaggedSymbol)
           FILTER =
             T.let(:filter, Plaza::QueryExecuteParams::Step::Type::TaggedSymbol)
           TRANSFORM =

@@ -12,11 +12,6 @@ module Plaza
         ?request_options: Plaza::request_opts
       ) -> Plaza::FeatureCollection
 
-      def sparql: (
-        query: String,
-        ?request_options: Plaza::request_opts
-      ) -> Plaza::SparqlResult
-
       def initialize: (client: Plaza::Client) -> void
     end
   end

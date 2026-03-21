@@ -32,21 +32,4 @@ class Plaza::Test::Resources::QueryTest < Plaza::Test::ResourceTest
       }
     end
   end
-
-  def test_sparql_required_params
-    response =
-      @plaza.query.sparql(
-        query: "SELECT ?s ?name WHERE { ?s osm:name ?name . ?s osm:amenity \"cafe\" } LIMIT 10"
-      )
-
-    assert_pattern do
-      response => Plaza::SparqlResult
-    end
-
-    assert_pattern do
-      response => {
-        results: ^(Plaza::Internal::Type::ArrayOf[Plaza::SparqlResult::Result])
-      }
-    end
-  end
 end
