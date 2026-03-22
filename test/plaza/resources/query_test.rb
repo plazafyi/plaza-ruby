@@ -4,22 +4,10 @@ require_relative "../test_helper"
 
 class Plaza::Test::Resources::QueryTest < Plaza::Test::ResourceTest
   def test_execute_required_params
-    response = @plaza.query.execute(steps: [{type: :overpass}])
-
-    assert_pattern do
-      response => Plaza::Models::QueryExecuteResponse
-    end
-
-    assert_pattern do
-      response => {
-        steps: ^(Plaza::Internal::Type::ArrayOf[Plaza::Internal::Type::HashOf[Plaza::Internal::Type::Unknown]])
-      }
-    end
-  end
-
-  def test_overpass_required_params
     response =
-      @plaza.query.overpass(data: "[out:json];node[amenity=cafe](around:500,48.8566,2.3522);out body;")
+      @plaza.query.execute(
+        data: "$$ = search(node, amenity: \"cafe\").around(distance: 500, geometry: point(48.8566, 2.3522));"
+      )
 
     assert_pattern do
       response => Plaza::FeatureCollection

@@ -102,11 +102,9 @@ module Plaza
 
   OptimizeRetrieveParams = Plaza::Models::OptimizeRetrieveParams
 
-  OverpassQuery = Plaza::Models::OverpassQuery
+  PlazaqlQuery = Plaza::Models::PlazaqlQuery
 
   QueryExecuteParams = Plaza::Models::QueryExecuteParams
-
-  QueryOverpassParams = Plaza::Models::QueryOverpassParams
 
   ReverseGeocodeResult = Plaza::Models::ReverseGeocodeResult
 
