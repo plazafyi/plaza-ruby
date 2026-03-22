@@ -1,57 +1,25 @@
 module Plaza
   module Models
     type query_execute_params =
-      { steps: ::Array[Plaza::QueryExecuteParams::Step] }
-      & Plaza::Internal::Type::request_parameters
+      { format_: String } & Plaza::Internal::Type::request_parameters
 
-    class QueryExecuteParams < Plaza::Internal::Type::BaseModel
+    class QueryExecuteParams < Plaza::Models::PlazaqlQuery
       extend Plaza::Internal::Type::RequestParameters::Converter
       include Plaza::Internal::Type::RequestParameters
 
-      attr_accessor steps: ::Array[Plaza::QueryExecuteParams::Step]
+      def format_: -> String?
+
+      def format_=: (String _) -> String
 
       def initialize: (
-        steps: ::Array[Plaza::QueryExecuteParams::Step],
+        ?format_: String,
         ?request_options: Plaza::request_opts
       ) -> void
 
       def to_hash: -> {
-        steps: ::Array[Plaza::QueryExecuteParams::Step],
+        format_: String,
         request_options: Plaza::RequestOptions
       }
-
-      type step =
-        { type: Plaza::Models::QueryExecuteParams::Step::type_, query: String }
-
-      class Step < Plaza::Internal::Type::BaseModel
-        attr_accessor type: Plaza::Models::QueryExecuteParams::Step::type_
-
-        attr_reader query: String?
-
-        def query=: (String) -> String
-
-        def initialize: (
-          type: Plaza::Models::QueryExecuteParams::Step::type_,
-          ?query: String
-        ) -> void
-
-        def to_hash: -> {
-          type: Plaza::Models::QueryExecuteParams::Step::type_,
-          query: String
-        }
-
-        type type_ = :overpass | :filter | :transform
-
-        module Type
-          extend Plaza::Internal::Type::Enum
-
-          OVERPASS: :overpass
-          FILTER: :filter
-          TRANSFORM: :transform
-
-          def self?.values: -> ::Array[Plaza::Models::QueryExecuteParams::Step::type_]
-        end
-      end
     end
   end
 end

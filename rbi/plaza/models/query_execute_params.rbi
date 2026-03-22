@@ -2,7 +2,7 @@
 
 module Plaza
   module Models
-    class QueryExecuteParams < Plaza::Internal::Type::BaseModel
+    class QueryExecuteParams < Plaza::Models::PlazaqlQuery
       extend Plaza::Internal::Type::RequestParameters::Converter
       include Plaza::Internal::Type::RequestParameters
 
@@ -11,108 +11,32 @@ module Plaza
           T.any(Plaza::QueryExecuteParams, Plaza::Internal::AnyHash)
         end
 
-      # Ordered list of query steps to execute
-      sig { returns(T::Array[Plaza::QueryExecuteParams::Step]) }
-      attr_accessor :steps
+      # Response format: json (default), geojson, csv, ndjson
+      sig { returns(T.nilable(String)) }
+      attr_reader :format_
+
+      sig { params(format_: String).void }
+      attr_writer :format_
 
       sig do
         params(
-          steps: T::Array[Plaza::QueryExecuteParams::Step::OrHash],
+          format_: String,
           request_options: Plaza::RequestOptions::OrHash
         ).returns(T.attached_class)
       end
       def self.new(
-        # Ordered list of query steps to execute
-        steps:,
+        # Response format: json (default), geojson, csv, ndjson
+        format_: nil,
         request_options: {}
       )
       end
 
       sig do
         override.returns(
-          {
-            steps: T::Array[Plaza::QueryExecuteParams::Step],
-            request_options: Plaza::RequestOptions
-          }
+          { format_: String, request_options: Plaza::RequestOptions }
         )
       end
       def to_hash
-      end
-
-      class Step < Plaza::Internal::Type::BaseModel
-        OrHash =
-          T.type_alias do
-            T.any(Plaza::QueryExecuteParams::Step, Plaza::Internal::AnyHash)
-          end
-
-        # Step type: `overpass`, `filter`, or `transform`
-        sig { returns(Plaza::QueryExecuteParams::Step::Type::OrSymbol) }
-        attr_accessor :type
-
-        # Query string for this step (required for overpass steps)
-        sig { returns(T.nilable(String)) }
-        attr_reader :query
-
-        sig { params(query: String).void }
-        attr_writer :query
-
-        # A single pipeline step
-        sig do
-          params(
-            type: Plaza::QueryExecuteParams::Step::Type::OrSymbol,
-            query: String
-          ).returns(T.attached_class)
-        end
-        def self.new(
-          # Step type: `overpass`, `filter`, or `transform`
-          type:,
-          # Query string for this step (required for overpass steps)
-          query: nil
-        )
-        end
-
-        sig do
-          override.returns(
-            {
-              type: Plaza::QueryExecuteParams::Step::Type::OrSymbol,
-              query: String
-            }
-          )
-        end
-        def to_hash
-        end
-
-        # Step type: `overpass`, `filter`, or `transform`
-        module Type
-          extend Plaza::Internal::Type::Enum
-
-          TaggedSymbol =
-            T.type_alias do
-              T.all(Symbol, Plaza::QueryExecuteParams::Step::Type)
-            end
-          OrSymbol = T.type_alias { T.any(Symbol, String) }
-
-          OVERPASS =
-            T.let(
-              :overpass,
-              Plaza::QueryExecuteParams::Step::Type::TaggedSymbol
-            )
-          FILTER =
-            T.let(:filter, Plaza::QueryExecuteParams::Step::Type::TaggedSymbol)
-          TRANSFORM =
-            T.let(
-              :transform,
-              Plaza::QueryExecuteParams::Step::Type::TaggedSymbol
-            )
-
-          sig do
-            override.returns(
-              T::Array[Plaza::QueryExecuteParams::Step::Type::TaggedSymbol]
-            )
-          end
-          def self.values
-          end
-        end
       end
     end
   end
