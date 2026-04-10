@@ -1,0 +1,17 @@
+module Plaza
+  module Models
+    type geometry =
+      Plaza::PointGeometry
+      | Plaza::LineStringGeometry
+      | Plaza::PolygonGeometry
+      | Plaza::MultiPointGeometry
+      | Plaza::MultiLineStringGeometry
+      | Plaza::MultiPolygonGeometry
+
+    module Geometry
+      extend Plaza::Internal::Type::Union
+
+      def self?.variants: -> ::Array[Plaza::Models::geometry]
+    end
+  end
+end

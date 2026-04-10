@@ -2,7 +2,7 @@ module Plaza
   module Resources
     class MapMatch
       def match: (
-        coordinates: ::Array[Plaza::MapMatchRequest::Coordinate],
+        geometry: Plaza::LineStringGeometry,
         ?radiuses: ::Array[Float]?,
         ?request_options: Plaza::request_opts
       ) -> Plaza::MapMatchResult

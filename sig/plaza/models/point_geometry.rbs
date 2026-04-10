@@ -1,0 +1,32 @@
+module Plaza
+  module Models
+    type point_geometry =
+      { coordinates: ::Array[Float], type: Plaza::Models::PointGeometry::type_ }
+
+    class PointGeometry < Plaza::Internal::Type::BaseModel
+      attr_accessor coordinates: ::Array[Float]
+
+      attr_accessor type: Plaza::Models::PointGeometry::type_
+
+      def initialize: (
+        coordinates: ::Array[Float],
+        type: Plaza::Models::PointGeometry::type_
+      ) -> void
+
+      def to_hash: -> {
+        coordinates: ::Array[Float],
+        type: Plaza::Models::PointGeometry::type_
+      }
+
+      type type_ = :Point
+
+      module Type
+        extend Plaza::Internal::Type::Enum
+
+        POINT: :Point
+
+        def self?.values: -> ::Array[Plaza::Models::PointGeometry::type_]
+      end
+    end
+  end
+end

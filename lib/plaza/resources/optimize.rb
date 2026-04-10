@@ -10,7 +10,7 @@ module Plaza
       #
       # @overload create(waypoints:, format_: nil, mode: nil, roundtrip: nil, request_options: {})
       #
-      # @param waypoints [Array<Plaza::Models::OptimizeRequest::Waypoint>] Body param: Waypoints to visit in optimized order (2-50 points)
+      # @param waypoints [Plaza::Models::MultiPointGeometry] Body param: GeoJSON MultiPoint geometry per RFC 7946. An array of positions.
       #
       # @param format_ [String] Query param: Response format: json (default), geojson, csv, ndjson
       #

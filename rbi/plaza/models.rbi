@@ -1,6 +1,8 @@
 # typed: strong
 
 module Plaza
+  AutocompleteRequest = Plaza::Models::AutocompleteRequest
+
   AutocompleteResult = Plaza::Models::AutocompleteResult
 
   BatchRequest = Plaza::Models::BatchRequest
@@ -11,35 +13,15 @@ module Plaza
 
   DatasetDeleteParams = Plaza::Models::DatasetDeleteParams
 
-  DatasetFeaturesParams = Plaza::Models::DatasetFeaturesParams
-
   DatasetList = Plaza::Models::DatasetList
 
   DatasetListParams = Plaza::Models::DatasetListParams
 
   DatasetRetrieveParams = Plaza::Models::DatasetRetrieveParams
 
-  ElementBatchParams = Plaza::Models::ElementBatchParams
-
-  ElementLookupParams = Plaza::Models::ElementLookupParams
-
-  ElementNearbyParams = Plaza::Models::ElementNearbyParams
-
-  ElementNearbyPostParams = Plaza::Models::ElementNearbyPostParams
-
-  ElementQueryParams = Plaza::Models::ElementQueryParams
-
-  ElementQueryPostParams = Plaza::Models::ElementQueryPostParams
-
-  ElementRetrieveParams = Plaza::Models::ElementRetrieveParams
-
-  ElevationBatchParams = Plaza::Models::ElevationBatchParams
-
-  ElevationBatchResult = Plaza::Models::ElevationBatchResult
-
   ElevationLookupParams = Plaza::Models::ElevationLookupParams
 
-  ElevationLookupPostParams = Plaza::Models::ElevationLookupPostParams
+  ElevationLookupRequest = Plaza::Models::ElevationLookupRequest
 
   ElevationLookupResult = Plaza::Models::ElevationLookupResult
 
@@ -51,29 +33,37 @@ module Plaza
 
   Error = Plaza::Models::Error
 
+  FeatureBatchParams = Plaza::Models::FeatureBatchParams
+
   FeatureCollection = Plaza::Models::FeatureCollection
 
-  GeocodeAutocompleteParams = Plaza::Models::GeocodeAutocompleteParams
+  FeatureQueryParams = Plaza::Models::FeatureQueryParams
 
-  GeocodeAutocompletePostParams = Plaza::Models::GeocodeAutocompletePostParams
+  FeatureRetrieveParams = Plaza::Models::FeatureRetrieveParams
+
+  GeocodeAutocompleteParams = Plaza::Models::GeocodeAutocompleteParams
 
   GeocodeBatchParams = Plaza::Models::GeocodeBatchParams
 
   GeocodeForwardParams = Plaza::Models::GeocodeForwardParams
 
-  GeocodeForwardPostParams = Plaza::Models::GeocodeForwardPostParams
+  GeocodeForwardRequest = Plaza::Models::GeocodeForwardRequest
 
   GeocodeResult = Plaza::Models::GeocodeResult
 
   GeocodeReverseParams = Plaza::Models::GeocodeReverseParams
 
-  GeocodeReversePostParams = Plaza::Models::GeocodeReversePostParams
+  GeocodeReverseRequest = Plaza::Models::GeocodeReverseRequest
 
   GeocodingFeature = Plaza::Models::GeocodingFeature
 
   GeoJsonFeature = Plaza::Models::GeoJsonFeature
 
-  GeoJsonGeometry = Plaza::Models::GeoJsonGeometry
+  Geometry = Plaza::Models::Geometry
+
+  IsochroneRequest = Plaza::Models::IsochroneRequest
+
+  LineStringGeometry = Plaza::Models::LineStringGeometry
 
   MapMatchMatchParams = Plaza::Models::MapMatchMatchParams
 
@@ -85,6 +75,14 @@ module Plaza
 
   MatrixResult =
     T.let(Plaza::Models::MatrixResult, Plaza::Internal::Type::Converter)
+
+  MultiLineStringGeometry = Plaza::Models::MultiLineStringGeometry
+
+  MultiPointGeometry = Plaza::Models::MultiPointGeometry
+
+  MultiPolygonGeometry = Plaza::Models::MultiPolygonGeometry
+
+  NearestRequest = Plaza::Models::NearestRequest
 
   NearestResult = Plaza::Models::NearestResult
 
@@ -104,6 +102,10 @@ module Plaza
 
   PlazaqlQuery = Plaza::Models::PlazaqlQuery
 
+  PointGeometry = Plaza::Models::PointGeometry
+
+  PolygonGeometry = Plaza::Models::PolygonGeometry
+
   QueryExecuteParams = Plaza::Models::QueryExecuteParams
 
   ReverseGeocodeResult = Plaza::Models::ReverseGeocodeResult
@@ -114,19 +116,17 @@ module Plaza
 
   RoutingIsochroneParams = Plaza::Models::RoutingIsochroneParams
 
-  RoutingIsochronePostParams = Plaza::Models::RoutingIsochronePostParams
-
   RoutingMatrixParams = Plaza::Models::RoutingMatrixParams
 
   RoutingNearestParams = Plaza::Models::RoutingNearestParams
-
-  RoutingNearestPostParams = Plaza::Models::RoutingNearestPostParams
 
   RoutingRouteParams = Plaza::Models::RoutingRouteParams
 
   SearchQueryParams = Plaza::Models::SearchQueryParams
 
-  SearchQueryPostParams = Plaza::Models::SearchQueryPostParams
+  SpatialPredicate = Plaza::Models::SpatialPredicate
 
   TileGetParams = Plaza::Models::TileGetParams
+
+  ValidationError = Plaza::Models::ValidationError
 end

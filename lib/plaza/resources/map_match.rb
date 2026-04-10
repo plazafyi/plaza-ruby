@@ -8,11 +8,11 @@ module Plaza
       #
       # Match GPS coordinates to the road network
       #
-      # @overload match(coordinates:, radiuses: nil, request_options: {})
+      # @overload match(geometry:, radiuses: nil, request_options: {})
       #
-      # @param coordinates [Array<Plaza::Models::MapMatchRequest::Coordinate>] GPS coordinates to match, in order of travel (max 50 points)
+      # @param geometry [Plaza::Models::LineStringGeometry] GeoJSON LineString geometry per RFC 7946. An ordered sequence of two or more pos
       #
-      # @param radiuses [Array<Float>, nil] Search radius per coordinate in meters. Must have the same length as `coordinate
+      # @param radiuses [Array<Float>, nil] Search radius per coordinate in meters. Must have the same length as the geometr
       #
       # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
       #

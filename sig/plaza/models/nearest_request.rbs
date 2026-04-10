@@ -1,0 +1,15 @@
+module Plaza
+  module Models
+    type nearest_request = { geometry: Plaza::PointGeometry, radius: Float? }
+
+    class NearestRequest < Plaza::Internal::Type::BaseModel
+      attr_accessor geometry: Plaza::PointGeometry
+
+      attr_accessor radius: Float?
+
+      def initialize: (geometry: Plaza::PointGeometry, ?radius: Float?) -> void
+
+      def to_hash: -> { geometry: Plaza::PointGeometry, radius: Float? }
+    end
+  end
+end

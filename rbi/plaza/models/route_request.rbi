@@ -6,18 +6,20 @@ module Plaza
       OrHash =
         T.type_alias { T.any(Plaza::RouteRequest, Plaza::Internal::AnyHash) }
 
-      # Geographic coordinate as a JSON object with `lat` and `lng` fields.
-      sig { returns(Plaza::RouteRequest::Destination) }
+      # GeoJSON Point geometry per RFC 7946. Coordinates use [longitude, latitude]
+      # order. Optional third element is altitude in meters.
+      sig { returns(Plaza::PointGeometry) }
       attr_reader :destination
 
-      sig { params(destination: Plaza::RouteRequest::Destination::OrHash).void }
+      sig { params(destination: Plaza::PointGeometry::OrHash).void }
       attr_writer :destination
 
-      # Geographic coordinate as a JSON object with `lat` and `lng` fields.
-      sig { returns(Plaza::RouteRequest::Origin) }
+      # GeoJSON Point geometry per RFC 7946. Coordinates use [longitude, latitude]
+      # order. Optional third element is altitude in meters.
+      sig { returns(Plaza::PointGeometry) }
       attr_reader :origin
 
-      sig { params(origin: Plaza::RouteRequest::Origin::OrHash).void }
+      sig { params(origin: Plaza::PointGeometry::OrHash).void }
       attr_writer :origin
 
       # Number of alternative routes to return (0-3, default 0). When > 0, response is a
@@ -84,16 +86,16 @@ module Plaza
       attr_accessor :traffic_model
 
       # Intermediate waypoints to visit in order (maximum 25)
-      sig { returns(T.nilable(T::Array[Plaza::RouteRequest::Waypoint])) }
+      sig { returns(T.nilable(T::Array[Plaza::PointGeometry])) }
       attr_accessor :waypoints
 
-      # Request body for route calculation. Origin and destination are lat/lng
-      # coordinate objects. Supports optional waypoints, alternative routes,
-      # turn-by-turn steps, and EV routing parameters.
+      # Request body for route calculation. Origin and destination are GeoJSON Point
+      # geometries. Supports optional waypoints, alternative routes, turn-by-turn steps,
+      # and EV routing parameters.
       sig do
         params(
-          destination: Plaza::RouteRequest::Destination::OrHash,
-          origin: Plaza::RouteRequest::Origin::OrHash,
+          destination: Plaza::PointGeometry::OrHash,
+          origin: Plaza::PointGeometry::OrHash,
           alternatives: Integer,
           annotations: T::Boolean,
           depart_at: T.nilable(Time),
@@ -104,13 +106,15 @@ module Plaza
           overview: Plaza::RouteRequest::Overview::OrSymbol,
           steps: T::Boolean,
           traffic_model: T.nilable(Plaza::RouteRequest::TrafficModel::OrSymbol),
-          waypoints: T.nilable(T::Array[Plaza::RouteRequest::Waypoint::OrHash])
+          waypoints: T.nilable(T::Array[Plaza::PointGeometry::OrHash])
         ).returns(T.attached_class)
       end
       def self.new(
-        # Geographic coordinate as a JSON object with `lat` and `lng` fields.
+        # GeoJSON Point geometry per RFC 7946. Coordinates use [longitude, latitude]
+        # order. Optional third element is altitude in meters.
         destination:,
-        # Geographic coordinate as a JSON object with `lat` and `lng` fields.
+        # GeoJSON Point geometry per RFC 7946. Coordinates use [longitude, latitude]
+        # order. Optional third element is altitude in meters.
         origin:,
         # Number of alternative routes to return (0-3, default 0). When > 0, response is a
         # FeatureCollection of route Features.
@@ -142,8 +146,8 @@ module Plaza
       sig do
         override.returns(
           {
-            destination: Plaza::RouteRequest::Destination,
-            origin: Plaza::RouteRequest::Origin,
+            destination: Plaza::PointGeometry,
+            origin: Plaza::PointGeometry,
             alternatives: Integer,
             annotations: T::Boolean,
             depart_at: T.nilable(Time),
@@ -155,69 +159,11 @@ module Plaza
             steps: T::Boolean,
             traffic_model:
               T.nilable(Plaza::RouteRequest::TrafficModel::OrSymbol),
-            waypoints: T.nilable(T::Array[Plaza::RouteRequest::Waypoint])
+            waypoints: T.nilable(T::Array[Plaza::PointGeometry])
           }
         )
       end
       def to_hash
-      end
-
-      class Destination < Plaza::Internal::Type::BaseModel
-        OrHash =
-          T.type_alias do
-            T.any(Plaza::RouteRequest::Destination, Plaza::Internal::AnyHash)
-          end
-
-        # Latitude in decimal degrees (-90 to 90)
-        sig { returns(Float) }
-        attr_accessor :lat
-
-        # Longitude in decimal degrees (-180 to 180)
-        sig { returns(Float) }
-        attr_accessor :lng
-
-        # Geographic coordinate as a JSON object with `lat` and `lng` fields.
-        sig { params(lat: Float, lng: Float).returns(T.attached_class) }
-        def self.new(
-          # Latitude in decimal degrees (-90 to 90)
-          lat:,
-          # Longitude in decimal degrees (-180 to 180)
-          lng:
-        )
-        end
-
-        sig { override.returns({ lat: Float, lng: Float }) }
-        def to_hash
-        end
-      end
-
-      class Origin < Plaza::Internal::Type::BaseModel
-        OrHash =
-          T.type_alias do
-            T.any(Plaza::RouteRequest::Origin, Plaza::Internal::AnyHash)
-          end
-
-        # Latitude in decimal degrees (-90 to 90)
-        sig { returns(Float) }
-        attr_accessor :lat
-
-        # Longitude in decimal degrees (-180 to 180)
-        sig { returns(Float) }
-        attr_accessor :lng
-
-        # Geographic coordinate as a JSON object with `lat` and `lng` fields.
-        sig { params(lat: Float, lng: Float).returns(T.attached_class) }
-        def self.new(
-          # Latitude in decimal degrees (-90 to 90)
-          lat:,
-          # Longitude in decimal degrees (-180 to 180)
-          lng:
-        )
-        end
-
-        sig { override.returns({ lat: Float, lng: Float }) }
-        def to_hash
-        end
       end
 
       class Ev < Plaza::Internal::Type::BaseModel
@@ -376,35 +322,6 @@ module Plaza
           )
         end
         def self.values
-        end
-      end
-
-      class Waypoint < Plaza::Internal::Type::BaseModel
-        OrHash =
-          T.type_alias do
-            T.any(Plaza::RouteRequest::Waypoint, Plaza::Internal::AnyHash)
-          end
-
-        # Latitude in decimal degrees (-90 to 90)
-        sig { returns(Float) }
-        attr_accessor :lat
-
-        # Longitude in decimal degrees (-180 to 180)
-        sig { returns(Float) }
-        attr_accessor :lng
-
-        # Geographic coordinate as a JSON object with `lat` and `lng` fields.
-        sig { params(lat: Float, lng: Float).returns(T.attached_class) }
-        def self.new(
-          # Latitude in decimal degrees (-90 to 90)
-          lat:,
-          # Longitude in decimal degrees (-180 to 180)
-          lng:
-        )
-        end
-
-        sig { override.returns({ lat: Float, lng: Float }) }
-        def to_hash
         end
       end
     end

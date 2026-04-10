@@ -4,11 +4,11 @@ module Plaza
   module Models
     class GeocodingFeature < Plaza::Internal::Type::BaseModel
       # @!attribute geometry
-      #   GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
-      #   order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
+      #   GeoJSON Geometry object per RFC 7946. Discriminated union — the `type` field
+      #   determines the coordinate structure.
       #
-      #   @return [Plaza::Models::GeoJsonGeometry]
-      required :geometry, -> { Plaza::GeoJsonGeometry }
+      #   @return [Plaza::Models::PointGeometry, Plaza::Models::LineStringGeometry, Plaza::Models::PolygonGeometry, Plaza::Models::MultiPointGeometry, Plaza::Models::MultiLineStringGeometry, Plaza::Models::MultiPolygonGeometry]
+      required :geometry, union: -> { Plaza::Geometry }
 
       # @!attribute properties
       #   Geocoding result properties
@@ -29,7 +29,7 @@ module Plaza
       #   Properties include the formatted display name, OSM metadata, confidence score,
       #   and source type.
       #
-      #   @param geometry [Plaza::Models::GeoJsonGeometry] GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude] orde
+      #   @param geometry [Plaza::Models::PointGeometry, Plaza::Models::LineStringGeometry, Plaza::Models::PolygonGeometry, Plaza::Models::MultiPointGeometry, Plaza::Models::MultiLineStringGeometry, Plaza::Models::MultiPolygonGeometry] GeoJSON Geometry object per RFC 7946. Discriminated union — the `type` field det
       #
       #   @param properties [Plaza::Models::GeocodingFeature::Properties] Geocoding result properties
       #
@@ -132,9 +132,8 @@ module Plaza
 
         # @!attribute source
         #   Result source indicating how the result was found: structured (exact field
-        #   match), bm25 (full-text search), fuzzy (trigram similarity), address (reverse
-        #   geocode address), place (reverse geocode POI), interpolation (estimated from
-        #   neighboring addresses)
+        #   match), fuzzy (trigram similarity), address (reverse geocode address), place
+        #   (reverse geocode POI), interpolation (estimated from neighboring addresses)
         #
         #   @return [Symbol, Plaza::Models::GeocodingFeature::Properties::Source, nil]
         optional :source, enum: -> { Plaza::GeocodingFeature::Properties::Source }, nil?: true
@@ -232,16 +231,14 @@ module Plaza
         end
 
         # Result source indicating how the result was found: structured (exact field
-        # match), bm25 (full-text search), fuzzy (trigram similarity), address (reverse
-        # geocode address), place (reverse geocode POI), interpolation (estimated from
-        # neighboring addresses)
+        # match), fuzzy (trigram similarity), address (reverse geocode address), place
+        # (reverse geocode POI), interpolation (estimated from neighboring addresses)
         #
         # @see Plaza::Models::GeocodingFeature::Properties#source
         module Source
           extend Plaza::Internal::Type::Enum
 
           STRUCTURED = :structured
-          BM25 = :bm25
           FUZZY = :fuzzy
           ADDRESS = :address
           PLACE = :place

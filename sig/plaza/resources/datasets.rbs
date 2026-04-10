@@ -8,6 +8,7 @@ module Plaza
         ?description: String?,
         ?license: String?,
         ?source_url: String?,
+        ?strict_mode: bool?,
         ?request_options: Plaza::request_opts
       ) -> Plaza::Dataset
 
@@ -16,25 +17,12 @@ module Plaza
         ?request_options: Plaza::request_opts
       ) -> Plaza::Dataset
 
-      def list: (?request_options: Plaza::request_opts) -> Plaza::DatasetList
+      def list: (
+        ?scope: String,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::DatasetList
 
       def delete: (String id, ?request_options: Plaza::request_opts) -> nil
-
-      def features: (
-        String id,
-        ?cursor: String,
-        ?format_: String,
-        ?limit: Integer,
-        ?output_buffer: Float,
-        ?output_centroid: bool,
-        ?output_fields: String,
-        ?output_geometry: bool,
-        ?output_include: String,
-        ?output_precision: Integer,
-        ?output_simplify: Float,
-        ?output_sort: String,
-        ?request_options: Plaza::request_opts
-      ) -> Plaza::FeatureCollection
 
       def initialize: (client: Plaza::Client) -> void
     end

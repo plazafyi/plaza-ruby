@@ -1,0 +1,56 @@
+module Plaza
+  module Models
+    type feature_query_params =
+      {
+        cursor: String,
+        format_: String,
+        :h3 => String,
+        limit: Integer,
+        type: String
+      }
+      & Plaza::Internal::Type::request_parameters
+
+    class FeatureQueryParams < Plaza::Models::SpatialPredicate
+      extend Plaza::Internal::Type::RequestParameters::Converter
+      include Plaza::Internal::Type::RequestParameters
+
+      def cursor: -> String?
+
+      def cursor=: (String _) -> String
+
+      def format_: -> String?
+
+      def format_=: (String _) -> String
+
+      def h3: -> String?
+
+      def h3=: (String _) -> String
+
+      def limit: -> Integer?
+
+      def limit=: (Integer _) -> Integer
+
+      def `type`: -> String?
+
+      def type=: (String _) -> String
+
+      def initialize: (
+        ?cursor: String,
+        ?format_: String,
+        ?h3: String,
+        ?limit: Integer,
+        ?type: String,
+        ?request_options: Plaza::request_opts
+      ) -> void
+
+      def to_hash: -> {
+        cursor: String,
+        format_: String,
+        :h3 => String,
+        limit: Integer,
+        type: String,
+        request_options: Plaza::RequestOptions
+      }
+    end
+  end
+end

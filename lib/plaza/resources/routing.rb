@@ -3,29 +3,20 @@
 module Plaza
   module Resources
     class Routing
+      # Some parameter documentations has been truncated, see
+      # {Plaza::Models::RoutingIsochroneParams} for more details.
+      #
       # Calculate an isochrone from a point
       #
-      # @overload isochrone(lat:, lng:, time:, format_: nil, mode: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, request_options: {})
+      # @overload isochrone(geometry:, time:, format_: nil, mode: nil, request_options: {})
       #
-      # @param lat [Float] Latitude
+      # @param geometry [Plaza::Models::PointGeometry] Body param: GeoJSON Point geometry per RFC 7946. Coordinates use [longitude, lat
       #
-      # @param lng [Float] Longitude
+      # @param time [Array<Integer>] Body param: Travel time budgets in seconds. Each value produces one contour poly
       #
-      # @param time [Float] Travel time in seconds (1-7200)
+      # @param format_ [String] Query param: Response format: json (default), geojson, csv, ndjson
       #
-      # @param format_ [String] Response format: json (default), geojson, csv, ndjson
-      #
-      # @param mode [String] Travel mode (auto, foot, bicycle)
-      #
-      # @param output_fields [String] Comma-separated property fields to include
-      #
-      # @param output_geometry [Boolean] Include geometry (default true)
-      #
-      # @param output_include [String] Extra computed fields: bbox, center
-      #
-      # @param output_precision [Integer] Coordinate decimal precision (1-15, default 7)
-      #
-      # @param output_simplify [Float] Simplify geometry tolerance in meters
+      # @param mode [Symbol, Plaza::Models::IsochroneRequest::Mode] Body param: Travel mode (default: `auto`)
       #
       # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
       #
@@ -33,68 +24,15 @@ module Plaza
       #
       # @see Plaza::Models::RoutingIsochroneParams
       def isochrone(params)
+        query_params = [:format_]
         parsed, options = Plaza::RoutingIsochroneParams.dump_request(params)
-        query = Plaza::Internal::Util.encode_query_params(parsed)
-        @client.request(
-          method: :get,
-          path: "api/v1/isochrone",
-          query: query.transform_keys(
-            format_: "format",
-            output_fields: "output[fields]",
-            output_geometry: "output[geometry]",
-            output_include: "output[include]",
-            output_precision: "output[precision]",
-            output_simplify: "output[simplify]"
-          ),
-          model: Plaza::Models::RoutingIsochroneResponse,
-          options: options
-        )
-      end
-
-      # Calculate an isochrone from a point
-      #
-      # @overload isochrone_post(lat:, lng:, time:, format_: nil, mode: nil, output_fields: nil, output_geometry: nil, output_include: nil, output_precision: nil, output_simplify: nil, request_options: {})
-      #
-      # @param lat [Float] Latitude
-      #
-      # @param lng [Float] Longitude
-      #
-      # @param time [Float] Travel time in seconds (1-7200)
-      #
-      # @param format_ [String] Response format: json (default), geojson, csv, ndjson
-      #
-      # @param mode [String] Travel mode (auto, foot, bicycle)
-      #
-      # @param output_fields [String] Comma-separated property fields to include
-      #
-      # @param output_geometry [Boolean] Include geometry (default true)
-      #
-      # @param output_include [String] Extra computed fields: bbox, center
-      #
-      # @param output_precision [Integer] Coordinate decimal precision (1-15, default 7)
-      #
-      # @param output_simplify [Float] Simplify geometry tolerance in meters
-      #
-      # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
-      #
-      # @return [Plaza::Models::RoutingIsochronePostResponse]
-      #
-      # @see Plaza::Models::RoutingIsochronePostParams
-      def isochrone_post(params)
-        parsed, options = Plaza::RoutingIsochronePostParams.dump_request(params)
-        query = Plaza::Internal::Util.encode_query_params(parsed)
+        query = Plaza::Internal::Util.encode_query_params(parsed.slice(*query_params))
         @client.request(
           method: :post,
           path: "api/v1/isochrone",
-          query: query.transform_keys(
-            format_: "format",
-            output_fields: "output[fields]",
-            output_geometry: "output[geometry]",
-            output_include: "output[include]",
-            output_precision: "output[precision]",
-            output_simplify: "output[simplify]"
-          ),
-          model: Plaza::Models::RoutingIsochronePostResponse,
+          query: query.transform_keys(format_: "format"),
+          body: parsed.except(*query_params),
+          model: Plaza::Models::RoutingIsochroneResponse,
           options: options
         )
       end
@@ -106,9 +44,9 @@ module Plaza
       #
       # @overload matrix(destinations:, origins:, annotations: nil, fallback_speed: nil, mode: nil, request_options: {})
       #
-      # @param destinations [Array<Plaza::Models::MatrixRequest::Destination>] Array of destination coordinates (max 50)
+      # @param destinations [Array<Plaza::Models::PointGeometry>] Array of destination coordinates as GeoJSON Points (max 50)
       #
-      # @param origins [Array<Plaza::Models::MatrixRequest::Origin>] Array of origin coordinates (max 50)
+      # @param origins [Array<Plaza::Models::PointGeometry>] Array of origin coordinates as GeoJSON Points (max 50)
       #
       # @param annotations [String] Comma-separated list of annotations to include: `duration` (always included), `d
       #
@@ -132,21 +70,16 @@ module Plaza
         )
       end
 
+      # Some parameter documentations has been truncated, see
+      # {Plaza::Models::RoutingNearestParams} for more details.
+      #
       # Snap a coordinate to the nearest road
       #
-      # @overload nearest(lat:, lng:, output_fields: nil, output_include: nil, output_precision: nil, radius: nil, request_options: {})
+      # @overload nearest(geometry:, radius: nil, request_options: {})
       #
-      # @param lat [Float] Latitude
+      # @param geometry [Plaza::Models::PointGeometry] GeoJSON Point geometry per RFC 7946. Coordinates use [longitude, latitude] order
       #
-      # @param lng [Float] Longitude
-      #
-      # @param output_fields [String] Comma-separated property fields to include
-      #
-      # @param output_include [String] Extra computed fields: bbox, distance, center
-      #
-      # @param output_precision [Integer] Coordinate decimal precision (1-15, default 7)
-      #
-      # @param radius [Integer] Search radius in meters (default 500, max 5000)
+      # @param radius [Float, nil] Maximum search radius in meters (default: 100)
       #
       # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
       #
@@ -155,52 +88,10 @@ module Plaza
       # @see Plaza::Models::RoutingNearestParams
       def nearest(params)
         parsed, options = Plaza::RoutingNearestParams.dump_request(params)
-        query = Plaza::Internal::Util.encode_query_params(parsed)
-        @client.request(
-          method: :get,
-          path: "api/v1/nearest",
-          query: query.transform_keys(
-            output_fields: "output[fields]",
-            output_include: "output[include]",
-            output_precision: "output[precision]"
-          ),
-          model: Plaza::NearestResult,
-          options: options
-        )
-      end
-
-      # Snap a coordinate to the nearest road
-      #
-      # @overload nearest_post(lat:, lng:, output_fields: nil, output_include: nil, output_precision: nil, radius: nil, request_options: {})
-      #
-      # @param lat [Float] Latitude
-      #
-      # @param lng [Float] Longitude
-      #
-      # @param output_fields [String] Comma-separated property fields to include
-      #
-      # @param output_include [String] Extra computed fields: bbox, distance, center
-      #
-      # @param output_precision [Integer] Coordinate decimal precision (1-15, default 7)
-      #
-      # @param radius [Integer] Search radius in meters (default 500, max 5000)
-      #
-      # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
-      #
-      # @return [Plaza::Models::NearestResult]
-      #
-      # @see Plaza::Models::RoutingNearestPostParams
-      def nearest_post(params)
-        parsed, options = Plaza::RoutingNearestPostParams.dump_request(params)
-        query = Plaza::Internal::Util.encode_query_params(parsed)
         @client.request(
           method: :post,
           path: "api/v1/nearest",
-          query: query.transform_keys(
-            output_fields: "output[fields]",
-            output_include: "output[include]",
-            output_precision: "output[precision]"
-          ),
+          body: parsed,
           model: Plaza::NearestResult,
           options: options
         )
@@ -213,9 +104,9 @@ module Plaza
       #
       # @overload route(destination:, origin:, format_: nil, alternatives: nil, annotations: nil, depart_at: nil, ev: nil, exclude: nil, geometries: nil, mode: nil, overview: nil, steps: nil, traffic_model: nil, waypoints: nil, request_options: {})
       #
-      # @param destination [Plaza::Models::RouteRequest::Destination] Body param: Geographic coordinate as a JSON object with `lat` and `lng` fields.
+      # @param destination [Plaza::Models::PointGeometry] Body param: GeoJSON Point geometry per RFC 7946. Coordinates use [longitude, lat
       #
-      # @param origin [Plaza::Models::RouteRequest::Origin] Body param: Geographic coordinate as a JSON object with `lat` and `lng` fields.
+      # @param origin [Plaza::Models::PointGeometry] Body param: GeoJSON Point geometry per RFC 7946. Coordinates use [longitude, lat
       #
       # @param format_ [String] Query param: Response format for alternatives: json (default), geojson, csv, ndj
       #
@@ -239,7 +130,7 @@ module Plaza
       #
       # @param traffic_model [Symbol, Plaza::Models::RouteRequest::TrafficModel, nil] Body param: Traffic prediction model (only used when `depart_at` is set)
       #
-      # @param waypoints [Array<Plaza::Models::RouteRequest::Waypoint>, nil] Body param: Intermediate waypoints to visit in order (maximum 25)
+      # @param waypoints [Array<Plaza::Models::PointGeometry>, nil] Body param: Intermediate waypoints to visit in order (maximum 25)
       #
       # @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}, nil]
       #

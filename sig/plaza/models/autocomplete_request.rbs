@@ -1,0 +1,45 @@
+module Plaza
+  module Models
+    type autocomplete_request =
+      {
+        q: String,
+        country_code: String?,
+        focus: Plaza::PointGeometry?,
+        lang: String?,
+        layer: String?,
+        limit: Integer?
+      }
+
+    class AutocompleteRequest < Plaza::Internal::Type::BaseModel
+      attr_accessor q: String
+
+      attr_accessor country_code: String?
+
+      attr_accessor focus: Plaza::PointGeometry?
+
+      attr_accessor lang: String?
+
+      attr_accessor layer: String?
+
+      attr_accessor limit: Integer?
+
+      def initialize: (
+        q: String,
+        ?country_code: String?,
+        ?focus: Plaza::PointGeometry?,
+        ?lang: String?,
+        ?layer: String?,
+        ?limit: Integer?
+      ) -> void
+
+      def to_hash: -> {
+        q: String,
+        country_code: String?,
+        focus: Plaza::PointGeometry?,
+        lang: String?,
+        layer: String?,
+        limit: Integer?
+      }
+    end
+  end
+end

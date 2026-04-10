@@ -11,7 +11,7 @@ module Plaza
       required :datasets, -> { Plaza::Internal::Type::ArrayOf[Plaza::Dataset] }
 
       # @!method initialize(datasets:)
-      #   List of all available datasets.
+      #   List of datasets visible to the authenticated user.
       #
       #   @param datasets [Array<Plaza::Models::Dataset>] Array of dataset metadata objects
     end

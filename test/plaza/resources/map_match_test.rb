@@ -6,7 +6,7 @@ class Plaza::Test::Resources::MapMatchTest < Plaza::Test::ResourceTest
   def test_match_required_params
     response =
       @plaza.map_match.match(
-        coordinates: [{lat: 48.8566, lng: 2.3522}, {lat: 48.857, lng: 2.353}, {lat: 48.8575, lng: 2.354}]
+        geometry: {coordinates: [[2.3522, 48.8566], [2.353, 48.857], [2.354, 48.8575]], type: :LineString}
       )
 
     assert_pattern do

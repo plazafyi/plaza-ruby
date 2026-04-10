@@ -38,26 +38,26 @@ module Plaza
 
       type feature =
         {
-          geometry: Plaza::GeoJsonGeometry,
+          geometry: Plaza::Models::geometry,
           properties: Plaza::OptimizeCompletedResult::Feature::Properties,
           type: Plaza::Models::OptimizeCompletedResult::Feature::type_
         }
 
       class Feature < Plaza::Internal::Type::BaseModel
-        attr_accessor geometry: Plaza::GeoJsonGeometry
+        attr_accessor geometry: Plaza::Models::geometry
 
         attr_accessor properties: Plaza::OptimizeCompletedResult::Feature::Properties
 
         attr_accessor type: Plaza::Models::OptimizeCompletedResult::Feature::type_
 
         def initialize: (
-          geometry: Plaza::GeoJsonGeometry,
+          geometry: Plaza::Models::geometry,
           properties: Plaza::OptimizeCompletedResult::Feature::Properties,
           type: Plaza::Models::OptimizeCompletedResult::Feature::type_
         ) -> void
 
         def to_hash: -> {
-          geometry: Plaza::GeoJsonGeometry,
+          geometry: Plaza::Models::geometry,
           properties: Plaza::OptimizeCompletedResult::Feature::Properties,
           type: Plaza::Models::OptimizeCompletedResult::Feature::type_
         }

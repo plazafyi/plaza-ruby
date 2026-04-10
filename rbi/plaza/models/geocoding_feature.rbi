@@ -8,13 +8,10 @@ module Plaza
           T.any(Plaza::GeocodingFeature, Plaza::Internal::AnyHash)
         end
 
-      # GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
-      # order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
-      sig { returns(Plaza::GeoJsonGeometry) }
-      attr_reader :geometry
-
-      sig { params(geometry: Plaza::GeoJsonGeometry::OrHash).void }
-      attr_writer :geometry
+      # GeoJSON Geometry object per RFC 7946. Discriminated union — the `type` field
+      # determines the coordinate structure.
+      sig { returns(Plaza::Geometry::Variants) }
+      attr_accessor :geometry
 
       # Geocoding result properties
       sig { returns(Plaza::GeocodingFeature::Properties) }
@@ -33,14 +30,22 @@ module Plaza
       # and source type.
       sig do
         params(
-          geometry: Plaza::GeoJsonGeometry::OrHash,
+          geometry:
+            T.any(
+              Plaza::PointGeometry::OrHash,
+              Plaza::LineStringGeometry::OrHash,
+              Plaza::PolygonGeometry::OrHash,
+              Plaza::MultiPointGeometry::OrHash,
+              Plaza::MultiLineStringGeometry::OrHash,
+              Plaza::MultiPolygonGeometry::OrHash
+            ),
           properties: Plaza::GeocodingFeature::Properties::OrHash,
           type: Plaza::GeocodingFeature::Type::OrSymbol
         ).returns(T.attached_class)
       end
       def self.new(
-        # GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
-        # order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
+        # GeoJSON Geometry object per RFC 7946. Discriminated union — the `type` field
+        # determines the coordinate structure.
         geometry:,
         # Geocoding result properties
         properties:,
@@ -51,7 +56,7 @@ module Plaza
       sig do
         override.returns(
           {
-            geometry: Plaza::GeoJsonGeometry,
+            geometry: Plaza::Geometry::Variants,
             properties: Plaza::GeocodingFeature::Properties,
             type: Plaza::GeocodingFeature::Type::TaggedSymbol
           }
@@ -136,9 +141,8 @@ module Plaza
         attr_accessor :score
 
         # Result source indicating how the result was found: structured (exact field
-        # match), bm25 (full-text search), fuzzy (trigram similarity), address (reverse
-        # geocode address), place (reverse geocode POI), interpolation (estimated from
-        # neighboring addresses)
+        # match), fuzzy (trigram similarity), address (reverse geocode address), place
+        # (reverse geocode POI), interpolation (estimated from neighboring addresses)
         sig do
           returns(
             T.nilable(Plaza::GeocodingFeature::Properties::Source::TaggedSymbol)
@@ -229,9 +233,8 @@ module Plaza
           # proximity boost, and popularity signals. Not bounded to 0-1.
           score: nil,
           # Result source indicating how the result was found: structured (exact field
-          # match), bm25 (full-text search), fuzzy (trigram similarity), address (reverse
-          # geocode address), place (reverse geocode POI), interpolation (estimated from
-          # neighboring addresses)
+          # match), fuzzy (trigram similarity), address (reverse geocode address), place
+          # (reverse geocode POI), interpolation (estimated from neighboring addresses)
           source: nil,
           # State or province name. Present for reverse geocode address results.
           state: nil,
@@ -320,9 +323,8 @@ module Plaza
         end
 
         # Result source indicating how the result was found: structured (exact field
-        # match), bm25 (full-text search), fuzzy (trigram similarity), address (reverse
-        # geocode address), place (reverse geocode POI), interpolation (estimated from
-        # neighboring addresses)
+        # match), fuzzy (trigram similarity), address (reverse geocode address), place
+        # (reverse geocode POI), interpolation (estimated from neighboring addresses)
         module Source
           extend Plaza::Internal::Type::Enum
 
@@ -335,11 +337,6 @@ module Plaza
           STRUCTURED =
             T.let(
               :structured,
-              Plaza::GeocodingFeature::Properties::Source::TaggedSymbol
-            )
-          BM25 =
-            T.let(
-              :bm25,
               Plaza::GeocodingFeature::Properties::Source::TaggedSymbol
             )
           FUZZY =

@@ -20,8 +20,8 @@ module Plaza
     sig { returns(String) }
     attr_reader :api_key
 
-    sig { returns(Plaza::Resources::Elements) }
-    attr_reader :elements
+    sig { returns(Plaza::Resources::Features) }
+    attr_reader :features
 
     sig { returns(Plaza::Resources::Datasets) }
     attr_reader :datasets

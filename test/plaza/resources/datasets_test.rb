@@ -15,12 +15,22 @@ class Plaza::Test::Resources::DatasetsTest < Plaza::Test::ResourceTest
         id: String,
         inserted_at: Time,
         name: String,
+        scope: Plaza::Dataset::Scope,
         slug: String,
+        status: Plaza::Dataset::Status,
         updated_at: Time,
+        address_count: Integer | nil,
         attribution: String | nil,
         description: String | nil,
+        edge_count: Integer | nil,
+        error_message: String | nil,
+        feature_count: Integer | nil,
         license: String | nil,
-        source_url: String | nil
+        schema_definition: Plaza::Internal::Type::Unknown | nil,
+        source_format: String | nil,
+        source_url: String | nil,
+        storage_bytes: Integer | nil,
+        strict_mode: Plaza::Internal::Type::Boolean | nil
       }
     end
   end
@@ -37,12 +47,22 @@ class Plaza::Test::Resources::DatasetsTest < Plaza::Test::ResourceTest
         id: String,
         inserted_at: Time,
         name: String,
+        scope: Plaza::Dataset::Scope,
         slug: String,
+        status: Plaza::Dataset::Status,
         updated_at: Time,
+        address_count: Integer | nil,
         attribution: String | nil,
         description: String | nil,
+        edge_count: Integer | nil,
+        error_message: String | nil,
+        feature_count: Integer | nil,
         license: String | nil,
-        source_url: String | nil
+        schema_definition: Plaza::Internal::Type::Unknown | nil,
+        source_format: String | nil,
+        source_url: String | nil,
+        storage_bytes: Integer | nil,
+        strict_mode: Plaza::Internal::Type::Boolean | nil
       }
     end
   end
@@ -66,21 +86,6 @@ class Plaza::Test::Resources::DatasetsTest < Plaza::Test::ResourceTest
 
     assert_pattern do
       response => nil
-    end
-  end
-
-  def test_features
-    response = @plaza.datasets.features("id")
-
-    assert_pattern do
-      response => Plaza::FeatureCollection
-    end
-
-    assert_pattern do
-      response => {
-        features: ^(Plaza::Internal::Type::ArrayOf[Plaza::GeoJsonFeature]),
-        type: Plaza::FeatureCollection::Type
-      }
     end
   end
 end

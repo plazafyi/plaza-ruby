@@ -1,80 +1,23 @@
 module Plaza
   module Models
     type geocode_forward_params =
-      {
-        q: String,
-        bbox: String,
-        country_code: String,
-        format_: String,
-        lang: String,
-        lat: Float,
-        layer: String,
-        limit: Integer,
-        lng: Float
-      }
-      & Plaza::Internal::Type::request_parameters
+      { format_: String } & Plaza::Internal::Type::request_parameters
 
-    class GeocodeForwardParams < Plaza::Internal::Type::BaseModel
+    class GeocodeForwardParams < Plaza::Models::GeocodeForwardRequest
       extend Plaza::Internal::Type::RequestParameters::Converter
       include Plaza::Internal::Type::RequestParameters
 
-      attr_accessor q: String
+      def format_: -> String?
 
-      attr_reader bbox: String?
-
-      def bbox=: (String) -> String
-
-      attr_reader country_code: String?
-
-      def country_code=: (String) -> String
-
-      attr_reader format_: String?
-
-      def format_=: (String) -> String
-
-      attr_reader lang: String?
-
-      def lang=: (String) -> String
-
-      attr_reader lat: Float?
-
-      def lat=: (Float) -> Float
-
-      attr_reader layer: String?
-
-      def layer=: (String) -> String
-
-      attr_reader limit: Integer?
-
-      def limit=: (Integer) -> Integer
-
-      attr_reader lng: Float?
-
-      def lng=: (Float) -> Float
+      def format_=: (String _) -> String
 
       def initialize: (
-        q: String,
-        ?bbox: String,
-        ?country_code: String,
         ?format_: String,
-        ?lang: String,
-        ?lat: Float,
-        ?layer: String,
-        ?limit: Integer,
-        ?lng: Float,
         ?request_options: Plaza::request_opts
       ) -> void
 
       def to_hash: -> {
-        q: String,
-        bbox: String,
-        country_code: String,
         format_: String,
-        lang: String,
-        lat: Float,
-        layer: String,
-        limit: Integer,
-        lng: Float,
         request_options: Plaza::RequestOptions
       }
     end
