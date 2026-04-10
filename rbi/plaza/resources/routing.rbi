@@ -6,81 +6,24 @@ module Plaza
       # Calculate an isochrone from a point
       sig do
         params(
-          lat: Float,
-          lng: Float,
-          time: Float,
+          geometry: Plaza::PointGeometry::OrHash,
+          time: T::Array[Integer],
           format_: String,
-          mode: String,
-          output_fields: String,
-          output_geometry: T::Boolean,
-          output_include: String,
-          output_precision: Integer,
-          output_simplify: Float,
+          mode: Plaza::IsochroneRequest::Mode::OrSymbol,
           request_options: Plaza::RequestOptions::OrHash
         ).returns(Plaza::Models::RoutingIsochroneResponse)
       end
       def isochrone(
-        # Latitude
-        lat:,
-        # Longitude
-        lng:,
-        # Travel time in seconds (1-7200)
+        # Body param: GeoJSON Point geometry per RFC 7946. Coordinates use [longitude,
+        # latitude] order. Optional third element is altitude in meters.
+        geometry:,
+        # Body param: Travel time budgets in seconds. Each value produces one contour
+        # polygon.
         time:,
-        # Response format: json (default), geojson, csv, ndjson
+        # Query param: Response format: json (default), geojson, csv, ndjson
         format_: nil,
-        # Travel mode (auto, foot, bicycle)
+        # Body param: Travel mode (default: `auto`)
         mode: nil,
-        # Comma-separated property fields to include
-        output_fields: nil,
-        # Include geometry (default true)
-        output_geometry: nil,
-        # Extra computed fields: bbox, center
-        output_include: nil,
-        # Coordinate decimal precision (1-15, default 7)
-        output_precision: nil,
-        # Simplify geometry tolerance in meters
-        output_simplify: nil,
-        request_options: {}
-      )
-      end
-
-      # Calculate an isochrone from a point
-      sig do
-        params(
-          lat: Float,
-          lng: Float,
-          time: Float,
-          format_: String,
-          mode: String,
-          output_fields: String,
-          output_geometry: T::Boolean,
-          output_include: String,
-          output_precision: Integer,
-          output_simplify: Float,
-          request_options: Plaza::RequestOptions::OrHash
-        ).returns(Plaza::Models::RoutingIsochronePostResponse)
-      end
-      def isochrone_post(
-        # Latitude
-        lat:,
-        # Longitude
-        lng:,
-        # Travel time in seconds (1-7200)
-        time:,
-        # Response format: json (default), geojson, csv, ndjson
-        format_: nil,
-        # Travel mode (auto, foot, bicycle)
-        mode: nil,
-        # Comma-separated property fields to include
-        output_fields: nil,
-        # Include geometry (default true)
-        output_geometry: nil,
-        # Extra computed fields: bbox, center
-        output_include: nil,
-        # Coordinate decimal precision (1-15, default 7)
-        output_precision: nil,
-        # Simplify geometry tolerance in meters
-        output_simplify: nil,
         request_options: {}
       )
       end
@@ -88,8 +31,8 @@ module Plaza
       # Calculate a distance matrix between points
       sig do
         params(
-          destinations: T::Array[Plaza::MatrixRequest::Destination::OrHash],
-          origins: T::Array[Plaza::MatrixRequest::Origin::OrHash],
+          destinations: T::Array[Plaza::PointGeometry::OrHash],
+          origins: T::Array[Plaza::PointGeometry::OrHash],
           annotations: String,
           fallback_speed: T.nilable(Float),
           mode: Plaza::MatrixRequest::Mode::OrSymbol,
@@ -97,9 +40,9 @@ module Plaza
         ).returns(T::Hash[Symbol, T.anything])
       end
       def matrix(
-        # Array of destination coordinates (max 50)
+        # Array of destination coordinates as GeoJSON Points (max 50)
         destinations:,
-        # Array of origin coordinates (max 50)
+        # Array of origin coordinates as GeoJSON Points (max 50)
         origins:,
         # Comma-separated list of annotations to include: `duration` (always included),
         # `distance`. Example: `duration,distance`.
@@ -116,56 +59,16 @@ module Plaza
       # Snap a coordinate to the nearest road
       sig do
         params(
-          lat: Float,
-          lng: Float,
-          output_fields: String,
-          output_include: String,
-          output_precision: Integer,
-          radius: Integer,
+          geometry: Plaza::PointGeometry::OrHash,
+          radius: T.nilable(Float),
           request_options: Plaza::RequestOptions::OrHash
         ).returns(Plaza::NearestResult)
       end
       def nearest(
-        # Latitude
-        lat:,
-        # Longitude
-        lng:,
-        # Comma-separated property fields to include
-        output_fields: nil,
-        # Extra computed fields: bbox, distance, center
-        output_include: nil,
-        # Coordinate decimal precision (1-15, default 7)
-        output_precision: nil,
-        # Search radius in meters (default 500, max 5000)
-        radius: nil,
-        request_options: {}
-      )
-      end
-
-      # Snap a coordinate to the nearest road
-      sig do
-        params(
-          lat: Float,
-          lng: Float,
-          output_fields: String,
-          output_include: String,
-          output_precision: Integer,
-          radius: Integer,
-          request_options: Plaza::RequestOptions::OrHash
-        ).returns(Plaza::NearestResult)
-      end
-      def nearest_post(
-        # Latitude
-        lat:,
-        # Longitude
-        lng:,
-        # Comma-separated property fields to include
-        output_fields: nil,
-        # Extra computed fields: bbox, distance, center
-        output_include: nil,
-        # Coordinate decimal precision (1-15, default 7)
-        output_precision: nil,
-        # Search radius in meters (default 500, max 5000)
+        # GeoJSON Point geometry per RFC 7946. Coordinates use [longitude, latitude]
+        # order. Optional third element is altitude in meters.
+        geometry:,
+        # Maximum search radius in meters (default: 100)
         radius: nil,
         request_options: {}
       )
@@ -174,8 +77,8 @@ module Plaza
       # Calculate a route between two points
       sig do
         params(
-          destination: Plaza::RouteRequest::Destination::OrHash,
-          origin: Plaza::RouteRequest::Origin::OrHash,
+          destination: Plaza::PointGeometry::OrHash,
+          origin: Plaza::PointGeometry::OrHash,
           format_: String,
           alternatives: Integer,
           annotations: T::Boolean,
@@ -187,14 +90,16 @@ module Plaza
           overview: Plaza::RouteRequest::Overview::OrSymbol,
           steps: T::Boolean,
           traffic_model: T.nilable(Plaza::RouteRequest::TrafficModel::OrSymbol),
-          waypoints: T.nilable(T::Array[Plaza::RouteRequest::Waypoint::OrHash]),
+          waypoints: T.nilable(T::Array[Plaza::PointGeometry::OrHash]),
           request_options: Plaza::RequestOptions::OrHash
         ).returns(Plaza::RouteResult)
       end
       def route(
-        # Body param: Geographic coordinate as a JSON object with `lat` and `lng` fields.
+        # Body param: GeoJSON Point geometry per RFC 7946. Coordinates use [longitude,
+        # latitude] order. Optional third element is altitude in meters.
         destination:,
-        # Body param: Geographic coordinate as a JSON object with `lat` and `lng` fields.
+        # Body param: GeoJSON Point geometry per RFC 7946. Coordinates use [longitude,
+        # latitude] order. Optional third element is altitude in meters.
         origin:,
         # Query param: Response format for alternatives: json (default), geojson, csv,
         # ndjson

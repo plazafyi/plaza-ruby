@@ -1,0 +1,26 @@
+module Plaza
+  module Models
+    type elevation_lookup_request =
+      { geometry: Plaza::Models::ElevationLookupRequest::geometry }
+
+    class ElevationLookupRequest < Plaza::Internal::Type::BaseModel
+      attr_accessor geometry: Plaza::Models::ElevationLookupRequest::geometry
+
+      def initialize: (
+        geometry: Plaza::Models::ElevationLookupRequest::geometry
+      ) -> void
+
+      def to_hash: -> {
+        geometry: Plaza::Models::ElevationLookupRequest::geometry
+      }
+
+      type geometry = Plaza::PointGeometry | Plaza::MultiPointGeometry
+
+      module Geometry
+        extend Plaza::Internal::Type::Union
+
+        def self?.variants: -> ::Array[Plaza::Models::ElevationLookupRequest::geometry]
+      end
+    end
+  end
+end

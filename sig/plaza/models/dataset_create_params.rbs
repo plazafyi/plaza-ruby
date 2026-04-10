@@ -7,7 +7,8 @@ module Plaza
         attribution: String?,
         description: String?,
         license: String?,
-        source_url: String?
+        source_url: String?,
+        strict_mode: bool?
       }
       & Plaza::Internal::Type::request_parameters
 
@@ -27,6 +28,8 @@ module Plaza
 
       attr_accessor source_url: String?
 
+      attr_accessor strict_mode: bool?
+
       def initialize: (
         name: String,
         slug: String,
@@ -34,6 +37,7 @@ module Plaza
         ?description: String?,
         ?license: String?,
         ?source_url: String?,
+        ?strict_mode: bool?,
         ?request_options: Plaza::request_opts
       ) -> void
 
@@ -44,6 +48,7 @@ module Plaza
         description: String?,
         license: String?,
         source_url: String?,
+        strict_mode: bool?,
         request_options: Plaza::RequestOptions
       }
     end

@@ -8,13 +8,10 @@ module Plaza
           T.any(Plaza::ElevationLookupResult, Plaza::Internal::AnyHash)
         end
 
-      # GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
-      # order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
-      sig { returns(Plaza::GeoJsonGeometry) }
-      attr_reader :geometry
-
-      sig { params(geometry: Plaza::GeoJsonGeometry::OrHash).void }
-      attr_writer :geometry
+      # GeoJSON Geometry object per RFC 7946. Discriminated union — the `type` field
+      # determines the coordinate structure.
+      sig { returns(Plaza::Geometry::Variants) }
+      attr_accessor :geometry
 
       sig { returns(Plaza::ElevationLookupResult::Properties) }
       attr_reader :properties
@@ -34,14 +31,22 @@ module Plaza
       # convenience.
       sig do
         params(
-          geometry: Plaza::GeoJsonGeometry::OrHash,
+          geometry:
+            T.any(
+              Plaza::PointGeometry::OrHash,
+              Plaza::LineStringGeometry::OrHash,
+              Plaza::PolygonGeometry::OrHash,
+              Plaza::MultiPointGeometry::OrHash,
+              Plaza::MultiLineStringGeometry::OrHash,
+              Plaza::MultiPolygonGeometry::OrHash
+            ),
           properties: Plaza::ElevationLookupResult::Properties::OrHash,
           type: Plaza::ElevationLookupResult::Type::OrSymbol
         ).returns(T.attached_class)
       end
       def self.new(
-        # GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
-        # order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
+        # GeoJSON Geometry object per RFC 7946. Discriminated union — the `type` field
+        # determines the coordinate structure.
         geometry:,
         properties:,
         type:
@@ -51,7 +56,7 @@ module Plaza
       sig do
         override.returns(
           {
-            geometry: Plaza::GeoJsonGeometry,
+            geometry: Plaza::Geometry::Variants,
             properties: Plaza::ElevationLookupResult::Properties,
             type: Plaza::ElevationLookupResult::Type::TaggedSymbol
           }

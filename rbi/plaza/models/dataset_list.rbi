@@ -10,7 +10,7 @@ module Plaza
       sig { returns(T::Array[Plaza::Dataset]) }
       attr_accessor :datasets
 
-      # List of all available datasets.
+      # List of datasets visible to the authenticated user.
       sig do
         params(datasets: T::Array[Plaza::Dataset::OrHash]).returns(
           T.attached_class

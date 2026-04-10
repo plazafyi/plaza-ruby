@@ -1,14 +1,22 @@
 module Plaza
   module Models
-    type dataset_list_params = {  } & Plaza::Internal::Type::request_parameters
+    type dataset_list_params =
+      { scope: String } & Plaza::Internal::Type::request_parameters
 
     class DatasetListParams < Plaza::Internal::Type::BaseModel
       extend Plaza::Internal::Type::RequestParameters::Converter
       include Plaza::Internal::Type::RequestParameters
 
-      def initialize: (?request_options: Plaza::request_opts) -> void
+      attr_reader scope: String?
 
-      def to_hash: -> { request_options: Plaza::RequestOptions }
+      def scope=: (String) -> String
+
+      def initialize: (
+        ?scope: String,
+        ?request_options: Plaza::request_opts
+      ) -> void
+
+      def to_hash: -> { scope: String, request_options: Plaza::RequestOptions }
     end
   end
 end

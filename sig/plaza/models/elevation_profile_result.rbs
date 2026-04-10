@@ -2,26 +2,26 @@ module Plaza
   module Models
     type elevation_profile_result =
       {
-        geometry: Plaza::GeoJsonGeometry,
+        geometry: Plaza::Models::geometry,
         properties: Plaza::ElevationProfileResult::Properties,
         type: Plaza::Models::ElevationProfileResult::type_
       }
 
     class ElevationProfileResult < Plaza::Internal::Type::BaseModel
-      attr_accessor geometry: Plaza::GeoJsonGeometry
+      attr_accessor geometry: Plaza::Models::geometry
 
       attr_accessor properties: Plaza::ElevationProfileResult::Properties
 
       attr_accessor type: Plaza::Models::ElevationProfileResult::type_
 
       def initialize: (
-        geometry: Plaza::GeoJsonGeometry,
+        geometry: Plaza::Models::geometry,
         properties: Plaza::ElevationProfileResult::Properties,
         type: Plaza::Models::ElevationProfileResult::type_
       ) -> void
 
       def to_hash: -> {
-        geometry: Plaza::GeoJsonGeometry,
+        geometry: Plaza::Models::geometry,
         properties: Plaza::ElevationProfileResult::Properties,
         type: Plaza::Models::ElevationProfileResult::type_
       }

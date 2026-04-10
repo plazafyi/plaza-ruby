@@ -6,13 +6,10 @@ module Plaza
       OrHash =
         T.type_alias { T.any(Plaza::GeoJsonFeature, Plaza::Internal::AnyHash) }
 
-      # GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
-      # order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
-      sig { returns(Plaza::GeoJsonGeometry) }
-      attr_reader :geometry
-
-      sig { params(geometry: Plaza::GeoJsonGeometry::OrHash).void }
-      attr_writer :geometry
+      # GeoJSON Geometry object per RFC 7946. Discriminated union — the `type` field
+      # determines the coordinate structure.
+      sig { returns(Plaza::Geometry::Variants) }
+      attr_accessor :geometry
 
       # OSM tags flattened as key-value pairs, plus `@type` (node/way/relation) and
       # `@id` (OSM ID) metadata fields. May include `distance_m` for proximity queries.
@@ -36,15 +33,23 @@ module Plaza
       # properties.
       sig do
         params(
-          geometry: Plaza::GeoJsonGeometry::OrHash,
+          geometry:
+            T.any(
+              Plaza::PointGeometry::OrHash,
+              Plaza::LineStringGeometry::OrHash,
+              Plaza::PolygonGeometry::OrHash,
+              Plaza::MultiPointGeometry::OrHash,
+              Plaza::MultiLineStringGeometry::OrHash,
+              Plaza::MultiPolygonGeometry::OrHash
+            ),
           properties: T::Hash[Symbol, T.anything],
           type: Plaza::GeoJsonFeature::Type::OrSymbol,
           id: String
         ).returns(T.attached_class)
       end
       def self.new(
-        # GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
-        # order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
+        # GeoJSON Geometry object per RFC 7946. Discriminated union — the `type` field
+        # determines the coordinate structure.
         geometry:,
         # OSM tags flattened as key-value pairs, plus `@type` (node/way/relation) and
         # `@id` (OSM ID) metadata fields. May include `distance_m` for proximity queries.
@@ -59,7 +64,7 @@ module Plaza
       sig do
         override.returns(
           {
-            geometry: Plaza::GeoJsonGeometry,
+            geometry: Plaza::Geometry::Variants,
             properties: T::Hash[Symbol, T.anything],
             type: Plaza::GeoJsonFeature::Type::TaggedSymbol,
             id: String

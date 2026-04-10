@@ -43,7 +43,13 @@ module Plaza
       #   @return [String, nil]
       optional :source_url, String, nil?: true
 
-      # @!method initialize(name:, slug:, attribution: nil, description: nil, license: nil, source_url: nil, request_options: {})
+      # @!attribute strict_mode
+      #   Enable strict schema validation (default true)
+      #
+      #   @return [Boolean, nil]
+      optional :strict_mode, Plaza::Internal::Type::Boolean, nil?: true
+
+      # @!method initialize(name:, slug:, attribution: nil, description: nil, license: nil, source_url: nil, strict_mode: nil, request_options: {})
       #   @param name [String] Human-readable dataset name
       #
       #   @param slug [String] URL-friendly identifier (lowercase, hyphens, no spaces)
@@ -55,6 +61,8 @@ module Plaza
       #   @param license [String, nil] License identifier (e.g. CC-BY-4.0)
       #
       #   @param source_url [String, nil] Source data URL
+      #
+      #   @param strict_mode [Boolean, nil] Enable strict schema validation (default true)
       #
       #   @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}]
     end

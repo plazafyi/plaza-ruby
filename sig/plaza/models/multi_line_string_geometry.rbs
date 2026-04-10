@@ -1,0 +1,35 @@
+module Plaza
+  module Models
+    type multi_line_string_geometry =
+      {
+        coordinates: ::Array[::Array[::Array[Float]]],
+        type: Plaza::Models::MultiLineStringGeometry::type_
+      }
+
+    class MultiLineStringGeometry < Plaza::Internal::Type::BaseModel
+      attr_accessor coordinates: ::Array[::Array[::Array[Float]]]
+
+      attr_accessor type: Plaza::Models::MultiLineStringGeometry::type_
+
+      def initialize: (
+        coordinates: ::Array[::Array[::Array[Float]]],
+        type: Plaza::Models::MultiLineStringGeometry::type_
+      ) -> void
+
+      def to_hash: -> {
+        coordinates: ::Array[::Array[::Array[Float]]],
+        type: Plaza::Models::MultiLineStringGeometry::type_
+      }
+
+      type type_ = :MultiLineString
+
+      module Type
+        extend Plaza::Internal::Type::Enum
+
+        MULTI_LINE_STRING: :MultiLineString
+
+        def self?.values: -> ::Array[Plaza::Models::MultiLineStringGeometry::type_]
+      end
+    end
+  end
+end

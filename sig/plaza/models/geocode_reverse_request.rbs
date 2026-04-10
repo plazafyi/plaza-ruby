@@ -1,0 +1,35 @@
+module Plaza
+  module Models
+    type geocode_reverse_request =
+      {
+        geometry: Plaza::PointGeometry,
+        lang: String?,
+        limit: Integer?,
+        radius: Float?
+      }
+
+    class GeocodeReverseRequest < Plaza::Internal::Type::BaseModel
+      attr_accessor geometry: Plaza::PointGeometry
+
+      attr_accessor lang: String?
+
+      attr_accessor limit: Integer?
+
+      attr_accessor radius: Float?
+
+      def initialize: (
+        geometry: Plaza::PointGeometry,
+        ?lang: String?,
+        ?limit: Integer?,
+        ?radius: Float?
+      ) -> void
+
+      def to_hash: -> {
+        geometry: Plaza::PointGeometry,
+        lang: String?,
+        limit: Integer?,
+        radius: Float?
+      }
+    end
+  end
+end

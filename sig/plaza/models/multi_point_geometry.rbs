@@ -1,0 +1,35 @@
+module Plaza
+  module Models
+    type multi_point_geometry =
+      {
+        coordinates: ::Array[::Array[Float]],
+        type: Plaza::Models::MultiPointGeometry::type_
+      }
+
+    class MultiPointGeometry < Plaza::Internal::Type::BaseModel
+      attr_accessor coordinates: ::Array[::Array[Float]]
+
+      attr_accessor type: Plaza::Models::MultiPointGeometry::type_
+
+      def initialize: (
+        coordinates: ::Array[::Array[Float]],
+        type: Plaza::Models::MultiPointGeometry::type_
+      ) -> void
+
+      def to_hash: -> {
+        coordinates: ::Array[::Array[Float]],
+        type: Plaza::Models::MultiPointGeometry::type_
+      }
+
+      type type_ = :MultiPoint
+
+      module Type
+        extend Plaza::Internal::Type::Enum
+
+        MULTI_POINT: :MultiPoint
+
+        def self?.values: -> ::Array[Plaza::Models::MultiPointGeometry::type_]
+      end
+    end
+  end
+end

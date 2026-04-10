@@ -7,68 +7,31 @@ module Plaza
       sig do
         params(
           q: String,
-          country_code: String,
           format_: String,
-          lang: String,
-          lat: Float,
-          layer: String,
-          limit: Integer,
-          lng: Float,
+          country_code: T.nilable(String),
+          focus: T.nilable(Plaza::PointGeometry::OrHash),
+          lang: T.nilable(String),
+          layer: T.nilable(String),
+          limit: T.nilable(Integer),
           request_options: Plaza::RequestOptions::OrHash
         ).returns(Plaza::AutocompleteResult)
       end
       def autocomplete(
-        # Partial address query
+        # Body param: Partial address or place name input
         q:,
-        # ISO 3166-1 alpha-2 country code filter
-        country_code: nil,
-        # Response format: json (default), geojson, csv, ndjson
+        # Query param: Response format: json (default), geojson, csv, ndjson
         format_: nil,
-        # Language code for localized names (e.g. en, de, fr)
-        lang: nil,
-        # Focus latitude
-        lat: nil,
-        # Filter by layer: address, poi, or admin
-        layer: nil,
-        # Maximum results (default 10, max 20)
-        limit: nil,
-        # Focus longitude
-        lng: nil,
-        request_options: {}
-      )
-      end
-
-      # Autocomplete a partial address
-      sig do
-        params(
-          q: String,
-          country_code: String,
-          format_: String,
-          lang: String,
-          lat: Float,
-          layer: String,
-          limit: Integer,
-          lng: Float,
-          request_options: Plaza::RequestOptions::OrHash
-        ).returns(Plaza::AutocompleteResult)
-      end
-      def autocomplete_post(
-        # Partial address query
-        q:,
-        # ISO 3166-1 alpha-2 country code filter
+        # Body param: ISO 3166-1 alpha-2 country code to restrict results
         country_code: nil,
-        # Response format: json (default), geojson, csv, ndjson
-        format_: nil,
-        # Language code for localized names (e.g. en, de, fr)
+        # Body param: GeoJSON Point geometry per RFC 7946. Coordinates use [longitude,
+        # latitude] order. Optional third element is altitude in meters.
+        focus: nil,
+        # Body param: Preferred response language (ISO 639-1)
         lang: nil,
-        # Focus latitude
-        lat: nil,
-        # Filter by layer: address, poi, or admin
+        # Body param: Filter by result layer (e.g. `address`, `place`, `poi`)
         layer: nil,
-        # Maximum results (default 10, max 20)
+        # Body param: Maximum number of suggestions (default: 5, max: 20)
         limit: nil,
-        # Focus longitude
-        lng: nil,
         request_options: {}
       )
       end
@@ -87,74 +50,31 @@ module Plaza
       sig do
         params(
           q: String,
-          bbox: String,
-          country_code: String,
           format_: String,
-          lang: String,
-          lat: Float,
-          layer: String,
-          limit: Integer,
-          lng: Float,
+          country_code: T.nilable(String),
+          focus: T.nilable(Plaza::PointGeometry::OrHash),
+          lang: T.nilable(String),
+          layer: T.nilable(String),
+          limit: T.nilable(Integer),
           request_options: Plaza::RequestOptions::OrHash
         ).returns(Plaza::GeocodeResult)
       end
       def forward(
-        # Address or place name
+        # Body param: Address or place name to geocode
         q:,
-        # Bounding box filter: south,west,north,east
-        bbox: nil,
-        # ISO 3166-1 alpha-2 country code filter
-        country_code: nil,
-        # Response format: json (default), geojson, csv, ndjson
+        # Query param: Response format: json (default), geojson, csv, ndjson
         format_: nil,
-        # Language code for localized names (e.g. en, de, fr)
-        lang: nil,
-        # Focus latitude
-        lat: nil,
-        # Filter by layer: address, poi, or admin
-        layer: nil,
-        # Maximum results (default 20, max 100)
-        limit: nil,
-        # Focus longitude
-        lng: nil,
-        request_options: {}
-      )
-      end
-
-      # Forward geocode an address
-      sig do
-        params(
-          q: String,
-          bbox: String,
-          country_code: String,
-          format_: String,
-          lang: String,
-          lat: Float,
-          layer: String,
-          limit: Integer,
-          lng: Float,
-          request_options: Plaza::RequestOptions::OrHash
-        ).returns(Plaza::GeocodeResult)
-      end
-      def forward_post(
-        # Address or place name
-        q:,
-        # Bounding box filter: south,west,north,east
-        bbox: nil,
-        # ISO 3166-1 alpha-2 country code filter
+        # Body param: ISO 3166-1 alpha-2 country code to restrict results
         country_code: nil,
-        # Response format: json (default), geojson, csv, ndjson
-        format_: nil,
-        # Language code for localized names (e.g. en, de, fr)
+        # Body param: GeoJSON Point geometry per RFC 7946. Coordinates use [longitude,
+        # latitude] order. Optional third element is altitude in meters.
+        focus: nil,
+        # Body param: Preferred response language (ISO 639-1)
         lang: nil,
-        # Focus latitude
-        lat: nil,
-        # Filter by layer: address, poi, or admin
+        # Body param: Filter by result layer (e.g. `address`, `place`, `poi`)
         layer: nil,
-        # Maximum results (default 20, max 100)
+        # Body param: Maximum number of results (default: 5, max: 50)
         limit: nil,
-        # Focus longitude
-        lng: nil,
         request_options: {}
       )
       end
@@ -162,70 +82,25 @@ module Plaza
       # Reverse geocode a coordinate
       sig do
         params(
+          geometry: Plaza::PointGeometry::OrHash,
           format_: String,
-          lang: String,
-          lat: Float,
-          layer: String,
-          limit: Integer,
-          lng: Float,
-          near: String,
-          radius: Integer,
+          lang: T.nilable(String),
+          limit: T.nilable(Integer),
+          radius: T.nilable(Float),
           request_options: Plaza::RequestOptions::OrHash
         ).returns(Plaza::ReverseGeocodeResult)
       end
       def reverse(
-        # Response format: json (default), geojson, csv, ndjson
+        # Body param: GeoJSON Point geometry per RFC 7946. Coordinates use [longitude,
+        # latitude] order. Optional third element is altitude in meters.
+        geometry:,
+        # Query param: Response format: json (default), geojson, csv, ndjson
         format_: nil,
-        # Language code for localized names (e.g. en, de, fr)
+        # Body param: Preferred response language (ISO 639-1)
         lang: nil,
-        # Legacy shorthand. Latitude. Use near param instead.
-        lat: nil,
-        # Filter by layer: house or poi
-        layer: nil,
-        # Maximum results (default 1, max 20)
+        # Body param: Maximum number of results (default: 1, max: 50)
         limit: nil,
-        # Legacy shorthand. Longitude. Use near param instead.
-        lng: nil,
-        # Point geometry for reverse geocode (lat,lng or GeoJSON). Alternative to lat/lng
-        # params.
-        near: nil,
-        # Search radius in meters (default 200, max 5000)
-        radius: nil,
-        request_options: {}
-      )
-      end
-
-      # Reverse geocode a coordinate
-      sig do
-        params(
-          format_: String,
-          lang: String,
-          lat: Float,
-          layer: String,
-          limit: Integer,
-          lng: Float,
-          near: String,
-          radius: Integer,
-          request_options: Plaza::RequestOptions::OrHash
-        ).returns(Plaza::ReverseGeocodeResult)
-      end
-      def reverse_post(
-        # Response format: json (default), geojson, csv, ndjson
-        format_: nil,
-        # Language code for localized names (e.g. en, de, fr)
-        lang: nil,
-        # Legacy shorthand. Latitude. Use near param instead.
-        lat: nil,
-        # Filter by layer: house or poi
-        layer: nil,
-        # Maximum results (default 1, max 20)
-        limit: nil,
-        # Legacy shorthand. Longitude. Use near param instead.
-        lng: nil,
-        # Point geometry for reverse geocode (lat,lng or GeoJSON). Alternative to lat/lng
-        # params.
-        near: nil,
-        # Search radius in meters (default 200, max 5000)
+        # Body param: Search radius in meters (default: 100)
         radius: nil,
         request_options: {}
       )

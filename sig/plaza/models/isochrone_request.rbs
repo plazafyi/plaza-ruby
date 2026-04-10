@@ -1,0 +1,46 @@
+module Plaza
+  module Models
+    type isochrone_request =
+      {
+        geometry: Plaza::PointGeometry,
+        time: ::Array[Integer],
+        mode: Plaza::Models::IsochroneRequest::mode
+      }
+
+    class IsochroneRequest < Plaza::Internal::Type::BaseModel
+      attr_accessor geometry: Plaza::PointGeometry
+
+      attr_accessor time: ::Array[Integer]
+
+      attr_reader mode: Plaza::Models::IsochroneRequest::mode?
+
+      def mode=: (
+        Plaza::Models::IsochroneRequest::mode
+      ) -> Plaza::Models::IsochroneRequest::mode
+
+      def initialize: (
+        geometry: Plaza::PointGeometry,
+        time: ::Array[Integer],
+        ?mode: Plaza::Models::IsochroneRequest::mode
+      ) -> void
+
+      def to_hash: -> {
+        geometry: Plaza::PointGeometry,
+        time: ::Array[Integer],
+        mode: Plaza::Models::IsochroneRequest::mode
+      }
+
+      type mode = :auto | :foot | :bicycle
+
+      module Mode
+        extend Plaza::Internal::Type::Enum
+
+        AUTO: :auto
+        FOOT: :foot
+        BICYCLE: :bicycle
+
+        def self?.values: -> ::Array[Plaza::Models::IsochroneRequest::mode]
+      end
+    end
+  end
+end

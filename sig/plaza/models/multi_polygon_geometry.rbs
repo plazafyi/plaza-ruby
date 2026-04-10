@@ -1,0 +1,35 @@
+module Plaza
+  module Models
+    type multi_polygon_geometry =
+      {
+        coordinates: ::Array[::Array[::Array[::Array[Float]]]],
+        type: Plaza::Models::MultiPolygonGeometry::type_
+      }
+
+    class MultiPolygonGeometry < Plaza::Internal::Type::BaseModel
+      attr_accessor coordinates: ::Array[::Array[::Array[::Array[Float]]]]
+
+      attr_accessor type: Plaza::Models::MultiPolygonGeometry::type_
+
+      def initialize: (
+        coordinates: ::Array[::Array[::Array[::Array[Float]]]],
+        type: Plaza::Models::MultiPolygonGeometry::type_
+      ) -> void
+
+      def to_hash: -> {
+        coordinates: ::Array[::Array[::Array[::Array[Float]]]],
+        type: Plaza::Models::MultiPolygonGeometry::type_
+      }
+
+      type type_ = :MultiPolygon
+
+      module Type
+        extend Plaza::Internal::Type::Enum
+
+        MULTI_POLYGON: :MultiPolygon
+
+        def self?.values: -> ::Array[Plaza::Models::MultiPolygonGeometry::type_]
+      end
+    end
+  end
+end

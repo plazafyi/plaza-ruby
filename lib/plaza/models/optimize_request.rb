@@ -4,10 +4,10 @@ module Plaza
   module Models
     class OptimizeRequest < Plaza::Internal::Type::BaseModel
       # @!attribute waypoints
-      #   Waypoints to visit in optimized order (2-50 points)
+      #   GeoJSON MultiPoint geometry per RFC 7946. An array of positions.
       #
-      #   @return [Array<Plaza::Models::OptimizeRequest::Waypoint>]
-      required :waypoints, -> { Plaza::Internal::Type::ArrayOf[Plaza::OptimizeRequest::Waypoint] }
+      #   @return [Plaza::Models::MultiPointGeometry]
+      required :waypoints, -> { Plaza::MultiPointGeometry }
 
       # @!attribute mode
       #   Travel mode (default: `auto`)
@@ -26,32 +26,11 @@ module Plaza
       #   to visit a set of waypoints. Minimum 2 waypoints, maximum 50. For large inputs,
       #   the request may be processed asynchronously.
       #
-      #   @param waypoints [Array<Plaza::Models::OptimizeRequest::Waypoint>] Waypoints to visit in optimized order (2-50 points)
+      #   @param waypoints [Plaza::Models::MultiPointGeometry] GeoJSON MultiPoint geometry per RFC 7946. An array of positions.
       #
       #   @param mode [Symbol, Plaza::Models::OptimizeRequest::Mode] Travel mode (default: `auto`)
       #
       #   @param roundtrip [Boolean] Whether the route should return to the starting waypoint (default: true)
-
-      class Waypoint < Plaza::Internal::Type::BaseModel
-        # @!attribute lat
-        #   Latitude in decimal degrees (-90 to 90)
-        #
-        #   @return [Float]
-        required :lat, Float
-
-        # @!attribute lng
-        #   Longitude in decimal degrees (-180 to 180)
-        #
-        #   @return [Float]
-        required :lng, Float
-
-        # @!method initialize(lat:, lng:)
-        #   Geographic coordinate as a JSON object with `lat` and `lng` fields.
-        #
-        #   @param lat [Float] Latitude in decimal degrees (-90 to 90)
-        #
-        #   @param lng [Float] Longitude in decimal degrees (-180 to 180)
-      end
 
       # Travel mode (default: `auto`)
       #

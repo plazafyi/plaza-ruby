@@ -7,7 +7,15 @@ module Plaza
       extend Plaza::Internal::Type::RequestParameters::Converter
       include Plaza::Internal::Type::RequestParameters
 
-      # @!method initialize(request_options: {})
+      # @!attribute scope
+      #   Filter by scope: plaza, user. Default shows user's own + plaza datasets.
+      #
+      #   @return [String, nil]
+      optional :scope, String
+
+      # @!method initialize(scope: nil, request_options: {})
+      #   @param scope [String] Filter by scope: plaza, user. Default shows user's own + plaza datasets.
+      #
       #   @param request_options [Plaza::RequestOptions, Hash{Symbol=>Object}]
     end
   end

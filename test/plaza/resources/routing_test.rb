@@ -4,7 +4,7 @@ require_relative "../test_helper"
 
 class Plaza::Test::Resources::RoutingTest < Plaza::Test::ResourceTest
   def test_isochrone_required_params
-    response = @plaza.routing.isochrone(lat: 0, lng: 0, time: 0)
+    response = @plaza.routing.isochrone(geometry: {coordinates: [2.3522, 48.8566], type: :Point}, time: [1])
 
     assert_pattern do
       response => Plaza::Models::RoutingIsochroneResponse
@@ -12,27 +12,8 @@ class Plaza::Test::Resources::RoutingTest < Plaza::Test::ResourceTest
 
     assert_pattern do
       response => {
-        features: ^(Plaza::Internal::Type::ArrayOf[Plaza::GeoJsonFeature]) | nil,
-        geometry: Plaza::GeoJsonGeometry | nil,
-        properties: Plaza::Models::RoutingIsochroneResponse::Properties | nil,
-        type: Plaza::Models::RoutingIsochroneResponse::Type | nil
-      }
-    end
-  end
-
-  def test_isochrone_post_required_params
-    response = @plaza.routing.isochrone_post(lat: 0, lng: 0, time: 0)
-
-    assert_pattern do
-      response => Plaza::Models::RoutingIsochronePostResponse
-    end
-
-    assert_pattern do
-      response => {
-        features: ^(Plaza::Internal::Type::ArrayOf[Plaza::GeoJsonFeature]) | nil,
-        geometry: Plaza::GeoJsonGeometry | nil,
-        properties: Plaza::Models::RoutingIsochronePostResponse::Properties | nil,
-        type: Plaza::Models::RoutingIsochronePostResponse::Type | nil
+        features: ^(Plaza::Internal::Type::ArrayOf[Plaza::GeoJsonFeature]),
+        type: Plaza::Models::RoutingIsochroneResponse::Type
       }
     end
   end
@@ -40,8 +21,11 @@ class Plaza::Test::Resources::RoutingTest < Plaza::Test::ResourceTest
   def test_matrix_required_params
     response =
       @plaza.routing.matrix(
-        destinations: [{lat: 48.8584, lng: 2.2945}],
-        origins: [{lat: 48.8566, lng: 2.3522}, {lat: 48.8606, lng: 2.3376}]
+        destinations: [{coordinates: [2.2945, 48.8584], type: :Point}],
+        origins: [
+          {coordinates: [2.3522, 48.8566], type: :Point},
+          {coordinates: [2.3376, 48.8606], type: :Point}
+        ]
       )
 
     assert_pattern do
@@ -50,7 +34,7 @@ class Plaza::Test::Resources::RoutingTest < Plaza::Test::ResourceTest
   end
 
   def test_nearest_required_params
-    response = @plaza.routing.nearest(lat: 0, lng: 0)
+    response = @plaza.routing.nearest(geometry: {coordinates: [2.3522, 48.8566], type: :Point})
 
     assert_pattern do
       response => Plaza::NearestResult
@@ -58,23 +42,7 @@ class Plaza::Test::Resources::RoutingTest < Plaza::Test::ResourceTest
 
     assert_pattern do
       response => {
-        geometry: Plaza::GeoJsonGeometry,
-        properties: Plaza::NearestResult::Properties,
-        type: Plaza::NearestResult::Type
-      }
-    end
-  end
-
-  def test_nearest_post_required_params
-    response = @plaza.routing.nearest_post(lat: 0, lng: 0)
-
-    assert_pattern do
-      response => Plaza::NearestResult
-    end
-
-    assert_pattern do
-      response => {
-        geometry: Plaza::GeoJsonGeometry,
+        geometry: Plaza::Geometry,
         properties: Plaza::NearestResult::Properties,
         type: Plaza::NearestResult::Type
       }
@@ -83,7 +51,10 @@ class Plaza::Test::Resources::RoutingTest < Plaza::Test::ResourceTest
 
   def test_route_required_params
     response =
-      @plaza.routing.route(destination: {lat: 48.8584, lng: 2.2945}, origin: {lat: 48.8566, lng: 2.3522})
+      @plaza.routing.route(
+        destination: {coordinates: [2.2945, 48.8584], type: :Point},
+        origin: {coordinates: [2.3522, 48.8566], type: :Point}
+      )
 
     assert_pattern do
       response => Plaza::RouteResult
@@ -91,7 +62,7 @@ class Plaza::Test::Resources::RoutingTest < Plaza::Test::ResourceTest
 
     assert_pattern do
       response => {
-        geometry: Plaza::GeoJsonGeometry,
+        geometry: Plaza::Geometry,
         properties: Plaza::RouteResult::Properties,
         type: Plaza::RouteResult::Type
       }

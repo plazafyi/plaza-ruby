@@ -5,11 +5,11 @@ module Plaza
     # @see Plaza::Resources::Elevation#lookup
     class ElevationLookupResult < Plaza::Internal::Type::BaseModel
       # @!attribute geometry
-      #   GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
-      #   order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
+      #   GeoJSON Geometry object per RFC 7946. Discriminated union — the `type` field
+      #   determines the coordinate structure.
       #
-      #   @return [Plaza::Models::GeoJsonGeometry]
-      required :geometry, -> { Plaza::GeoJsonGeometry }
+      #   @return [Plaza::Models::PointGeometry, Plaza::Models::LineStringGeometry, Plaza::Models::PolygonGeometry, Plaza::Models::MultiPointGeometry, Plaza::Models::MultiLineStringGeometry, Plaza::Models::MultiPolygonGeometry]
+      required :geometry, union: -> { Plaza::Geometry }
 
       # @!attribute properties
       #
@@ -29,7 +29,7 @@ module Plaza
       #   §3.1.1. The elevation is also available in `properties.elevation_m` for
       #   convenience.
       #
-      #   @param geometry [Plaza::Models::GeoJsonGeometry] GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude] orde
+      #   @param geometry [Plaza::Models::PointGeometry, Plaza::Models::LineStringGeometry, Plaza::Models::PolygonGeometry, Plaza::Models::MultiPointGeometry, Plaza::Models::MultiLineStringGeometry, Plaza::Models::MultiPolygonGeometry] GeoJSON Geometry object per RFC 7946. Discriminated union — the `type` field det
       #
       #   @param properties [Plaza::Models::ElevationLookupResult::Properties]
       #

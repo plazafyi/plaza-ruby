@@ -1,0 +1,35 @@
+module Plaza
+  module Models
+    type line_string_geometry =
+      {
+        coordinates: ::Array[::Array[Float]],
+        type: Plaza::Models::LineStringGeometry::type_
+      }
+
+    class LineStringGeometry < Plaza::Internal::Type::BaseModel
+      attr_accessor coordinates: ::Array[::Array[Float]]
+
+      attr_accessor type: Plaza::Models::LineStringGeometry::type_
+
+      def initialize: (
+        coordinates: ::Array[::Array[Float]],
+        type: Plaza::Models::LineStringGeometry::type_
+      ) -> void
+
+      def to_hash: -> {
+        coordinates: ::Array[::Array[Float]],
+        type: Plaza::Models::LineStringGeometry::type_
+      }
+
+      type type_ = :LineString
+
+      module Type
+        extend Plaza::Internal::Type::Enum
+
+        LINE_STRING: :LineString
+
+        def self?.values: -> ::Array[Plaza::Models::LineStringGeometry::type_]
+      end
+    end
+  end
+end

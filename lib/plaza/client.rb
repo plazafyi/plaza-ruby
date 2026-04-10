@@ -24,8 +24,8 @@ module Plaza
     # @return [String]
     attr_reader :api_key
 
-    # @return [Plaza::Resources::Elements]
-    attr_reader :elements
+    # @return [Plaza::Resources::Features]
+    attr_reader :features
 
     # @return [Plaza::Resources::Datasets]
     attr_reader :datasets
@@ -112,7 +112,7 @@ module Plaza
         max_retry_delay: max_retry_delay
       )
 
-      @elements = Plaza::Resources::Elements.new(client: self)
+      @features = Plaza::Resources::Features.new(client: self)
       @datasets = Plaza::Resources::Datasets.new(client: self)
       @geocode = Plaza::Resources::Geocode.new(client: self)
       @search = Plaza::Resources::Search.new(client: self)

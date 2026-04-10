@@ -1,0 +1,37 @@
+module Plaza
+  module Resources
+    class Features
+      def retrieve: (
+        Integer id,
+        type: String,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::GeoJsonFeature
+
+      def batch: (
+        elements: ::Array[Plaza::BatchRequest::Element],
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::FeatureCollection
+
+      def query: (
+        ?cursor: String,
+        ?format_: String,
+        ?h3: String,
+        ?limit: Integer,
+        ?type: String,
+        ?around: Plaza::Models::geometry,
+        ?contains: Plaza::Models::geometry,
+        ?crosses: Plaza::Models::geometry,
+        ?intersects: Plaza::Models::geometry,
+        ?not_contains: Plaza::Models::geometry,
+        ?not_intersects: Plaza::Models::geometry,
+        ?not_within: Plaza::Models::geometry,
+        ?radius: Float,
+        ?touches: Plaza::Models::geometry,
+        ?within: Plaza::Models::geometry,
+        ?request_options: Plaza::request_opts
+      ) -> Plaza::FeatureCollection
+
+      def initialize: (client: Plaza::Client) -> void
+    end
+  end
+end
