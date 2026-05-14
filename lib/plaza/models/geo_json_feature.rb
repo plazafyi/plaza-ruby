@@ -4,11 +4,11 @@ module Plaza
   module Models
     class GeoJsonFeature < Plaza::Internal::Type::BaseModel
       # @!attribute geometry
-      #   GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude]
-      #   order. 3D coordinates [lng, lat, elevation] are used for elevation endpoints.
+      #   GeoJSON Geometry object per RFC 7946. Discriminated union — the `type` field
+      #   determines the coordinate structure.
       #
-      #   @return [Plaza::Models::GeoJsonGeometry]
-      required :geometry, -> { Plaza::GeoJsonGeometry }
+      #   @return [Plaza::Models::PointGeometry, Plaza::Models::LineStringGeometry, Plaza::Models::PolygonGeometry, Plaza::Models::MultiPointGeometry, Plaza::Models::MultiLineStringGeometry, Plaza::Models::MultiPolygonGeometry]
+      required :geometry, union: -> { Plaza::Geometry }
 
       # @!attribute properties
       #   OSM tags flattened as key-value pairs, plus `@type` (node/way/relation) and
@@ -38,7 +38,7 @@ module Plaza
       #   Metadata fields `@type` and `@id` identify the OSM element type and ID within
       #   properties.
       #
-      #   @param geometry [Plaza::Models::GeoJsonGeometry] GeoJSON Geometry object per RFC 7946. Coordinates use [longitude, latitude] orde
+      #   @param geometry [Plaza::Models::PointGeometry, Plaza::Models::LineStringGeometry, Plaza::Models::PolygonGeometry, Plaza::Models::MultiPointGeometry, Plaza::Models::MultiLineStringGeometry, Plaza::Models::MultiPolygonGeometry] GeoJSON Geometry object per RFC 7946. Discriminated union — the `type` field det
       #
       #   @param properties [Hash{Symbol=>Object}] OSM tags flattened as key-value pairs, plus `@type` (node/way/relation) and `@id
       #

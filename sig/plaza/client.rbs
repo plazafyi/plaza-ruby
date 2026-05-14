@@ -15,7 +15,7 @@ module Plaza
 
     attr_reader api_key: String
 
-    attr_reader elements: Plaza::Resources::Elements
+    attr_reader features: Plaza::Resources::Features
 
     attr_reader datasets: Plaza::Resources::Datasets
 

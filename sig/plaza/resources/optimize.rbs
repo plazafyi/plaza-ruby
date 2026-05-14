@@ -2,7 +2,8 @@ module Plaza
   module Resources
     class Optimize
       def create: (
-        waypoints: ::Array[Plaza::OptimizeRequest::Waypoint],
+        waypoints: Plaza::MultiPointGeometry,
+        ?format_: String,
         ?mode: Plaza::Models::OptimizeRequest::mode,
         ?roundtrip: bool,
         ?request_options: Plaza::request_opts

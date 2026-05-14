@@ -2,19 +2,10 @@ module Plaza
   module Resources
     class Query
       def execute: (
-        steps: ::Array[Plaza::QueryExecuteParams::Step],
-        ?request_options: Plaza::request_opts
-      ) -> Plaza::Models::QueryExecuteResponse
-
-      def overpass: (
         data: String,
+        ?format_: String,
         ?request_options: Plaza::request_opts
       ) -> Plaza::FeatureCollection
-
-      def sparql: (
-        query: String,
-        ?request_options: Plaza::request_opts
-      ) -> Plaza::SparqlResult
 
       def initialize: (client: Plaza::Client) -> void
     end

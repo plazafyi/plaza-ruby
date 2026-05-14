@@ -1,0 +1,50 @@
+module Plaza
+  module Models
+    type validation_error = { error: Plaza::ValidationError::Error }
+
+    class ValidationError < Plaza::Internal::Type::BaseModel
+      attr_accessor error: Plaza::ValidationError::Error
+
+      def initialize: (error: Plaza::ValidationError::Error) -> void
+
+      def to_hash: -> { error: Plaza::ValidationError::Error }
+
+      type error =
+        {
+          code: Plaza::Models::ValidationError::Error::code,
+          message: String,
+          details: ::Hash[Symbol, ::Array[String]]?
+        }
+
+      class Error < Plaza::Internal::Type::BaseModel
+        attr_accessor code: Plaza::Models::ValidationError::Error::code
+
+        attr_accessor message: String
+
+        attr_accessor details: ::Hash[Symbol, ::Array[String]]?
+
+        def initialize: (
+          code: Plaza::Models::ValidationError::Error::code,
+          message: String,
+          ?details: ::Hash[Symbol, ::Array[String]]?
+        ) -> void
+
+        def to_hash: -> {
+          code: Plaza::Models::ValidationError::Error::code,
+          message: String,
+          details: ::Hash[Symbol, ::Array[String]]?
+        }
+
+        type code = :validation_failed
+
+        module Code
+          extend Plaza::Internal::Type::Enum
+
+          VALIDATION_FAILED: :validation_failed
+
+          def self?.values: -> ::Array[Plaza::Models::ValidationError::Error::code]
+        end
+      end
+    end
+  end
+end

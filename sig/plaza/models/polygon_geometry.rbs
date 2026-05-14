@@ -1,0 +1,35 @@
+module Plaza
+  module Models
+    type polygon_geometry =
+      {
+        coordinates: ::Array[::Array[::Array[Float]]],
+        type: Plaza::Models::PolygonGeometry::type_
+      }
+
+    class PolygonGeometry < Plaza::Internal::Type::BaseModel
+      attr_accessor coordinates: ::Array[::Array[::Array[Float]]]
+
+      attr_accessor type: Plaza::Models::PolygonGeometry::type_
+
+      def initialize: (
+        coordinates: ::Array[::Array[::Array[Float]]],
+        type: Plaza::Models::PolygonGeometry::type_
+      ) -> void
+
+      def to_hash: -> {
+        coordinates: ::Array[::Array[::Array[Float]]],
+        type: Plaza::Models::PolygonGeometry::type_
+      }
+
+      type type_ = :Polygon
+
+      module Type
+        extend Plaza::Internal::Type::Enum
+
+        POLYGON: :Polygon
+
+        def self?.values: -> ::Array[Plaza::Models::PolygonGeometry::type_]
+      end
+    end
+  end
+end

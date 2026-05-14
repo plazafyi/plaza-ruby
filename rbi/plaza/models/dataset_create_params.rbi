@@ -35,6 +35,10 @@ module Plaza
       sig { returns(T.nilable(String)) }
       attr_accessor :source_url
 
+      # Enable strict schema validation (default true)
+      sig { returns(T.nilable(T::Boolean)) }
+      attr_accessor :strict_mode
+
       sig do
         params(
           name: String,
@@ -43,6 +47,7 @@ module Plaza
           description: T.nilable(String),
           license: T.nilable(String),
           source_url: T.nilable(String),
+          strict_mode: T.nilable(T::Boolean),
           request_options: Plaza::RequestOptions::OrHash
         ).returns(T.attached_class)
       end
@@ -59,6 +64,8 @@ module Plaza
         license: nil,
         # Source data URL
         source_url: nil,
+        # Enable strict schema validation (default true)
+        strict_mode: nil,
         request_options: {}
       )
       end
@@ -72,6 +79,7 @@ module Plaza
             description: T.nilable(String),
             license: T.nilable(String),
             source_url: T.nilable(String),
+            strict_mode: T.nilable(T::Boolean),
             request_options: Plaza::RequestOptions
           }
         )

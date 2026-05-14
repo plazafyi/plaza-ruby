@@ -6,12 +6,12 @@ module Plaza
       OrHash =
         T.type_alias { T.any(Plaza::MatrixRequest, Plaza::Internal::AnyHash) }
 
-      # Array of destination coordinates (max 50)
-      sig { returns(T::Array[Plaza::MatrixRequest::Destination]) }
+      # Array of destination coordinates as GeoJSON Points (max 50)
+      sig { returns(T::Array[Plaza::PointGeometry]) }
       attr_accessor :destinations
 
-      # Array of origin coordinates (max 50)
-      sig { returns(T::Array[Plaza::MatrixRequest::Origin]) }
+      # Array of origin coordinates as GeoJSON Points (max 50)
+      sig { returns(T::Array[Plaza::PointGeometry]) }
       attr_accessor :origins
 
       # Comma-separated list of annotations to include: `duration` (always included),
@@ -39,17 +39,17 @@ module Plaza
       # (origins × destinations), each list capped at 50 coordinates.
       sig do
         params(
-          destinations: T::Array[Plaza::MatrixRequest::Destination::OrHash],
-          origins: T::Array[Plaza::MatrixRequest::Origin::OrHash],
+          destinations: T::Array[Plaza::PointGeometry::OrHash],
+          origins: T::Array[Plaza::PointGeometry::OrHash],
           annotations: String,
           fallback_speed: T.nilable(Float),
           mode: Plaza::MatrixRequest::Mode::OrSymbol
         ).returns(T.attached_class)
       end
       def self.new(
-        # Array of destination coordinates (max 50)
+        # Array of destination coordinates as GeoJSON Points (max 50)
         destinations:,
-        # Array of origin coordinates (max 50)
+        # Array of origin coordinates as GeoJSON Points (max 50)
         origins:,
         # Comma-separated list of annotations to include: `duration` (always included),
         # `distance`. Example: `duration,distance`.
@@ -65,8 +65,8 @@ module Plaza
       sig do
         override.returns(
           {
-            destinations: T::Array[Plaza::MatrixRequest::Destination],
-            origins: T::Array[Plaza::MatrixRequest::Origin],
+            destinations: T::Array[Plaza::PointGeometry],
+            origins: T::Array[Plaza::PointGeometry],
             annotations: String,
             fallback_speed: T.nilable(Float),
             mode: Plaza::MatrixRequest::Mode::OrSymbol
@@ -74,64 +74,6 @@ module Plaza
         )
       end
       def to_hash
-      end
-
-      class Destination < Plaza::Internal::Type::BaseModel
-        OrHash =
-          T.type_alias do
-            T.any(Plaza::MatrixRequest::Destination, Plaza::Internal::AnyHash)
-          end
-
-        # Latitude in decimal degrees (-90 to 90)
-        sig { returns(Float) }
-        attr_accessor :lat
-
-        # Longitude in decimal degrees (-180 to 180)
-        sig { returns(Float) }
-        attr_accessor :lng
-
-        # Geographic coordinate as a JSON object with `lat` and `lng` fields.
-        sig { params(lat: Float, lng: Float).returns(T.attached_class) }
-        def self.new(
-          # Latitude in decimal degrees (-90 to 90)
-          lat:,
-          # Longitude in decimal degrees (-180 to 180)
-          lng:
-        )
-        end
-
-        sig { override.returns({ lat: Float, lng: Float }) }
-        def to_hash
-        end
-      end
-
-      class Origin < Plaza::Internal::Type::BaseModel
-        OrHash =
-          T.type_alias do
-            T.any(Plaza::MatrixRequest::Origin, Plaza::Internal::AnyHash)
-          end
-
-        # Latitude in decimal degrees (-90 to 90)
-        sig { returns(Float) }
-        attr_accessor :lat
-
-        # Longitude in decimal degrees (-180 to 180)
-        sig { returns(Float) }
-        attr_accessor :lng
-
-        # Geographic coordinate as a JSON object with `lat` and `lng` fields.
-        sig { params(lat: Float, lng: Float).returns(T.attached_class) }
-        def self.new(
-          # Latitude in decimal degrees (-90 to 90)
-          lat:,
-          # Longitude in decimal degrees (-180 to 180)
-          lng:
-        )
-        end
-
-        sig { override.returns({ lat: Float, lng: Float }) }
-        def to_hash
-        end
       end
 
       # Travel mode (default: `auto`)

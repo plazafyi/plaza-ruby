@@ -6,18 +6,22 @@ module Plaza
       # Optimize route through waypoints
       sig do
         params(
-          waypoints: T::Array[Plaza::OptimizeRequest::Waypoint::OrHash],
+          waypoints: Plaza::MultiPointGeometry::OrHash,
+          format_: String,
           mode: Plaza::OptimizeRequest::Mode::OrSymbol,
           roundtrip: T::Boolean,
           request_options: Plaza::RequestOptions::OrHash
         ).returns(Plaza::OptimizeResult::Variants)
       end
       def create(
-        # Waypoints to visit in optimized order (2-50 points)
+        # Body param: GeoJSON MultiPoint geometry per RFC 7946. An array of positions.
         waypoints:,
-        # Travel mode (default: `auto`)
+        # Query param: Response format: json (default), geojson, csv, ndjson
+        format_: nil,
+        # Body param: Travel mode (default: `auto`)
         mode: nil,
-        # Whether the route should return to the starting waypoint (default: true)
+        # Body param: Whether the route should return to the starting waypoint (default:
+        # true)
         roundtrip: nil,
         request_options: {}
       )

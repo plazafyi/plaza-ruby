@@ -2,8 +2,8 @@ module Plaza
   module Models
     type route_request =
       {
-        destination: Plaza::RouteRequest::Destination,
-        origin: Plaza::RouteRequest::Origin,
+        destination: Plaza::PointGeometry,
+        origin: Plaza::PointGeometry,
         alternatives: Integer,
         annotations: bool,
         depart_at: Time?,
@@ -14,13 +14,13 @@ module Plaza
         overview: Plaza::Models::RouteRequest::overview,
         steps: bool,
         traffic_model: Plaza::Models::RouteRequest::traffic_model?,
-        waypoints: ::Array[Plaza::RouteRequest::Waypoint]?
+        waypoints: ::Array[Plaza::PointGeometry]?
       }
 
     class RouteRequest < Plaza::Internal::Type::BaseModel
-      attr_accessor destination: Plaza::RouteRequest::Destination
+      attr_accessor destination: Plaza::PointGeometry
 
-      attr_accessor origin: Plaza::RouteRequest::Origin
+      attr_accessor origin: Plaza::PointGeometry
 
       attr_reader alternatives: Integer?
 
@@ -60,11 +60,11 @@ module Plaza
 
       attr_accessor traffic_model: Plaza::Models::RouteRequest::traffic_model?
 
-      attr_accessor waypoints: ::Array[Plaza::RouteRequest::Waypoint]?
+      attr_accessor waypoints: ::Array[Plaza::PointGeometry]?
 
       def initialize: (
-        destination: Plaza::RouteRequest::Destination,
-        origin: Plaza::RouteRequest::Origin,
+        destination: Plaza::PointGeometry,
+        origin: Plaza::PointGeometry,
         ?alternatives: Integer,
         ?annotations: bool,
         ?depart_at: Time?,
@@ -75,12 +75,12 @@ module Plaza
         ?overview: Plaza::Models::RouteRequest::overview,
         ?steps: bool,
         ?traffic_model: Plaza::Models::RouteRequest::traffic_model?,
-        ?waypoints: ::Array[Plaza::RouteRequest::Waypoint]?
+        ?waypoints: ::Array[Plaza::PointGeometry]?
       ) -> void
 
       def to_hash: -> {
-        destination: Plaza::RouteRequest::Destination,
-        origin: Plaza::RouteRequest::Origin,
+        destination: Plaza::PointGeometry,
+        origin: Plaza::PointGeometry,
         alternatives: Integer,
         annotations: bool,
         depart_at: Time?,
@@ -91,32 +91,8 @@ module Plaza
         overview: Plaza::Models::RouteRequest::overview,
         steps: bool,
         traffic_model: Plaza::Models::RouteRequest::traffic_model?,
-        waypoints: ::Array[Plaza::RouteRequest::Waypoint]?
+        waypoints: ::Array[Plaza::PointGeometry]?
       }
-
-      type destination = { lat: Float, lng: Float }
-
-      class Destination < Plaza::Internal::Type::BaseModel
-        attr_accessor lat: Float
-
-        attr_accessor lng: Float
-
-        def initialize: (lat: Float, lng: Float) -> void
-
-        def to_hash: -> { lat: Float, lng: Float }
-      end
-
-      type origin = { lat: Float, lng: Float }
-
-      class Origin < Plaza::Internal::Type::BaseModel
-        attr_accessor lat: Float
-
-        attr_accessor lng: Float
-
-        def initialize: (lat: Float, lng: Float) -> void
-
-        def to_hash: -> { lat: Float, lng: Float }
-      end
 
       type ev =
         {
@@ -205,18 +181,6 @@ module Plaza
         PESSIMISTIC: :pessimistic
 
         def self?.values: -> ::Array[Plaza::Models::RouteRequest::traffic_model]
-      end
-
-      type waypoint = { lat: Float, lng: Float }
-
-      class Waypoint < Plaza::Internal::Type::BaseModel
-        attr_accessor lat: Float
-
-        attr_accessor lng: Float
-
-        def initialize: (lat: Float, lng: Float) -> void
-
-        def to_hash: -> { lat: Float, lng: Float }
       end
     end
   end

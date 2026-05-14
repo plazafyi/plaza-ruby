@@ -6,9 +6,12 @@ module Plaza
       OrHash =
         T.type_alias { T.any(Plaza::OptimizeRequest, Plaza::Internal::AnyHash) }
 
-      # Waypoints to visit in optimized order (2-50 points)
-      sig { returns(T::Array[Plaza::OptimizeRequest::Waypoint]) }
-      attr_accessor :waypoints
+      # GeoJSON MultiPoint geometry per RFC 7946. An array of positions.
+      sig { returns(Plaza::MultiPointGeometry) }
+      attr_reader :waypoints
+
+      sig { params(waypoints: Plaza::MultiPointGeometry::OrHash).void }
+      attr_writer :waypoints
 
       # Travel mode (default: `auto`)
       sig { returns(T.nilable(Plaza::OptimizeRequest::Mode::OrSymbol)) }
@@ -29,13 +32,13 @@ module Plaza
       # the request may be processed asynchronously.
       sig do
         params(
-          waypoints: T::Array[Plaza::OptimizeRequest::Waypoint::OrHash],
+          waypoints: Plaza::MultiPointGeometry::OrHash,
           mode: Plaza::OptimizeRequest::Mode::OrSymbol,
           roundtrip: T::Boolean
         ).returns(T.attached_class)
       end
       def self.new(
-        # Waypoints to visit in optimized order (2-50 points)
+        # GeoJSON MultiPoint geometry per RFC 7946. An array of positions.
         waypoints:,
         # Travel mode (default: `auto`)
         mode: nil,
@@ -47,42 +50,13 @@ module Plaza
       sig do
         override.returns(
           {
-            waypoints: T::Array[Plaza::OptimizeRequest::Waypoint],
+            waypoints: Plaza::MultiPointGeometry,
             mode: Plaza::OptimizeRequest::Mode::OrSymbol,
             roundtrip: T::Boolean
           }
         )
       end
       def to_hash
-      end
-
-      class Waypoint < Plaza::Internal::Type::BaseModel
-        OrHash =
-          T.type_alias do
-            T.any(Plaza::OptimizeRequest::Waypoint, Plaza::Internal::AnyHash)
-          end
-
-        # Latitude in decimal degrees (-90 to 90)
-        sig { returns(Float) }
-        attr_accessor :lat
-
-        # Longitude in decimal degrees (-180 to 180)
-        sig { returns(Float) }
-        attr_accessor :lng
-
-        # Geographic coordinate as a JSON object with `lat` and `lng` fields.
-        sig { params(lat: Float, lng: Float).returns(T.attached_class) }
-        def self.new(
-          # Latitude in decimal degrees (-90 to 90)
-          lat:,
-          # Longitude in decimal degrees (-180 to 180)
-          lng:
-        )
-        end
-
-        sig { override.returns({ lat: Float, lng: Float }) }
-        def to_hash
-        end
       end
 
       # Travel mode (default: `auto`)

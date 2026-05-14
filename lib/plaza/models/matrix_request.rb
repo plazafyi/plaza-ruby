@@ -4,16 +4,16 @@ module Plaza
   module Models
     class MatrixRequest < Plaza::Internal::Type::BaseModel
       # @!attribute destinations
-      #   Array of destination coordinates (max 50)
+      #   Array of destination coordinates as GeoJSON Points (max 50)
       #
-      #   @return [Array<Plaza::Models::MatrixRequest::Destination>]
-      required :destinations, -> { Plaza::Internal::Type::ArrayOf[Plaza::MatrixRequest::Destination] }
+      #   @return [Array<Plaza::Models::PointGeometry>]
+      required :destinations, -> { Plaza::Internal::Type::ArrayOf[Plaza::PointGeometry] }
 
       # @!attribute origins
-      #   Array of origin coordinates (max 50)
+      #   Array of origin coordinates as GeoJSON Points (max 50)
       #
-      #   @return [Array<Plaza::Models::MatrixRequest::Origin>]
-      required :origins, -> { Plaza::Internal::Type::ArrayOf[Plaza::MatrixRequest::Origin] }
+      #   @return [Array<Plaza::Models::PointGeometry>]
+      required :origins, -> { Plaza::Internal::Type::ArrayOf[Plaza::PointGeometry] }
 
       # @!attribute annotations
       #   Comma-separated list of annotations to include: `duration` (always included),
@@ -43,57 +43,15 @@ module Plaza
       #   optionally distances) between every origin-destination pair. Maximum 2,500 pairs
       #   (origins × destinations), each list capped at 50 coordinates.
       #
-      #   @param destinations [Array<Plaza::Models::MatrixRequest::Destination>] Array of destination coordinates (max 50)
+      #   @param destinations [Array<Plaza::Models::PointGeometry>] Array of destination coordinates as GeoJSON Points (max 50)
       #
-      #   @param origins [Array<Plaza::Models::MatrixRequest::Origin>] Array of origin coordinates (max 50)
+      #   @param origins [Array<Plaza::Models::PointGeometry>] Array of origin coordinates as GeoJSON Points (max 50)
       #
       #   @param annotations [String] Comma-separated list of annotations to include: `duration` (always included), `d
       #
       #   @param fallback_speed [Float, nil] Fallback speed in km/h for pairs where no route exists. When set, unreachable pa
       #
       #   @param mode [Symbol, Plaza::Models::MatrixRequest::Mode] Travel mode (default: `auto`)
-
-      class Destination < Plaza::Internal::Type::BaseModel
-        # @!attribute lat
-        #   Latitude in decimal degrees (-90 to 90)
-        #
-        #   @return [Float]
-        required :lat, Float
-
-        # @!attribute lng
-        #   Longitude in decimal degrees (-180 to 180)
-        #
-        #   @return [Float]
-        required :lng, Float
-
-        # @!method initialize(lat:, lng:)
-        #   Geographic coordinate as a JSON object with `lat` and `lng` fields.
-        #
-        #   @param lat [Float] Latitude in decimal degrees (-90 to 90)
-        #
-        #   @param lng [Float] Longitude in decimal degrees (-180 to 180)
-      end
-
-      class Origin < Plaza::Internal::Type::BaseModel
-        # @!attribute lat
-        #   Latitude in decimal degrees (-90 to 90)
-        #
-        #   @return [Float]
-        required :lat, Float
-
-        # @!attribute lng
-        #   Longitude in decimal degrees (-180 to 180)
-        #
-        #   @return [Float]
-        required :lng, Float
-
-        # @!method initialize(lat:, lng:)
-        #   Geographic coordinate as a JSON object with `lat` and `lng` fields.
-        #
-        #   @param lat [Float] Latitude in decimal degrees (-90 to 90)
-        #
-        #   @param lng [Float] Longitude in decimal degrees (-180 to 180)
-      end
 
       # Travel mode (default: `auto`)
       #

@@ -1,4 +1,6 @@
 module Plaza
+  class AutocompleteRequest = Plaza::Models::AutocompleteRequest
+
   class AutocompleteResult = Plaza::Models::AutocompleteResult
 
   class BatchRequest = Plaza::Models::BatchRequest
@@ -9,35 +11,15 @@ module Plaza
 
   class DatasetDeleteParams = Plaza::Models::DatasetDeleteParams
 
-  class DatasetFeaturesParams = Plaza::Models::DatasetFeaturesParams
-
   class DatasetList = Plaza::Models::DatasetList
 
   class DatasetListParams = Plaza::Models::DatasetListParams
 
   class DatasetRetrieveParams = Plaza::Models::DatasetRetrieveParams
 
-  class ElementBatchParams = Plaza::Models::ElementBatchParams
-
-  class ElementLookupParams = Plaza::Models::ElementLookupParams
-
-  class ElementNearbyParams = Plaza::Models::ElementNearbyParams
-
-  class ElementNearbyPostParams = Plaza::Models::ElementNearbyPostParams
-
-  class ElementQueryParams = Plaza::Models::ElementQueryParams
-
-  class ElementQueryPostParams = Plaza::Models::ElementQueryPostParams
-
-  class ElementRetrieveParams = Plaza::Models::ElementRetrieveParams
-
-  class ElevationBatchParams = Plaza::Models::ElevationBatchParams
-
-  class ElevationBatchResult = Plaza::Models::ElevationBatchResult
-
   class ElevationLookupParams = Plaza::Models::ElevationLookupParams
 
-  class ElevationLookupPostParams = Plaza::Models::ElevationLookupPostParams
+  class ElevationLookupRequest = Plaza::Models::ElevationLookupRequest
 
   class ElevationLookupResult = Plaza::Models::ElevationLookupResult
 
@@ -49,29 +31,37 @@ module Plaza
 
   class Error = Plaza::Models::Error
 
+  class FeatureBatchParams = Plaza::Models::FeatureBatchParams
+
   class FeatureCollection = Plaza::Models::FeatureCollection
 
-  class GeocodeAutocompleteParams = Plaza::Models::GeocodeAutocompleteParams
+  class FeatureQueryParams = Plaza::Models::FeatureQueryParams
 
-  class GeocodeAutocompletePostParams = Plaza::Models::GeocodeAutocompletePostParams
+  class FeatureRetrieveParams = Plaza::Models::FeatureRetrieveParams
+
+  class GeocodeAutocompleteParams = Plaza::Models::GeocodeAutocompleteParams
 
   class GeocodeBatchParams = Plaza::Models::GeocodeBatchParams
 
   class GeocodeForwardParams = Plaza::Models::GeocodeForwardParams
 
-  class GeocodeForwardPostParams = Plaza::Models::GeocodeForwardPostParams
+  class GeocodeForwardRequest = Plaza::Models::GeocodeForwardRequest
 
   class GeocodeResult = Plaza::Models::GeocodeResult
 
   class GeocodeReverseParams = Plaza::Models::GeocodeReverseParams
 
-  class GeocodeReversePostParams = Plaza::Models::GeocodeReversePostParams
+  class GeocodeReverseRequest = Plaza::Models::GeocodeReverseRequest
 
   class GeocodingFeature = Plaza::Models::GeocodingFeature
 
   class GeoJsonFeature = Plaza::Models::GeoJsonFeature
 
-  class GeoJsonGeometry = Plaza::Models::GeoJsonGeometry
+  module Geometry = Plaza::Models::Geometry
+
+  class IsochroneRequest = Plaza::Models::IsochroneRequest
+
+  class LineStringGeometry = Plaza::Models::LineStringGeometry
 
   class MapMatchMatchParams = Plaza::Models::MapMatchMatchParams
 
@@ -82,6 +72,14 @@ module Plaza
   class MatrixRequest = Plaza::Models::MatrixRequest
 
   MatrixResult: Plaza::Internal::Type::Converter
+
+  class MultiLineStringGeometry = Plaza::Models::MultiLineStringGeometry
+
+  class MultiPointGeometry = Plaza::Models::MultiPointGeometry
+
+  class MultiPolygonGeometry = Plaza::Models::MultiPolygonGeometry
+
+  class NearestRequest = Plaza::Models::NearestRequest
 
   class NearestResult = Plaza::Models::NearestResult
 
@@ -99,13 +97,13 @@ module Plaza
 
   class OptimizeRetrieveParams = Plaza::Models::OptimizeRetrieveParams
 
-  class OverpassQuery = Plaza::Models::OverpassQuery
+  class PlazaqlQuery = Plaza::Models::PlazaqlQuery
+
+  class PointGeometry = Plaza::Models::PointGeometry
+
+  class PolygonGeometry = Plaza::Models::PolygonGeometry
 
   class QueryExecuteParams = Plaza::Models::QueryExecuteParams
-
-  class QueryOverpassParams = Plaza::Models::QueryOverpassParams
-
-  class QuerySparqlParams = Plaza::Models::QuerySparqlParams
 
   class ReverseGeocodeResult = Plaza::Models::ReverseGeocodeResult
 
@@ -115,23 +113,17 @@ module Plaza
 
   class RoutingIsochroneParams = Plaza::Models::RoutingIsochroneParams
 
-  class RoutingIsochronePostParams = Plaza::Models::RoutingIsochronePostParams
-
   class RoutingMatrixParams = Plaza::Models::RoutingMatrixParams
 
   class RoutingNearestParams = Plaza::Models::RoutingNearestParams
-
-  class RoutingNearestPostParams = Plaza::Models::RoutingNearestPostParams
 
   class RoutingRouteParams = Plaza::Models::RoutingRouteParams
 
   class SearchQueryParams = Plaza::Models::SearchQueryParams
 
-  class SearchQueryPostParams = Plaza::Models::SearchQueryPostParams
-
-  class SparqlQuery = Plaza::Models::SparqlQuery
-
-  class SparqlResult = Plaza::Models::SparqlResult
+  class SpatialPredicate = Plaza::Models::SpatialPredicate
 
   class TileGetParams = Plaza::Models::TileGetParams
+
+  class ValidationError = Plaza::Models::ValidationError
 end

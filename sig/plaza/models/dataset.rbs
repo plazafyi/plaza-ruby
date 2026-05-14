@@ -5,12 +5,22 @@ module Plaza
         id: String,
         inserted_at: Time,
         name: String,
+        scope: Plaza::Models::Dataset::scope,
         slug: String,
+        status: Plaza::Models::Dataset::status,
         updated_at: Time,
+        address_count: Integer,
         attribution: String?,
         description: String?,
+        edge_count: Integer,
+        error_message: String?,
+        feature_count: Integer,
         license: String?,
-        source_url: String?
+        schema_definition: top?,
+        source_format: String?,
+        source_url: String?,
+        storage_bytes: Integer,
+        strict_mode: bool
       }
 
     class Dataset < Plaza::Internal::Type::BaseModel
@@ -20,41 +30,115 @@ module Plaza
 
       attr_accessor name: String
 
+      attr_accessor scope: Plaza::Models::Dataset::scope
+
       attr_accessor slug: String
 
+      attr_accessor status: Plaza::Models::Dataset::status
+
       attr_accessor updated_at: Time
+
+      attr_reader address_count: Integer?
+
+      def address_count=: (Integer) -> Integer
 
       attr_accessor attribution: String?
 
       attr_accessor description: String?
 
+      attr_reader edge_count: Integer?
+
+      def edge_count=: (Integer) -> Integer
+
+      attr_accessor error_message: String?
+
+      attr_reader feature_count: Integer?
+
+      def feature_count=: (Integer) -> Integer
+
       attr_accessor license: String?
 
+      attr_accessor schema_definition: top?
+
+      attr_accessor source_format: String?
+
       attr_accessor source_url: String?
+
+      attr_reader storage_bytes: Integer?
+
+      def storage_bytes=: (Integer) -> Integer
+
+      attr_reader strict_mode: bool?
+
+      def strict_mode=: (bool) -> bool
 
       def initialize: (
         id: String,
         inserted_at: Time,
         name: String,
+        scope: Plaza::Models::Dataset::scope,
         slug: String,
+        status: Plaza::Models::Dataset::status,
         updated_at: Time,
+        ?address_count: Integer,
         ?attribution: String?,
         ?description: String?,
+        ?edge_count: Integer,
+        ?error_message: String?,
+        ?feature_count: Integer,
         ?license: String?,
-        ?source_url: String?
+        ?schema_definition: top?,
+        ?source_format: String?,
+        ?source_url: String?,
+        ?storage_bytes: Integer,
+        ?strict_mode: bool
       ) -> void
 
       def to_hash: -> {
         id: String,
         inserted_at: Time,
         name: String,
+        scope: Plaza::Models::Dataset::scope,
         slug: String,
+        status: Plaza::Models::Dataset::status,
         updated_at: Time,
+        address_count: Integer,
         attribution: String?,
         description: String?,
+        edge_count: Integer,
+        error_message: String?,
+        feature_count: Integer,
         license: String?,
-        source_url: String?
+        schema_definition: top?,
+        source_format: String?,
+        source_url: String?,
+        storage_bytes: Integer,
+        strict_mode: bool
       }
+
+      type scope = :plaza | :user
+
+      module Scope
+        extend Plaza::Internal::Type::Enum
+
+        PLAZA: :plaza
+        USER: :user
+
+        def self?.values: -> ::Array[Plaza::Models::Dataset::scope]
+      end
+
+      type status = :pending | :processing | :ready | :error
+
+      module Status
+        extend Plaza::Internal::Type::Enum
+
+        PENDING: :pending
+        PROCESSING: :processing
+        READY: :ready
+        ERROR: :error
+
+        def self?.values: -> ::Array[Plaza::Models::Dataset::status]
+      end
     end
   end
 end

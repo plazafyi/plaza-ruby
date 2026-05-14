@@ -1,0 +1,85 @@
+module Plaza
+  module Models
+    type spatial_predicate =
+      {
+        around: Plaza::Models::geometry,
+        contains: Plaza::Models::geometry,
+        crosses: Plaza::Models::geometry,
+        intersects: Plaza::Models::geometry,
+        not_contains: Plaza::Models::geometry,
+        not_intersects: Plaza::Models::geometry,
+        not_within: Plaza::Models::geometry,
+        radius: Float,
+        touches: Plaza::Models::geometry,
+        within: Plaza::Models::geometry
+      }
+
+    class SpatialPredicate < Plaza::Internal::Type::BaseModel
+      attr_reader around: Plaza::Models::geometry?
+
+      def around=: (Plaza::Models::geometry) -> Plaza::Models::geometry
+
+      attr_reader contains: Plaza::Models::geometry?
+
+      def contains=: (Plaza::Models::geometry) -> Plaza::Models::geometry
+
+      attr_reader crosses: Plaza::Models::geometry?
+
+      def crosses=: (Plaza::Models::geometry) -> Plaza::Models::geometry
+
+      attr_reader intersects: Plaza::Models::geometry?
+
+      def intersects=: (Plaza::Models::geometry) -> Plaza::Models::geometry
+
+      attr_reader not_contains: Plaza::Models::geometry?
+
+      def not_contains=: (Plaza::Models::geometry) -> Plaza::Models::geometry
+
+      attr_reader not_intersects: Plaza::Models::geometry?
+
+      def not_intersects=: (Plaza::Models::geometry) -> Plaza::Models::geometry
+
+      attr_reader not_within: Plaza::Models::geometry?
+
+      def not_within=: (Plaza::Models::geometry) -> Plaza::Models::geometry
+
+      attr_reader radius: Float?
+
+      def radius=: (Float) -> Float
+
+      attr_reader touches: Plaza::Models::geometry?
+
+      def touches=: (Plaza::Models::geometry) -> Plaza::Models::geometry
+
+      attr_reader within: Plaza::Models::geometry?
+
+      def within=: (Plaza::Models::geometry) -> Plaza::Models::geometry
+
+      def initialize: (
+        ?around: Plaza::Models::geometry,
+        ?contains: Plaza::Models::geometry,
+        ?crosses: Plaza::Models::geometry,
+        ?intersects: Plaza::Models::geometry,
+        ?not_contains: Plaza::Models::geometry,
+        ?not_intersects: Plaza::Models::geometry,
+        ?not_within: Plaza::Models::geometry,
+        ?radius: Float,
+        ?touches: Plaza::Models::geometry,
+        ?within: Plaza::Models::geometry
+      ) -> void
+
+      def to_hash: -> {
+        around: Plaza::Models::geometry,
+        contains: Plaza::Models::geometry,
+        crosses: Plaza::Models::geometry,
+        intersects: Plaza::Models::geometry,
+        not_contains: Plaza::Models::geometry,
+        not_intersects: Plaza::Models::geometry,
+        not_within: Plaza::Models::geometry,
+        radius: Float,
+        touches: Plaza::Models::geometry,
+        within: Plaza::Models::geometry
+      }
+    end
+  end
+end

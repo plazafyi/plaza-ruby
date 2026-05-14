@@ -3,23 +3,12 @@ module Plaza
     class Geocode
       def autocomplete: (
         q: String,
-        ?country_code: String,
-        ?lang: String,
-        ?lat: Float,
-        ?layer: String,
-        ?limit: Integer,
-        ?lng: Float,
-        ?request_options: Plaza::request_opts
-      ) -> Plaza::AutocompleteResult
-
-      def autocomplete_post: (
-        q: String,
-        ?country_code: String,
-        ?lang: String,
-        ?lat: Float,
-        ?layer: String,
-        ?limit: Integer,
-        ?lng: Float,
+        ?format_: String,
+        ?country_code: String?,
+        ?focus: Plaza::PointGeometry?,
+        ?lang: String?,
+        ?layer: String?,
+        ?limit: Integer?,
         ?request_options: Plaza::request_opts
       ) -> Plaza::AutocompleteResult
 
@@ -30,47 +19,21 @@ module Plaza
 
       def forward: (
         q: String,
-        ?bbox: String,
-        ?country_code: String,
-        ?lang: String,
-        ?lat: Float,
-        ?layer: String,
-        ?limit: Integer,
-        ?lng: Float,
-        ?request_options: Plaza::request_opts
-      ) -> Plaza::GeocodeResult
-
-      def forward_post: (
-        q: String,
-        ?bbox: String,
-        ?country_code: String,
-        ?lang: String,
-        ?lat: Float,
-        ?layer: String,
-        ?limit: Integer,
-        ?lng: Float,
+        ?format_: String,
+        ?country_code: String?,
+        ?focus: Plaza::PointGeometry?,
+        ?lang: String?,
+        ?layer: String?,
+        ?limit: Integer?,
         ?request_options: Plaza::request_opts
       ) -> Plaza::GeocodeResult
 
       def reverse: (
-        ?lang: String,
-        ?lat: Float,
-        ?layer: String,
-        ?limit: Integer,
-        ?lng: Float,
-        ?near: String,
-        ?radius: Integer,
-        ?request_options: Plaza::request_opts
-      ) -> Plaza::ReverseGeocodeResult
-
-      def reverse_post: (
-        ?lang: String,
-        ?lat: Float,
-        ?layer: String,
-        ?limit: Integer,
-        ?lng: Float,
-        ?near: String,
-        ?radius: Integer,
+        geometry: Plaza::PointGeometry,
+        ?format_: String,
+        ?lang: String?,
+        ?limit: Integer?,
+        ?radius: Float?,
         ?request_options: Plaza::request_opts
       ) -> Plaza::ReverseGeocodeResult
 

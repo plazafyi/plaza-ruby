@@ -3,7 +3,7 @@
 module Plaza
   module Resources
     class Datasets
-      # Create a new dataset (admin only)
+      # Create a new dataset
       sig do
         params(
           name: String,
@@ -12,6 +12,7 @@ module Plaza
           description: T.nilable(String),
           license: T.nilable(String),
           source_url: T.nilable(String),
+          strict_mode: T.nilable(T::Boolean),
           request_options: Plaza::RequestOptions::OrHash
         ).returns(Plaza::Dataset)
       end
@@ -28,6 +29,8 @@ module Plaza
         license: nil,
         # Source data URL
         source_url: nil,
+        # Enable strict schema validation (default true)
+        strict_mode: nil,
         request_options: {}
       )
       end
@@ -46,13 +49,18 @@ module Plaza
       )
       end
 
-      # List all datasets
+      # List datasets
       sig do
-        params(request_options: Plaza::RequestOptions::OrHash).returns(
-          Plaza::DatasetList
-        )
+        params(
+          scope: String,
+          request_options: Plaza::RequestOptions::OrHash
+        ).returns(Plaza::DatasetList)
       end
-      def list(request_options: {})
+      def list(
+        # Filter by scope: plaza, user. Default shows user's own + plaza datasets.
+        scope: nil,
+        request_options: {}
+      )
       end
 
       # Delete a dataset
@@ -62,50 +70,6 @@ module Plaza
       def delete(
         # Dataset ID
         id,
-        request_options: {}
-      )
-      end
-
-      # Query features in a dataset
-      sig do
-        params(
-          id: String,
-          cursor: String,
-          limit: Integer,
-          output_buffer: Float,
-          output_centroid: T::Boolean,
-          output_fields: String,
-          output_geometry: T::Boolean,
-          output_include: String,
-          output_precision: Integer,
-          output_simplify: Float,
-          output_sort: String,
-          request_options: Plaza::RequestOptions::OrHash
-        ).returns(Plaza::FeatureCollection)
-      end
-      def features(
-        # Dataset ID
-        id,
-        # Cursor for pagination
-        cursor: nil,
-        # Maximum results
-        limit: nil,
-        # Buffer geometry by meters
-        output_buffer: nil,
-        # Replace geometry with centroid
-        output_centroid: nil,
-        # Comma-separated property fields to include
-        output_fields: nil,
-        # Include geometry (default true)
-        output_geometry: nil,
-        # Extra computed fields: bbox, distance, center
-        output_include: nil,
-        # Coordinate decimal precision (1-15, default 7)
-        output_precision: nil,
-        # Simplify geometry tolerance in meters
-        output_simplify: nil,
-        # Sort by: distance, name, osm_id
-        output_sort: nil,
         request_options: {}
       )
       end

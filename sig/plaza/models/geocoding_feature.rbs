@@ -2,26 +2,26 @@ module Plaza
   module Models
     type geocoding_feature =
       {
-        geometry: Plaza::GeoJsonGeometry,
+        geometry: Plaza::Models::geometry,
         properties: Plaza::GeocodingFeature::Properties,
         type: Plaza::Models::GeocodingFeature::type_
       }
 
     class GeocodingFeature < Plaza::Internal::Type::BaseModel
-      attr_accessor geometry: Plaza::GeoJsonGeometry
+      attr_accessor geometry: Plaza::Models::geometry
 
       attr_accessor properties: Plaza::GeocodingFeature::Properties
 
       attr_accessor type: Plaza::Models::GeocodingFeature::type_
 
       def initialize: (
-        geometry: Plaza::GeoJsonGeometry,
+        geometry: Plaza::Models::geometry,
         properties: Plaza::GeocodingFeature::Properties,
         type: Plaza::Models::GeocodingFeature::type_
       ) -> void
 
       def to_hash: -> {
-        geometry: Plaza::GeoJsonGeometry,
+        geometry: Plaza::Models::geometry,
         properties: Plaza::GeocodingFeature::Properties,
         type: Plaza::Models::GeocodingFeature::type_
       }
@@ -154,14 +154,12 @@ module Plaza
           def self?.values: -> ::Array[Plaza::Models::GeocodingFeature::Properties::osm_type]
         end
 
-        type source =
-          :structured | :bm25 | :fuzzy | :address | :place | :interpolation
+        type source = :structured | :fuzzy | :address | :place | :interpolation
 
         module Source
           extend Plaza::Internal::Type::Enum
 
           STRUCTURED: :structured
-          BM25: :bm25
           FUZZY: :fuzzy
           ADDRESS: :address
           PLACE: :place

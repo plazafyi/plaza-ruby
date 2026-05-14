@@ -6,14 +6,28 @@ module Plaza
       # @api private
       #
       # @example
-      #   # `optimize_result` is a `Plaza::OptimizeResult`
-      #   case optimize_result
-      #   when Plaza::OptimizeCompletedResult
-      #     puts(optimize_result.features)
-      #   when Plaza::OptimizeProcessingResult
-      #     puts(optimize_result.job_id)
+      #   # `geometry` is a `Plaza::Geometry`
+      #   case geometry
+      #   when Plaza::PointGeometry
+      #     puts(geometry.coordinates)
+      #   when Plaza::LineStringGeometry
+      #     puts(geometry.type)
+      #   when Plaza::PolygonGeometry
+      #     puts(geometry.coordinates)
       #   else
-      #     puts(optimize_result)
+      #     puts(geometry)
+      #   end
+      #
+      # @example
+      #   case geometry
+      #   in {type: :Point, coordinates: coordinates}
+      #     puts(coordinates)
+      #   in {type: :LineString, coordinates: coordinates}
+      #     puts(coordinates)
+      #   in {type: :Polygon, coordinates: coordinates}
+      #     puts(coordinates)
+      #   else
+      #     puts(geometry)
       #   end
       module Union
         include Plaza::Internal::Type::Converter
